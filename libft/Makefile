@@ -6,7 +6,7 @@
 #    By: flink <flink@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 14:35:44 by flenski           #+#    #+#              #
-#    Updated: 2026/02/19 14:04:29 by flink            ###   ########.fr        #
+#    Updated: 2026/06/01 15:37:37 by mprokope         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,9 @@ CONVERT = convert/ft_itoa.c convert/ft_atoi.c convert/ft_tolower.c \
 
 INT = int/ft_numlen.c int/ft_unumlen.c int/ft_base_numlen.c
 
-SRC = $(CHECKER) $(LIST) $(MEMORY) $(STRING) $(OUTPUTS) $(CONVERT) $(INT)
+GNL = gnl/get_next_line.c  gnl/get_next_line_utils.c
+
+SRC = $(CHECKER) $(LIST) $(MEMORY) $(STRING) $(OUTPUTS) $(CONVERT) $(INT) $(GNL)
 OBJS = $(SRC:.c=.o)
 
 NAME = libft.a
@@ -63,16 +65,19 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
+	@echo "compiled objects.!."
 
-%.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c libft.h get_next_line.h
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
+	@echo "cleaned objects.!."
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "cleaned all.!."
 
 re: fclean all
 
