@@ -27,6 +27,7 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I .
+LDFLAGS := -lreadline
 DEP_DIR = deps
 DEBUG ?= 0
 RED := \033[1;31m
@@ -57,7 +58,7 @@ $(NAME): $(OBJS)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@mkdir -p $(DEP_DIR)/$(dir $*)
-	@$(CC) $(CFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
+	@$(CC) $(CFLAGS) $(LDFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
