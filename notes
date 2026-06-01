@@ -1,0 +1,17 @@
+getcwd, getenv - replaced with my *get_any* function.
+
+Problematic behaviour
+luin@luin ~/4/C/minishell> ./minishell
+minishell>$$SHELL
+SER=luin/bin/bash
+
+But in bash also
+└─$ $$SHELL
+1332SHELL: command not found
+
+┌──(luin㉿luin)-[~/42/CC/minishell]
+└─$ $$$SHELL
+bash: 1332/bin/bash: No such file or directory
+
+Solved:
+$$ (Special Parameter): This expands to the process ID (PID) of the shell
