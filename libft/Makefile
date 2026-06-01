@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: flink <flink@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/09/30 14:35:44 by flenski           #+#    #+#              #
-#    Updated: 2026/06/01 15:37:37 by mprokope         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 CHECKER = ${addprefix checker/, ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_isdigit.c ft_isprint.c ft_isspace.c ft_islower.c ft_isupper.c}
 
@@ -32,21 +20,24 @@ INT = ${addprefix int/, ft_numlen.c ft_unumlen.c ft_base_numlen.c}
 GNL = ${addprefix gnl/, get_next_line.c get_next_line_utils.c}
 
 SRC = $(CHECKER) $(LIST) $(MEMORY) $(STRING) $(OUTPUTS) $(CONVERT) $(INT) $(GNL)
-OBJS = $(SRC:.c=.o)
+
+OBJ_DIR = objs
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I .
-OBJ_DIR = objs
 DEP_DIR = deps
 DEBUG ?= 0
 RED := \033[1;31m
 RESET := \033[0m
+
 define debug_warning
 $(warning $(RED)========================================$(RESET))
 $(warning $(RED)=====!!! DEBUG FLAGS ARE ACTIVE !!!===== $(RESET))
 $(warning $(RED)========================================$(RESET))
 endef
+
 ifeq ($(DEBUG),1)
 CFLAGS += -g
 $(eval $(call debug_warning))
@@ -58,23 +49,18 @@ endif
 
 all: $(NAME)
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-$(DEP_DIR):
-	mkdir -p $(DEP_DIR)
-
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@echo "compiled objects.!."
 
+# FIX: Added a recipe step to auto-create the subdirectory structures inside objs/ and deps/
 $(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@mkdir -p $(DEP_DIR)/$(dir $*)
 	@$(CC) $(CFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
 
--include $(wildcard $(DEP_DIR)/*.d)
-
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR) $(DEP_DIR)
 	@echo "cleaned objects.!."
 
 fclean: clean
