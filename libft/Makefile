@@ -10,34 +10,26 @@
 #                                                                              #
 # **************************************************************************** #
 
-CHECKER = checker/ft_isalnum.c checker/ft_isalpha.c checker/ft_isascii.c \
-	checker/ft_isdigit.c checker/ft_isprint.c checker/ft_isspace.c \
-	checker/ft_islower.c checker/ft_isupper.c
+CHECKER = ${addprefix checker/, ft_isalnum.c ft_isalpha.c ft_isascii.c \
+	ft_isdigit.c ft_isprint.c ft_isspace.c ft_islower.c ft_isupper.c}
 
-LIST = list/ft_lstadd_back.c list/ft_lstadd_front.c list/ft_lstclear.c \
-	list/ft_lstdelone.c list/ft_lstiter.c list/ft_lstlast.c \
-	list/ft_lstmap.c list/ft_lstnew.c list/ft_lstsize.c
+LIST = ${addprefix list/, ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
+	ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c}
 
-MEMORY = memory/ft_bzero.c memory/ft_calloc.c memory/ft_memchr.c \
-	memory/ft_memcmp.c memory/ft_memcpy.c memory/ft_memmove.c memory/ft_memset.c \
-	memory/free_ptr_array.c
+MEMORY = ${addprefix memory/, ft_bzero.c ft_calloc.c ft_memchr.c \
+	ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c free_ptr_array.c}
 
-STRING = string/ft_split.c string/ft_strchr.c string/ft_strlcat.c \
-	string/ft_strlen.c string/ft_strncmp.c string/ft_strnstr.c \
-	string/ft_strrchr.c string/ft_strtrim.c string/ft_strlcpy.c \
-	string/ft_strdup.c string/ft_substr.c string/ft_strjoin.c \
-	string/ft_strmapi.c string/ft_striteri.c string/ft_strrev.c \
-	string/ft_strlend.c
+STRING = ${addprefix string/, ft_split.c ft_strchr.c ft_strlcat.c \
+	ft_strlen.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_strlcpy.c \
+	ft_strdup.c ft_substr.c ft_strjoin.c ft_strmapi.c ft_striteri.c ft_strrev.c ft_strlend.c}
 
-OUTPUTS = output/ft_putendl_fd.c output/ft_putnbr_fd.c output/ft_putstr_fd.c \
-	output/ft_putchar_fd.c
+OUTPUTS = ${addprefix output/, ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_putchar_fd.c}
 
-CONVERT = convert/ft_itoa.c convert/ft_atoi.c convert/ft_tolower.c \
-	convert/ft_toupper.c convert/ft_utoa.c convert/ft_strtol.c
+CONVERT = ${addprefix convert/, ft_itoa.c ft_atoi.c ft_tolower.c ft_toupper.c ft_utoa.c ft_strtol.c}
 
-INT = int/ft_numlen.c int/ft_unumlen.c int/ft_base_numlen.c
+INT = ${addprefix int/, ft_numlen.c ft_unumlen.c ft_base_numlen.c}
 
-GNL = gnl/get_next_line.c  gnl/get_next_line_utils.c
+GNL = ${addprefix gnl/, get_next_line.c get_next_line_utils.c}
 
 SRC = $(CHECKER) $(LIST) $(MEMORY) $(STRING) $(OUTPUTS) $(CONVERT) $(INT) $(GNL)
 OBJS = $(SRC:.c=.o)
@@ -45,6 +37,8 @@ OBJS = $(SRC:.c=.o)
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I .
+OBJ_DIR = objs
+DEP_DIR = deps
 DEBUG ?= 0
 RED := \033[1;31m
 RESET := \033[0m
@@ -64,12 +58,20 @@ endif
 
 all: $(NAME)
 
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(DEP_DIR):
+	mkdir -p $(DEP_DIR)
+
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@echo "compiled objects.!."
 
-%.o: %.c libft.h get_next_line.h
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	@$(CC) $(CFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
+
+-include $(wildcard $(DEP_DIR)/*.d)
 
 clean:
 	@rm -f $(OBJS)
