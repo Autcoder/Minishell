@@ -6,7 +6,7 @@
 /*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/05/31 01:39:34 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/13 04:07:51 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,8 @@ char	**parse_env_to_dict()
 	return (ret);
 }
 
-char    *scan_expand(char *str)
+char    *scan_expand(char *str, char **environ)
 {
-    extern char **environ;
     char    **key_list;
     char    *temp;
     char    *ret;
@@ -135,6 +134,7 @@ int	main(int argc, char **argv, char *env[])
 {
 	char	*str;
 	char	*test;
+	t_token	*tokens;
 	while (42)
 	{
 		str = readline("minishell>");
@@ -142,9 +142,14 @@ int	main(int argc, char **argv, char *env[])
 		char *cpy_str = str;
 		while (*cpy_str++ == *exit)
 			if (!*exit++)
-				return (--exit, free(str), free(test), 0);
-		test = scan_expand(str);
+				return (exit, free(str), free(test), 0);
+		test = scan_expand(str, env);
 		printf("%s\n", test);
+		printf("%d\n", count_words(str));
+		int	i = 0;
+		initial_parse(str, &tokens);
+		while (tokens[i].value)
+			printf("Token: %s\n", tokens[i++].value);
 		//free(str);
 		//free(test);
 	}
