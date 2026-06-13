@@ -13,9 +13,9 @@ void	check_quote(char c, char *quote)
 
 size_t	count_words(char *str)
 {
-	size_t		i;
-	size_t		count;
-	char		quote;
+	size_t	i;
+	size_t	count;
+	char	quote;
 
 	i = 0;
 	count = 0;
@@ -61,7 +61,6 @@ void	set_flag(char *quote, char c, t_token *token)
 		token->flag |= FLAG_NOEXPAND;
 	else
 		token->flag |= FLAG_QUOTED;
-
 }
 
 void	cope_stripd_word(char *input, size_t start, t_token *token, size_t len)
@@ -71,8 +70,8 @@ void	cope_stripd_word(char *input, size_t start, t_token *token, size_t len)
 	char	quote;
 
 	token->value = malloc(len + 1);
-	//if (!token->value)
-	//TODO	return (NULL);
+	// if (!token->value)
+	// TODO	return (NULL);
 	i = start;
 	j = 0;
 	quote = 0;
@@ -107,7 +106,7 @@ void	fill_token_arr(t_token **tokens, char *input)
 			break ;
 		len = get_len(input, i, &size);
 		cope_stripd_word(input, i, &((*tokens)[indx]), len);
-			//return (NULL);
+		// return (NULL);
 		i += size;
 		indx++;
 	}
@@ -136,4 +135,5 @@ size_t	initial_parse(char *input, t_token **tokens)
 	if (!(*tokens))
 		return (0);
 	fill_token_arr(tokens, input);
+	return (count);
 }

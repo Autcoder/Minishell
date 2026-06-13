@@ -27,7 +27,6 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I .
-LDFLAGS := -lreadline
 DEP_DIR = deps
 DEBUG ?= 0
 RED := \033[1;31m
@@ -62,11 +61,11 @@ $(OBJ_DIR)/%.o: %.c
 
 clean:
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
-	@echo "cleaned objects.!."
+	@echo "cleaned libft objects.!."
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "cleaned all.!."
+	@echo "cleaned all libft.!."
 
 re: fclean all
 

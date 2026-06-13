@@ -60,7 +60,7 @@ char	**parse_env_to_dict()
 	extern char	**environ;
 	size_t		i;
 	size_t		len;
-	char		*tmp;
+	// char		*tmp;
 	char		**ret;
 
 	if (!environ[0])
@@ -132,22 +132,28 @@ char    *scan_expand(char *str, char **environ)
 
 int	main(int argc, char **argv, char *env[])
 {
+	(void)argc;
+	(void)argv;
+	t_token	*tokens;
 	char	*str;
 	char	*test;
-	t_token	*tokens;
+	char *cpy_str;
+	char *exit;
+	int	i;
+
 	while (42)
 	{
 		str = readline("minishell>");
-		char *exit = "exit";
-		char *cpy_str = str;
+		exit = "exit";
+		cpy_str = str;
 		while (*cpy_str++ == *exit)
 			if (!*exit++)
-				return (exit, free(str), free(test), 0);
+				return (free(str), free(test), 0);
 		test = scan_expand(str, env);
 		printf("%s\n", test);
-		printf("%d\n", count_words(str));
-		int	i = 0;
+		printf("%zu\n", count_words(str));
 		initial_parse(str, &tokens);
+		i = 0;
 		while (tokens[i].value)
 			printf("Token: %s\n", tokens[i++].value);
 		//free(str);

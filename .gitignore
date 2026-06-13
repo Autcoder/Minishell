@@ -1,5 +1,6 @@
 tags
 .venv
+minishell
 # Prerequisites
 *.d
 
