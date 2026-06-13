@@ -54,6 +54,7 @@ clean:
 
 fclean:
 	@make -C $(LIBFT_DIR) fclean
+	@rm -rf $(OBJ_DIR) $(DEP_DIR)
 	@rm -f $(NAME)
 	@echo "cleaned all.!."
 

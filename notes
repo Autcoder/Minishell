@@ -16,3 +16,6 @@ bash: 1332/bin/bash: No such file or directory
 Solved:
 $$ (Special Parameter): This expands to the process ID (PID) of the shell
 abrakadabra
+
+Dont do notes like this, it breaks formatter:
+} // TODO fix this shit

@@ -4,7 +4,7 @@ CHECKER = ${addprefix checker/, ft_isalnum.c ft_isalpha.c ft_isascii.c \
 LIST = ${addprefix list/, ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 	ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c}
 
-MEMORY = ${addprefix memory/, ft_bzero.c ft_calloc.c ft_memchr.c \
+MEMORY = ${addprefix memory/, ft_bzero.c ft_calloc.c ft_memchr.c ft_realloc.c \
 	ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c free_ptr_array.c}
 
 STRING = ${addprefix string/, ft_split.c ft_strchr.c ft_strlcat.c \

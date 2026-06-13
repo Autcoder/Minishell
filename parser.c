@@ -1,139 +1,124 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 10:28:02 by flenski           #+#    #+#             */
+/*   Updated: 2026/06/13 10:47:21 by flenski          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	check_quote(char c, char *quote)
+static int	is_meta(char c)
 {
-	if (c == '"' || c == '\'')
-	{
-		if (!*quote)
-			*quote = c;
-		else if (c == *quote)
-			*quote = 0;
-	}
+	return (c == '|' || c == '<' || c == '>');
 }
 
-size_t	count_words(char *str)
+/*
+Handle all redirection operators and pipes
+*/
+static void	handle_meta(char *input, int *i, t_token *token)
 {
-	size_t	i;
-	size_t	count;
-	char	quote;
-
-	i = 0;
-	count = 0;
-	quote = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == ' ' && !quote)
-			i++;
-		count++;
-		while (str[i] && (str[i] != ' ' || quote))
-			check_quote(str[i++], &quote);
-	}
-	return (count);
-}
-
-size_t	get_len(char *input, size_t start, size_t *len)
-{
-	size_t	i;
-	size_t	size;
-	char	quote;
-
-	i = start;
-	size = 0;
-	quote = 0;
-	while (input[i] && (input[i] != ' ' || quote))
-	{
-		if (!quote && (input[i] == '"' || input[i] == '\''))
-			quote = input[i];
-		else if (quote && input[i] == quote)
-			quote = 0;
-		else
-			size++;
-		i++;
-	}
-	*len = i - start;
-	return (size);
-}
-
-void	set_flag(char *quote, char c, t_token *token)
-{
-	*quote = c;
-	if (*quote == '\'')
-		token->flag |= FLAG_NOEXPAND;
-	else
-		token->flag |= FLAG_QUOTED;
-}
-
-void	cope_stripd_word(char *input, size_t start, t_token *token, size_t len)
-{
-	size_t	i;
-	size_t	j;
-	char	quote;
-
-	token->value = malloc(len + 1);
-	// if (!token->value)
-	// TODO	return (NULL);
-	i = start;
-	j = 0;
-	quote = 0;
 	token->flag = FLAG_NONE;
-	while (input[i] && (input[i] != ' ' || quote))
+	if (input[*i] == '|')
 	{
-		if (!quote && (input[i] == '"' || input[i] == '\''))
-			set_flag(&quote, input[i], token);
-		else if (quote && input[i] == quote)
-			quote = 0;
-		else
-			token->value[j++] = input[i];
-		i++;
+		token->type = TOKEN_PIPE;
+		token->value = ft_strdup("|");
 	}
-	token->value[j] = '\0';
+	else if (input[*i] == '<')
+	{
+		token->type = TOKEN_REDIRECT_IN;
+		if (input[*i + 1] == '<')
+			token->type = TOKEN_HERE_DOC;
+		token->value = ft_strdup("<");
+		if (token->type == TOKEN_HERE_DOC)
+			token->value = ft_strdup("<<");
+	}
+	else if (input[*i] == '>')
+	{
+		token->type = TOKEN_REDIRECT_OUT;
+		if (input[*i + 1] == '>')
+			token->type = TOKEN_APPEND;
+		token->value = ft_strdup(">");
+		if (token->type == TOKEN_APPEND)
+			token->value = ft_strdup(">>");
+	}
+	*i += ft_strlen(token->value);
 }
 
-void	fill_token_arr(t_token **tokens, char *input)
+/*
+toggle quote state and flag NOEXPAND if single quoted
+*/
+static void	toggle_quote(char c, char *quote, t_token *token)
 {
-	size_t	i;
-	size_t	indx;
-	size_t	len;
-	size_t	size;
+	if (!*quote)
+	{
+		*quote = c;
+		if (*quote == '\'')
+			token->flag |= FLAG_NOEXPAND;
+		token->flag |= FLAG_QUOTED;
+	}
+	else if (*quote == c)
+		*quote = 0;
+}
+
+/*
+Powers through alphanumeric characters and quotes
+*/
+static void	handle_word(char *input, int *i, t_token *token)
+{
+	int		start;
+	char	quote;
+
+	start = *i;
+	quote = 0;
+	token->type = TOKEN_WORD;
+	token->flag = FLAG_NONE;
+	while (input[*i])
+	{
+		if (input[*i] == '"' || input[*i] == '\'')
+			toggle_quote(input[*i], &quote, token);
+		else if (!quote && (input[*i] == ' ' || is_meta(input[*i])))
+			break ;
+		if (input[*i] == '$')
+			token->flag |= FLAG_VAR;
+		(*i)++;
+	}
+	token->value = ft_substr(input, start, *i - start);
+}
+
+/*
+Compressed Master Loop (frick norminette)
+*/
+t_token	*lexer(char *input)
+{
+	t_token	*tokens;
+	int		i;
+	int		t_idx;
+	int		cap;
 
 	i = 0;
-	indx = 0;
+	t_idx = 0;
+	cap = 16;
+	tokens = malloc(sizeof(t_token) * cap);
+	if (!tokens)
+		return (NULL);
 	while (input[i])
 	{
-		while (input[i] == ' ')
-			i++;
-		if (!input[i])
-			break ;
-		len = get_len(input, i, &size);
-		cope_stripd_word(input, i, &((*tokens)[indx]), len);
-		// return (NULL);
-		i += size;
-		indx++;
+		if (input[i] == ' ' && ++i)
+			continue ;
+		if (t_idx >= cap - 1)
+			tokens = ft_realloc(tokens, cap * sizeof(t_token), cap);
+		if (t_idx >= cap - 1)
+			cap *= 2;
+		if (is_meta(input[i]))
+			handle_meta(input, &i, &tokens[t_idx++]);
+		else
+			handle_word(input, &i, &tokens[t_idx++]);
 	}
-	(*tokens)[indx].value = NULL;
-}
-
-void	free_tokens(t_token **tokens)
-{
-	size_t	i;
-
-	i = 0;
-	if (*tokens)
-	{
-		while ((*tokens)[i].value)
-			free((*tokens)[i].value);
-		free(*tokens);
-	}
-}
-
-size_t	initial_parse(char *input, t_token **tokens)
-{
-	size_t	count;
-
-	count = count_words(input);
-	*tokens = malloc(sizeof(t_token) * (count + 1));
-	if (!(*tokens))
-		return (0);
-	fill_token_arr(tokens, input);
-	return (count);
+	tokens[t_idx].value = NULL;
+	return (tokens);
 }
