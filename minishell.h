@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/13 10:58:45 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/13 13:04:43 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct s_token
 	t_token_flags	flag;
 }					t_token;
 
-char				*get_any(char *env[], char *path);
 t_token				*lexer(char *input);
 
 #endif
