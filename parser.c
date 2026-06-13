@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:28:02 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/13 10:47:21 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/13 11:22:35 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	handle_word(char *input, int *i, t_token *token)
 }
 
 /*
-Compressed Master Loop (frick norminette)
+Compressed lexer Loop (frick norminette)
 */
 t_token	*lexer(char *input)
 {
@@ -119,6 +119,5 @@ t_token	*lexer(char *input)
 		else
 			handle_word(input, &i, &tokens[t_idx++]);
 	}
-	tokens[t_idx].value = NULL;
-	return (tokens);
+	return (tokens[t_idx].value = NULL, tokens);
 }
