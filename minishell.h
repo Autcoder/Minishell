@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/13 13:04:43 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/14 03:11:10 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,10 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 }					t_token_type;
 
-/*
-FLAG_QUOTED = 1 << 0,   // Inside "" or ''
-FLAG_NOEXPAND = 1 << 1, // Inside '' (tells lexer to not touch $VAR)
-FLAG_VAR = 1 << 2,      // Contains a $
-*/
-typedef enum e_token_flags
-{
-	FLAG_NONE = 0,
-	FLAG_QUOTED = 1 << 0,
-	FLAG_NOEXPAND = 1 << 1,
-	FLAG_VAR = 1 << 2,
-}					t_token_flags;
-
 typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	t_token_flags	flag;
 }					t_token;
 
 t_token				*lexer(char *input);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/13 10:28:02 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/13 11:22:35 by flenski          ###   ########.fr       */
+/*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
+/*   Updated: 2026/06/14 03:14:47 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ static int	is_meta(char c)
 }
 
 /*
-Handle all redirection operators and pipes
+Handle all redirection operators and pipes (Leak-free version)
 */
 static void	handle_meta(char *input, int *i, t_token *token)
 {
-	token->flag = FLAG_NONE;
 	if (input[*i] == '|')
 	{
 		token->type = TOKEN_PIPE;
@@ -30,39 +29,31 @@ static void	handle_meta(char *input, int *i, t_token *token)
 	}
 	else if (input[*i] == '<')
 	{
-		token->type = TOKEN_REDIRECT_IN;
 		if (input[*i + 1] == '<')
+		{
 			token->type = TOKEN_HERE_DOC;
-		token->value = ft_strdup("<");
-		if (token->type == TOKEN_HERE_DOC)
 			token->value = ft_strdup("<<");
+		}
+		else
+		{
+			token->type = TOKEN_REDIRECT_IN;
+			token->value = ft_strdup("<");
+		}
 	}
 	else if (input[*i] == '>')
 	{
-		token->type = TOKEN_REDIRECT_OUT;
 		if (input[*i + 1] == '>')
+		{
 			token->type = TOKEN_APPEND;
-		token->value = ft_strdup(">");
-		if (token->type == TOKEN_APPEND)
 			token->value = ft_strdup(">>");
+		}
+		else
+		{
+			token->type = TOKEN_REDIRECT_OUT;
+			token->value = ft_strdup(">");
+		}
 	}
 	*i += ft_strlen(token->value);
-}
-
-/*
-toggle quote state and flag NOEXPAND if single quoted
-*/
-static void	toggle_quote(char c, char *quote, t_token *token)
-{
-	if (!*quote)
-	{
-		*quote = c;
-		if (*quote == '\'')
-			token->flag |= FLAG_NOEXPAND;
-		token->flag |= FLAG_QUOTED;
-	}
-	else if (*quote == c)
-		*quote = 0;
 }
 
 /*
@@ -76,15 +67,17 @@ static void	handle_word(char *input, int *i, t_token *token)
 	start = *i;
 	quote = 0;
 	token->type = TOKEN_WORD;
-	token->flag = FLAG_NONE;
 	while (input[*i])
 	{
 		if (input[*i] == '"' || input[*i] == '\'')
-			toggle_quote(input[*i], &quote, token);
+		{
+			if (!quote)
+				quote = input[*i];
+			else if (quote == input[*i])
+				quote = 0;
+		}
 		else if (!quote && (input[*i] == ' ' || is_meta(input[*i])))
 			break ;
-		if (input[*i] == '$')
-			token->flag |= FLAG_VAR;
 		(*i)++;
 	}
 	token->value = ft_substr(input, start, *i - start);

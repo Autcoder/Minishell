@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/13 10:43:37 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/14 03:39:21 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,35 @@ static char	*get_type_name(t_token_type type)
 	return ("WORD");
 }
 
-/*
-Main function
-*/
+void	print_tokens(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i].value)
+	{
+		printf("Token [%d]: '%s' | Type: %s\n", i, tokens[i].value,
+			get_type_name(tokens[i].type));
+		i++;
+	}
+	printf("Total Tokens found: %d\n", i);
+}
+
+t_token	*get_tokens(char *str)
+{
+	t_token	*tokens;
+
+	if (*str)
+		add_history(str);
+	tokens = lexer(str);
+	if (!tokens)
+	{
+		free(str);
+		return (NULL);
+	}
+	return (tokens);
+}
+
 int	main(int argc, char **argv, char *env[])
 {
 	t_token	*tokens;
@@ -41,43 +67,27 @@ int	main(int argc, char **argv, char *env[])
 
 	(void)argc;
 	(void)argv;
-	(void)env; // voided for now cause not used
+	(void)env;
 	while (42)
 	{
 		str = readline("minishell> ");
-		if (!str) // Handle Ctrl-D
+		if (!str)
 			break ;
-		if (*str)
-			add_history(str);
-		if (ft_strncmp(str, "exit", 5) == 0)
-		{
-			free(str);
-			break ;
-		}
-		// run lexer
-		tokens = lexer(str);
+		tokens = get_tokens(str);
 		if (!tokens)
-		{
-			free(str);
 			continue ;
-		}
-		// Print tokens, types, and flags (debug)
-		i = 0;
-		while (tokens[i].value)
-		{
-			printf("Token [%d]: '%s' | Type: %s | Flags: 0x%X\n", i,
-				tokens[i].value, get_type_name(tokens[i].type), tokens[i].flag);
-			i++;
-		}
-		printf("Total Tokens found: %d\n", i);
-		// Clean up allocated memory
+		if (ft_strncmp(tokens[0].value, "exit", 4) == 0)
+			break ; // TODO: Check if causes memory leak (str)
+		print_tokens(tokens);
+		// TODO: expand_tokens(tokens);
+		// TODO: handle_quotes(tokens);
+		// TODO: execute_tokens(tokens); <-- "exit" should be done here
+		// Clean up memory
 		i = 0;
 		while (tokens[i].value)
 			free(tokens[i++].value);
 		free(tokens);
 		free(str);
 	}
-	// should exist... idk why it says no grrr, fix in header.
-	rl_clear_history();
-	return (0);
+	return (rl_clear_history(), 0);
 }
