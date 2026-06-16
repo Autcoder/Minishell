@@ -6,11 +6,54 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/16 15:12:20 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/16 16:23:44 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t	g_sigint = 0;
+
+/*
+Signal handler for SIGINT
+*/
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	g_sigint = 1;
+}
+
+/*
+Signal handler for readline
+*/
+int	check_readline_signal(void)
+{
+	if (g_sigint)
+	{
+		g_sigint = 0;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	return (0);
+}
+
+/*
+Setup Signal handler
+*/
+static void	setup_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = handle_sigint;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
+	rl_event_hook = check_readline_signal;
+}
 
 /*
 Make enum printable
@@ -44,15 +87,6 @@ void	print_tokens(t_token *tokens)
 	printf("Total Tokens found: %d\n", i);
 }
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();       // Tell readline we moved to a new line
-	rl_replace_line("", 0); // Clear the current buffer content
-	rl_redisplay();         // Force readline to redraw the prompt
-}
-
 t_token	*get_tokens(char *str)
 {
 	t_token	*tokens;
@@ -77,8 +111,7 @@ int	main(int argc, char **argv, char *env[])
 	(void)argc;
 	(void)argv;
 	(void)env;
-	signal(SIGINT, handle_sigint); // ctrl + c
-	signal(SIGQUIT, SIG_IGN);      // ctrl + /
+	setup_signals();
 	while (42)
 	{
 		str = readline("minishell> ");
@@ -87,8 +120,8 @@ int	main(int argc, char **argv, char *env[])
 		tokens = get_tokens(str);
 		if (!tokens)
 			continue ;
-		if (ft_strncmp(tokens[0].value, "exit", 4) == 0)
-			break ; // TODO: Check if causes memory leak (str)
+		if (tokens[0].value && ft_strncmp(tokens[0].value, "exit", 4) == 0)
+			break ; // TODO: Remove once exit is implemented
 		print_tokens(tokens);
 		// TODO: expand_tokens(tokens);
 		// TODO: handle_quotes(tokens);
