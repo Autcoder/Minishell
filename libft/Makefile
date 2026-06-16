@@ -57,7 +57,7 @@ $(NAME): $(OBJS)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@mkdir -p $(DEP_DIR)/$(dir $*)
-	@$(CC) $(CFLAGS) $(LDFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
+	@$(CC) $(CFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)

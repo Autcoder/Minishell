@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/14 03:39:21 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/16 15:12:20 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ void	print_tokens(t_token *tokens)
 	printf("Total Tokens found: %d\n", i);
 }
 
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();       // Tell readline we moved to a new line
+	rl_replace_line("", 0); // Clear the current buffer content
+	rl_redisplay();         // Force readline to redraw the prompt
+}
+
 t_token	*get_tokens(char *str)
 {
 	t_token	*tokens;
@@ -68,6 +77,8 @@ int	main(int argc, char **argv, char *env[])
 	(void)argc;
 	(void)argv;
 	(void)env;
+	signal(SIGINT, handle_sigint); // ctrl + c
+	signal(SIGQUIT, SIG_IGN);      // ctrl + /
 	while (42)
 	{
 		str = readline("minishell> ");

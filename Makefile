@@ -11,7 +11,10 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Uncomment if device needs readline
-LDFLAGS := -lreadline
+# Tell the linker where to search
+LDFLAGS := -L/opt/homebrew/opt/readline/lib -lreadline
+
+READLINE_INC = -I/opt/homebrew/opt/readline/include
 
 DEP_DIR = deps
 DEBUG ?= 0
@@ -45,7 +48,7 @@ $(NAME): $(LIBFT) $(OBJS)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@mkdir -p $(DEP_DIR)/$(dir $*)
-	@$(CC) $(CFLAGS) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_INC) -MMD -MP -MF $(DEP_DIR)/$*.d -c $< -o $@
 
 clean:
 	@make -C $(LIBFT_DIR) clean
