@@ -19,3 +19,8 @@ abrakadabra
 
 Dont do notes like this, it breaks formatter:
 } // TODO fix this shit
+
+Lot of stuff to note and check:
+Remove force of which readline implementation to use in makefile via manual paths
+check if stuff still working
+check if ^C will get printed on the line, just for security in case the evaluaters get picky.

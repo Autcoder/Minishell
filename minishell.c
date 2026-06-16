@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/16 16:23:44 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/16 16:56:36 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_readline_signal(void)
 	if (g_sigint)
 	{
 		g_sigint = 0;
-		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
