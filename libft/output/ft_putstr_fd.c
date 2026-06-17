@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:25:14 by flenski           #+#    #+#             */
-/*   Updated: 2026/02/16 16:41:41 by flink            ###   ########.fr       */
+/*   Updated: 2026/06/17 12:34:17 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ In case `str` == `NULL`, it prints `(null)` and returns 6.
 int	ft_putstr_fd(char *str, int fd)
 {
 	if (!str)
-		return (write(fd, "(null)", 6));
-	return (write(fd, str, ft_strlen(str)));
+		return ((int)write(fd, "(null)", 6));
+	return ((int)write(fd, str, ft_strlen(str)));
 }

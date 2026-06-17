@@ -6,28 +6,20 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/14 03:14:47 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/17 13:01:48 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_meta(char c)
+static size_t	is_meta(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
-/*
-Handle all redirection operators and pipes (Leak-free version)
-*/
-static void	handle_meta(char *input, int *i, t_token *token)
+static void	meta_helper(char *input, size_t *i, t_token *token, char flag)
 {
-	if (input[*i] == '|')
-	{
-		token->type = TOKEN_PIPE;
-		token->value = ft_strdup("|");
-	}
-	else if (input[*i] == '<')
+	if (flag == '<')
 	{
 		if (input[*i + 1] == '<')
 		{
@@ -39,29 +31,43 @@ static void	handle_meta(char *input, int *i, t_token *token)
 			token->type = TOKEN_REDIRECT_IN;
 			token->value = ft_strdup("<");
 		}
+		return ;
 	}
-	else if (input[*i] == '>')
+	if (input[*i + 1] == '>')
 	{
-		if (input[*i + 1] == '>')
-		{
-			token->type = TOKEN_APPEND;
-			token->value = ft_strdup(">>");
-		}
-		else
-		{
-			token->type = TOKEN_REDIRECT_OUT;
-			token->value = ft_strdup(">");
-		}
+		token->type = TOKEN_APPEND;
+		token->value = ft_strdup(">>");
 	}
+	else
+	{
+		token->type = TOKEN_REDIRECT_OUT;
+		token->value = ft_strdup(">");
+	}
+}
+
+/*
+Handle all redirection operators and pipes (Leak-free version)
+*/
+static void	handle_meta(char *input, size_t *i, t_token *token)
+{
+	if (input[*i] == '|')
+	{
+		token->type = TOKEN_PIPE;
+		token->value = ft_strdup("|");
+	}
+	else if (input[*i] == '<')
+		meta_helper(input, i, token, '<');
+	else if (input[*i] == '>')
+		meta_helper(input, i, token, '>');
 	*i += ft_strlen(token->value);
 }
 
 /*
 Powers through alphanumeric characters and quotes
 */
-static void	handle_word(char *input, int *i, t_token *token)
+static void	handle_word(char *input, size_t *i, t_token *token)
 {
-	int		start;
+	size_t	start;
 	char	quote;
 
 	start = *i;
@@ -80,7 +86,7 @@ static void	handle_word(char *input, int *i, t_token *token)
 			break ;
 		(*i)++;
 	}
-	token->value = ft_substr(input, start, *i - start);
+	token->value = ft_substr(input, (unsigned int)start, *i - start);
 }
 
 /*
@@ -89,9 +95,9 @@ Compressed lexer Loop (frick norminette)
 t_token	*lexer(char *input)
 {
 	t_token	*tokens;
-	int		i;
-	int		t_idx;
-	int		cap;
+	size_t	i;
+	size_t	t_idx;
+	size_t	cap;
 
 	i = 0;
 	t_idx = 0;

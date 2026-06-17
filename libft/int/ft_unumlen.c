@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unumlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:02:57 by flenski           #+#    #+#             */
-/*   Updated: 2026/02/18 10:44:41 by flink            ###   ########.fr       */
+/*   Updated: 2026/06/17 12:39:19 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
+#include <stddef.h>
 
 /*
-Returns the length of a unsigned number as an int
+Returns the length of a unsigned number as an size_t
 */
-int	ft_unumlen(unsigned long long n)
+size_t	ft_unumlen(unsigned long long n)
 {
-	int	len;
+	size_t	len;
 
 	if (n == 0)
 		return (1);

@@ -3,14 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 02:35:02 by mprokope          #+#    #+#             */
-/*   Updated: 2025/10/28 19:00:55 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/17 12:50:48 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../get_next_line.h"
+
+static char	*assign(t_mylist list[FOPEN_MAX], int fd, char *line, int len)
+{
+	char	c;
+	char	*tmp;
+
+	c = list[fd].buffer[list[fd].i++];
+	tmp = ft_realloc(line, (size_t)len, (size_t)len + 2);
+	if (!tmp)
+		return (free(line), NULL);
+	line = tmp;
+	line[len++] = c;
+	line[len] = '\0';
+	return (line);
+}
+
+static int	assigne_list2(int fd, t_mylist list[FOPEN_MAX])
+{
+	list[fd].bytes = read(list[fd].fd, list[fd].buffer, BUFFER_SIZE);
+	list[fd].i = 0;
+	if (list[fd].bytes <= 0)
+		return (1);
+	return (0);
+}
+
+static char	*get_next_line_helper(int fd, char *line, int len, int switcher)
+{
+	static t_mylist	list[FOPEN_MAX];
+
+	list[fd].fd = fd;
+	while (!switcher)
+	{
+		if (list[fd].i >= list[fd].bytes)
+			switcher = assigne_list2(fd, list);
+		if (list[fd].bytes < 0)
+			return (free(line), NULL);
+		while (!switcher && list[fd].i < list[fd].bytes)
+		{
+			line = assign(list, fd, line, len++);
+			if (!(line))
+				return (free(line), NULL);
+			if (list[fd].buffer[list[fd].i - 1] == '\n')
+				switcher = 1;
+		}
+	}
+	return (line);
+}
 
 char	*get_next_line(int fd)
 {
@@ -25,99 +72,3 @@ char	*get_next_line(int fd)
 	line = NULL;
 	return (get_next_line_helper(fd, line, len, switcher));
 }
-/*
-int	main(void)
-{
-	int	fd = open("new.txt", O_RDONLY);
-	int	fd2 = open("new2.txt", O_RDONLY);
-	char	*line;
-	
-	//while ((line = get_next_line(fd)))
-    	//{
-	//	printf("%s", line);
-	//	free(line);
-	//}
-
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd2));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-	close(fd);
-}
-*/
-/*
- *
- *
- *
-static t_mylist	init_lst(int fd)
-{
-	static t_mylist	list;
-
-	if (!list.fd)
-	{
-		list.fd = fd;
-		list.bytes = 0;
-		list.i = 0;
-	}
-	return (list);
-}
-int	gtl2(int fd)
-{
-	int	len;
-	int	switcher;
-	static t_mylist	list;
-
-	switcher = 0;
-	len = 0;
-	if (list.fd == 0)
-	{
-		list.fd = fd;
-		list.bytes = 0;
-		list.i = 0;
-	}
-	while (!switcher)
-	{
-		if (list.i >= list.bytes)
-		{
-			
-			list.bytes = read(list.fd, list.buffer, BUFFER_SIZE);
-			list.i = 0;
-			if (list.bytes <= 0)
-				break ;
-		}
-		while (list.i < list.bytes)
-		{
-			if (list.buffer[list.i] == '\n')
-			{
-				switcher = 1;
-				break ;
-			}
-			len++;
-			list.i++;
-		}
-	}
-		if (list.buffer[list.i++] == '\n')
-			len++;
-	return (len);
-}
-
-int	gtl(int fd)
-{
-	char buf[2];
-	int	i;
-
-	i = 0;
-	while (read(fd, buf, 1) > 0 && buf[0] != '\n')
-		i++;
-	if (buf[0] == '\n')
-		i++;
-	return (i);
-}
-*/

@@ -18,8 +18,8 @@ Returns `NULL` if `str` is empty.
 */
 char	*ft_strrev(char *str)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 	char	temp;
 
 	if (!str)

@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:18:36 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/13 10:19:19 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/17 13:00:19 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	void *new_ptr;
+	void	*new_ptr;
 
 	if (new_size == 0)
 		return (free(ptr), NULL);

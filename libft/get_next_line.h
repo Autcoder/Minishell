@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 05:02:10 by mprokope          #+#    #+#             */
-/*   Updated: 2025/10/28 19:07:47 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/17 12:52:47 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,16 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-# include <stdio.h>
-# include <unistd.h>
+# include "libft.h"
 # include <fcntl.h>
-# include <stdlib.h>
 # include <limits.h>
-
-char	*get_next_line(int fd);
-void	*ft_realloc(void *ptr, size_t old, size_t new_size);
-char	*get_next_line_helper(int fd, char *line, int len, int switcher);
-void	*ft_realloc(void *ptr, size_t old, size_t new_size);
+# include <stdio.h>
 
 typedef struct mylist
 {
 	int		fd;
-	int		bytes;
+	ssize_t	bytes;
 	char	buffer[BUFFER_SIZE];
-	int		i;
-}	t_mylist;
+	ssize_t	i;
+}			t_mylist;
 #endif

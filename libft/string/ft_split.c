@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:56:35 by flenski           #+#    #+#             */
-/*   Updated: 2026/02/19 12:50:18 by flink            ###   ########.fr       */
+/*   Updated: 2026/06/17 12:30:47 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	count_keep(char const *str, char c)
 
 static char	*extract(char const **str, char c, int empty_str)
 {
-	int		len;
+	size_t	len;
 	char	*word;
 
 	if (!empty_str)
@@ -87,7 +87,7 @@ char	**ft_split(char const *str, char del, int empty_str)
 		count = count_keep(str, del);
 	else
 		count = count_skip(str, del);
-	res = malloc(sizeof(char *) * (count + 1));
+	res = malloc(sizeof(char *) * ((size_t)count + 1));
 	if (!res)
 		return (NULL);
 	i = 0;

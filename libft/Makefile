@@ -17,7 +17,7 @@ CONVERT = ${addprefix convert/, ft_itoa.c ft_atoi.c ft_tolower.c ft_toupper.c ft
 
 INT = ${addprefix int/, ft_numlen.c ft_unumlen.c ft_base_numlen.c}
 
-GNL = ${addprefix gnl/, get_next_line.c get_next_line_utils.c}
+GNL = gnl/get_next_line.c
 
 SRC = $(CHECKER) $(LIST) $(MEMORY) $(STRING) $(OUTPUTS) $(CONVERT) $(INT) $(GNL)
 

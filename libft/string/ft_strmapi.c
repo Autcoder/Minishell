@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 09:50:37 by flenski           #+#    #+#             */
-/*   Updated: 2026/02/19 20:37:49 by flink            ###   ########.fr       */
+/*   Updated: 2026/06/17 12:31:11 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strmapi(char const *str, char (*f)(unsigned int, char))
 	i = 0;
 	while (str[i])
 	{
-		endstr[i] = f(i, str[i]);
+		endstr[i] = f((unsigned int)i, str[i]);
 		i++;
 	}
 	endstr[i] = '\0';
