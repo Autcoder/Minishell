@@ -24,3 +24,11 @@ Lot of stuff to note and check:
 Remove force of which readline implementation to use in makefile via manual paths
 check if stuff still working
 check if ^C will get printed on the line, just for security in case the evaluaters get picky.
+
+mkdir new
+cd new
+mkdir new
+cd new
+rm -r /absoute/path/to/upper/new
+cd ..
+// cd will refuse and stay in the same path

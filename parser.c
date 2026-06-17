@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/17 13:01:48 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/17 13:52:42 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_token	*lexer(char *input)
 	size_t	i;
 	size_t	t_idx;
 	size_t	cap;
+	size_t	old_size;
 
 	i = 0;
 	t_idx = 0;
@@ -110,9 +111,11 @@ t_token	*lexer(char *input)
 		if (input[i] == ' ' && ++i)
 			continue ;
 		if (t_idx >= cap - 1)
-			tokens = ft_realloc(tokens, cap * sizeof(t_token), cap);
-		if (t_idx >= cap - 1)
+		{
+			old_size = cap * sizeof(t_token);
 			cap *= 2;
+			tokens = ft_realloc(tokens, old_size, cap * sizeof(t_token));
+		}
 		if (is_meta(input[i]))
 			handle_meta(input, &i, &tokens[t_idx++]);
 		else
