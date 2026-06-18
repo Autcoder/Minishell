@@ -6,7 +6,7 @@
 /*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 14:41:26 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/18 19:55:25 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/18 19:57:59 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_env(char **env)
 
 char	**init_env(void)
 {
-	char	**environ;
+	extern char	**environ;
 	char	**env;
 	size_t	i;
 
