@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/16 14:22:22 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:02:38 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # ifdef __APPLE__
 #  define rl_clear_history clear_history
 # endif
+
+char	**init_env(void);
 
 /*
 TOKEN_WORD,         // cat, ls, -l, filename

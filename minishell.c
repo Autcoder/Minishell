@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/16 16:56:36 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:02:52 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,18 @@ t_token	*get_tokens(char *str)
 	return (tokens);
 }
 
-int	main(int argc, char **argv, char *env[])
+int	main(int argc, char **argv)
 {
 	t_token	*tokens;
 	char	*str;
 	int		i;
+	char 	**env;
 
 	(void)argc;
 	(void)argv;
-	(void)env;
+	env = init_env();
+	if (!env)
+		return (1);
 	setup_signals();
 	while (42)
 	{
