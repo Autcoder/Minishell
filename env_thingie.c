@@ -6,7 +6,7 @@
 /*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 14:41:26 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/18 19:35:14 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/18 19:55:25 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void	ft_clean(char **env, size_t i)
 {
 	while (i)
-		free(env[i--])
-	free(env[i])
+		free(env[i--]);
+	free(env[i]);
 	free(env);
 }
 
@@ -60,6 +60,7 @@ char	**init_env(void)
 	return (env);
 }
 
+/*
 void	ft_export(char **env, t_token *token)
 {
 	size_t	i;
@@ -70,3 +71,4 @@ void	ft_export(char **env, t_token *token)
 	
 	
 }
+*/
