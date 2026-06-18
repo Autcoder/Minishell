@@ -43,14 +43,12 @@ char	*ft_strnjoin(char const *s1, char const *s2, int size)
 	return (str);
 }
 
-char	**parse_env_to_dict(void)
+char	**parse_env_to_dict(char **environ)
 {
-	extern char	**environ;
 	size_t		i;
 	size_t		len;
 	char		**ret;
 
-	// char		*tmp;
 	if (!environ[0])
 		return (NULL);
 	i = 0;
