@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/18 20:02:52 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/19 12:30:20 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int argc, char **argv)
 	char	*str;
 	int		i;
 	char 	**env;
+	char	*ret;
 
 	(void)argc;
 	(void)argv;
@@ -120,6 +121,9 @@ int	main(int argc, char **argv)
 		str = readline("minishell> ");
 		if (!str)
 			break ;
+		ret = levi(str, env);
+		printf("%s\n", ret);
+		free(ret);
 		tokens = get_tokens(str);
 		if (!tokens)
 			continue ;
