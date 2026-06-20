@@ -2,8 +2,8 @@
 
 char	*get_any(char *env[], char *path)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	if (!path)
@@ -22,10 +22,10 @@ char	*get_any(char *env[], char *path)
 	return (NULL);
 }
 
-char	*ft_strnjoin(char const *s1, char const *s2, int size)
+char	*ft_strnjoin(char const *s1, char const *s2, size_t size)
 {
 	char	*str;
-	int		len;
+	size_t		len;
 	char	*ptr;
 	char	*temp;
 
@@ -37,16 +37,16 @@ char	*ft_strnjoin(char const *s1, char const *s2, int size)
 	while (*s1)
 		*ptr++ = *s1++;
 	temp = (char *)s2;
-	while (*s2 && s2 - temp < size)
+	while (*s2 && (size_t)(s2 - temp) < size)
 		*ptr++ = *s2++;
 	*ptr = '\0';
 	return (str);
 }
 
-char	*ft_strnfjoin(char const *s1, char const *s2, int size)
+char	*ft_strnfjoin(char const *s1, char const *s2, size_t size)
 {
 	char	*str;
-	int		len;
+	size_t		len;
 	char	*ptr;
 	char	*temp;
 
@@ -56,7 +56,7 @@ char	*ft_strnfjoin(char const *s1, char const *s2, int size)
 		return (NULL);
 	ptr = str;
 	temp = (char *)s1;
-	while (*s1 && s1 - temp < size)
+	while (*s1 && (size_t)(s1 - temp) < size)
 		*ptr++ = *s1++;
 	while (*s2)
 		*ptr++ = *s2++;
@@ -81,7 +81,7 @@ char	**parse_env_to_dict(char **environ)
 	i = 0;
 	while (environ[i])
 	{
-		len = ft_strchr(environ[i], '=') - environ[i];
+		len = (size_t)(ft_strchr(environ[i], '=') - environ[i]);
 		ret[i] = ft_substr(environ[i], 0, len);
 		if (!ret[i])
 			return (/*TODO clean_matrix(),*/ NULL);
