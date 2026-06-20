@@ -1,4 +1,4 @@
-SRC = minishell.c parser.c env_thingie.c
+SRC = minishell.c parser.c env_thingie.c scan_expand_save.c
 
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
