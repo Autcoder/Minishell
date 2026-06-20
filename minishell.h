@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/20 10:24:52 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/20 21:45:56 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <limits.h>
 
 // TODO: REMOVE BEFORE FINAL PUSH
 # ifdef __APPLE__
@@ -65,5 +66,6 @@ typedef struct s_token
 }					t_token;
 
 t_token				*lexer(char *input);
+char				*levi(char *str, char **env);
 
 #endif
