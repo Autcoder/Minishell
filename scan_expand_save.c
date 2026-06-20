@@ -136,18 +136,13 @@ char	*mesh_tgthr(char *str, char *tmp, size_t old, size_t new)
 	char	*ret;
 
 	if (!tmp)
-	{
-		ret = malloc(sizeof(char) * (old + ft_strlen(&str[new] + 1)));
-		if (!ret)
-			return (NULL);
 		return (ft_strnfjoin(str, &str[new], old));
-	}
 	ret = malloc((old + ft_strlen(tmp) + ft_strlen(&str[new]) + 1));
 	if (!ret)
 		return (NULL);
 	ft_strlcpy(ret, str, old + 1);
 	ft_strlcat(ret, tmp, old + ft_strlen(tmp) + 1);
-	ft_strlcat(ret, &str[new], old + ft_strlen(tmp) + ft_strlen(&str[new] + 1));
+	ft_strlcat(ret, &str[new], old + ft_strlen(tmp) + ft_strlen(&str[new]) + 1);
 	return (ret);
 }
 
@@ -163,8 +158,8 @@ char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
 		return (str);
 	old = (*i)[0];
 	expanded = expand(&str[++(*i)[0]], key_list, env);
-	if (!expanded)
-		return (/*free key_list*/NULL);
+	//if (!expanded)
+	//	return (/*free key_list*/mesh_tgthr(str, ft_strdup(""), old, old));
 	while (str[(*i)[0]] && (str[(*i)[0]] != ' ' && str[(*i)[0]] != '"'))
 		(*i)[0]++;
 	ret = mesh_tgthr(str, expanded, old, (*i)[0]);
@@ -175,7 +170,7 @@ char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
 		free(str);
 	else
 		(*i)[1] = 1;
-	(*i)[0] = 0;
+	(*i)[0] = old;
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/20 20:49:52 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/20 23:09:01 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,20 @@ t_token	*get_tokens(char *str)
 	return (tokens);
 }
 
+int	missfit_check(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && (str[i + 1] == ' ' || !str[i + 1]))
+			return (printf("Error, $ must be followed by smth.\n"), 1);
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_token	*tokens;
@@ -121,9 +135,13 @@ int	main(int argc, char **argv)
 		str = readline("minishell> ");
 		if (!str)
 			break ;
-		ret = levi(str, env);
-		printf("%s\n", ret);
-		free(ret);
+		if (missfit_check(str))
+			free(str);
+		else
+		{
+			ret = levi(str, env);
+			printf("%s\n", ret);
+			free(ret);
 		tokens = get_tokens(str);
 		if (!tokens)
 			continue ;
@@ -139,6 +157,7 @@ int	main(int argc, char **argv)
 			free(tokens[i++].value);
 		free(tokens);
 		free(str);
+		}
 	}
 	return (rl_clear_history(), 0);
 }
