@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 10:25:34 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/19 10:19:47 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/20 21:48:50 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ between the first different pair. Returns 0 if the strings are the same
 or `num` is 0.
 */
 int	ft_strncmp(const char *str1, const char *str2, size_t num)
-
 {
 	if (!num)
 		return (0);
