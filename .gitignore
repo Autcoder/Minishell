@@ -1,6 +1,7 @@
 tags
 .venv
 minishell
+.DS_Store
 # Prerequisites
 *.d
 
