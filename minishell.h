@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/20 21:45:56 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/22 15:03:22 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -31,15 +32,11 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-# include <limits.h>
 
 // TODO: REMOVE BEFORE FINAL PUSH
 # ifdef __APPLE__
 #  define rl_clear_history clear_history
 # endif
-
-char				**init_env(void);
-char				*levi(char *str, char **env);
 
 /*
 TOKEN_WORD,         // cat, ls, -l, filename
@@ -65,7 +62,13 @@ typedef struct s_token
 	t_token_type	type;
 }					t_token;
 
-t_token				*lexer(char *input);
+void				expand_tokens(t_token *tokens, char **env);
+void				handle_quotes(t_token *tokens);
+char				**init_env(void);
 char				*levi(char *str, char **env);
+t_token				*lexer(char *input);
+int					missfit_check(char *str);
+char				*get_type_name(t_token_type type);
+void				print_tokens(t_token *tokens);
 
 #endif

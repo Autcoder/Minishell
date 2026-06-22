@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/20 23:09:01 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/22 15:03:27 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,38 +55,6 @@ static void	setup_signals(void)
 	rl_event_hook = check_readline_signal;
 }
 
-/*
-Make enum printable
-*/
-static char	*get_type_name(t_token_type type)
-{
-	if (type == TOKEN_PIPE)
-		return ("PIPE");
-	if (type == TOKEN_REDIRECT_IN)
-		return ("REDIRECT_IN");
-	if (type == TOKEN_REDIRECT_OUT)
-		return ("REDIRECT_OUT");
-	if (type == TOKEN_HERE_DOC)
-		return ("HERE_DOC");
-	if (type == TOKEN_APPEND)
-		return ("APPEND");
-	return ("WORD");
-}
-
-void	print_tokens(t_token *tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i].value)
-	{
-		printf("Token [%d]: '%s' | Type: %s\n", i, tokens[i].value,
-			get_type_name(tokens[i].type));
-		i++;
-	}
-	printf("Total Tokens found: %d\n", i);
-}
-
 t_token	*get_tokens(char *str)
 {
 	t_token	*tokens;
@@ -102,27 +70,12 @@ t_token	*get_tokens(char *str)
 	return (tokens);
 }
 
-int	missfit_check(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && (str[i + 1] == ' ' || !str[i + 1]))
-			return (printf("Error, $ must be followed by smth.\n"), 1);
-		i++;
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_token	*tokens;
 	char	*str;
 	int		i;
-	char 	**env;
-	char	*ret;
+	char	**env;
 
 	(void)argc;
 	(void)argv;
@@ -136,28 +89,29 @@ int	main(int argc, char **argv)
 		if (!str)
 			break ;
 		if (missfit_check(str))
-			free(str);
-		else
 		{
-			ret = levi(str, env);
-			printf("%s\n", ret);
-			free(ret);
+			free(str);
+			continue ;
+		}
+		// Tokenize the raw string
 		tokens = get_tokens(str);
 		if (!tokens)
 			continue ;
+		// TODO: Remove once exit is implemented
 		if (tokens[0].value && ft_strncmp(tokens[0].value, "exit", 4) == 0)
-			break ; // TODO: Remove once exit is implemented
+			break ;
+		expand_tokens(tokens, env);
+		// Print tokens to verify expansion
+		handle_quotes(tokens);
 		print_tokens(tokens);
-		// TODO: expand_tokens(tokens);
-		// TODO: handle_quotes(tokens);
-		// TODO: execute_tokens(tokens); <-- "exit" should be done here
-		// Clean up memory
+		// TODO: parse_to_commands(tokens);
+		// TODO: execute_commands(cmds);
+		// Clean up
 		i = 0;
 		while (tokens[i].value)
 			free(tokens[i++].value);
 		free(tokens);
 		free(str);
-		}
 	}
 	return (rl_clear_history(), 0);
 }
