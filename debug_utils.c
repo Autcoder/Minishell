@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:02:38 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/22 15:03:26 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/22 15:24:53 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_type_name(t_token_type type)
 
 void	print_tokens(t_token *tokens)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tokens[i].value)

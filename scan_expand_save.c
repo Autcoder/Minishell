@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scan_expand_save.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
+/*   Updated: 2026/06/22 15:28:12 by flenski          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*get_any(char *env[], char *path)
@@ -25,7 +37,7 @@ char	*get_any(char *env[], char *path)
 char	*ft_strnjoin(char const *s1, char const *s2, size_t size)
 {
 	char	*str;
-	size_t		len;
+	size_t	len;
 	char	*ptr;
 	char	*temp;
 
@@ -46,7 +58,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t size)
 char	*ft_strnfjoin(char const *s1, char const *s2, size_t size)
 {
 	char	*str;
-	size_t		len;
+	size_t	len;
 	char	*ptr;
 	char	*temp;
 
@@ -66,9 +78,9 @@ char	*ft_strnfjoin(char const *s1, char const *s2, size_t size)
 
 char	**parse_env_to_dict(char **environ)
 {
-	size_t		i;
-	size_t		len;
-	char		**ret;
+	size_t	i;
+	size_t	len;
+	char	**ret;
 
 	if (!environ[0])
 		return (NULL);
@@ -158,14 +170,14 @@ char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
 		return (str);
 	old = (*i)[0];
 	expanded = expand(&str[++(*i)[0]], key_list, env);
-	//if (!expanded)
+	// if (!expanded)
 	//	return (/*free key_list*/mesh_tgthr(str, ft_strdup(""), old, old));
 	while (str[(*i)[0]] && (str[(*i)[0]] != ' ' && str[(*i)[0]] != '"'))
 		(*i)[0]++;
 	ret = mesh_tgthr(str, expanded, old, (*i)[0]);
 	free(expanded);
 	if (!ret)
-		return (/*free matrix*/NULL);
+		return (/*free matrix*/ NULL);
 	if ((*i)[1])
 		free(str);
 	else
@@ -174,7 +186,7 @@ char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
 	return (ret);
 }
 
-char *levi(char *str, char **env)
+char	*levi(char *str, char **env)
 {
 	char	**key_list;
 	char	*tmp;
@@ -190,10 +202,10 @@ char *levi(char *str, char **env)
 	{
 		tmp = levi_helper(tmp, &i, key_list, env);
 		if (!tmp)
-			return (/*free matrix*/NULL);
+			return (/*free matrix*/ NULL);
 	}
 	/*free matrix*/
 	if (!i[1])
 		tmp = ft_strdup(tmp);
-	return (tmp);	
+	return (tmp);
 }

@@ -32,3 +32,6 @@ cd new
 rm -r /absoute/path/to/upper/new
 cd ..
 // cd will refuse and stay in the same path
+
+Print only actual norm errors that have to be fixed during development:
+norminette | grep -Ev "OK|Comment|Macro"

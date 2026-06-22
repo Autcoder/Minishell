@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/22 15:03:22 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/22 15:32:41 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_token
 	t_token_type	type;
 }					t_token;
 
+int					check_unclosed_quotes(char *input);
 void				expand_tokens(t_token *tokens, char **env);
 void				handle_quotes(t_token *tokens);
 char				**init_env(void);

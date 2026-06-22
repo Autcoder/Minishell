@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_thingie.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 14:41:26 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/18 19:57:59 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/22 15:25:49 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	ft_env(char **env)
 	}
 	i = 0;
 	while (env[i])
-		printf("%s\n", env[i++]);	
+		printf("%s\n", env[i++]);
 }
 
 char	**init_env(void)
 {
 	extern char	**environ;
-	char	**env;
-	size_t	i;
+	char		**env;
+	size_t		i;
 
 	if (!environ || !*environ)
 		return (env = ft_calloc(1, sizeof(char *)), env);
@@ -68,7 +68,5 @@ void	ft_export(char **env, t_token *token)
 	i = 0;
 	while (token[i])
 		i++;
-	
-	
 }
 */
