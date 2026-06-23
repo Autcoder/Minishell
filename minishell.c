@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/22 15:32:50 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 16:32:52 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char **argv)
 		str = readline("minishell> ");
 		if (!str)
 			break ;
-		if (missfit_check(str) || check_unclosed_quotes(str))
+		if (check_unclosed_quotes(str))
 		{
 			free(str);
 			continue ;

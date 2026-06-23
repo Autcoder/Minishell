@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 13:46:23 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 16:40:47 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void				handle_quotes(t_token *tokens);
 char				**init_env(void);
 char				*levi(char *str, char **env);
 t_token				*lexer(char *input);
-int					missfit_check(char *str);
 char				*get_type_name(t_token_type type);
 void				print_tokens(t_token *tokens);
 char				*get_any(char *env[], char *path);

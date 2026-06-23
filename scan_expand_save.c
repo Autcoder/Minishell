@@ -6,28 +6,30 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 14:08:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 16:40:06 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	scan_dollar(char *str, char **key_list)
+size_t	scan_dollar(char *str, char **key_list)
 {
 	size_t	i;
 	size_t	j;
 	size_t	l;
 
 	i = 0;
-	while (str[i] && (str[i] != ' ' && str[i] != '"'))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
+	if (i == 0)
+		return ((size_t)-1);
 	j = 0;
 	while (key_list[j])
 		j++;
 	l = 0;
 	while (l < j)
 	{
-		if (!ft_strncmp(str, key_list[l], i))
+		if (!ft_strncmp(str, key_list[l], i) && ft_strlen(key_list[l]) == i)
 			return (l);
 		l++;
 	}
@@ -78,19 +80,25 @@ static char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
 	if (!str[*i[0]])
 		return (str);
 	old = (*i)[0];
-	expanded = expand(&str[++(*i)[0]], key_list, env);
-	while (str[(*i)[0]] && (str[(*i)[0]] != ' ' && str[(*i)[0]] != '"'))
+	expanded = expand(&str[(*i)[0] + 1], key_list, env);
+	if (!expanded)
+	{
 		(*i)[0]++;
-	// NULL check happens here since expanded gets NULL checked inside mesh_tgthr
+		return (str);
+	}
+	while (str[(*i)[0] + 1] && (ft_isalnum(str[(*i)[0] + 1]) || str[(*i)[0]
+			+ 1] == '_'))
+		(*i)[0]++;
+	(*i)[0]++; // Move past the variable name
 	ret = mesh_tgthr(str, expanded, old, (*i)[0]);
 	free(expanded);
 	if (!ret)
-		return (free(str), NULL);
+		return (NULL);
 	if ((*i)[1])
 		free(str);
 	else
 		(*i)[1] = 1;
-	(*i)[0] = old;
+	(*i)[0] = old; // Reset index back to where it got spliced
 	return (ret);
 }
 

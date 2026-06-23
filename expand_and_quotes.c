@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   expand_and_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:00:03 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/22 15:32:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 16:40:29 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	missfit_check(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && (str[i + 1] == ' ' || !str[i + 1]))
-			return (printf("Error, $ must be followed by smth.\n"), 1);
-		i++;
-	}
-	return (0);
-}
 
 int	check_unclosed_quotes(char *input)
 {
