@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 16:40:06 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 16:49:39 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,58 +69,61 @@ static char	*mesh_tgthr(char *str, char *tmp, size_t old, size_t new)
 	return (ret);
 }
 
-static char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
+static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 {
 	char	*expanded;
 	char	*ret;
-	size_t	old;
+	size_t	start;
+	size_t	end;
 
-	while (str[(*i)[0]] && str[(*i)[0]] != '$')
-		(*i)[0]++;
-	if (!str[*i[0]])
-		return (str);
-	old = (*i)[0];
-	expanded = expand(&str[(*i)[0] + 1], key_list, env);
+	start = *idx;
+	expanded = expand(&str[start + 1], key_list, env);
 	if (!expanded)
 	{
-		(*i)[0]++;
+		// Not a valid variable name, skip this '$' for the next iteration
+		*idx = start + 1;
 		return (str);
 	}
-	while (str[(*i)[0] + 1] && (ft_isalnum(str[(*i)[0] + 1]) || str[(*i)[0]
-			+ 1] == '_'))
-		(*i)[0]++;
-	(*i)[0]++; // Move past the variable name
-	ret = mesh_tgthr(str, expanded, old, (*i)[0]);
+	end = start + 1;
+	while (str[end] && (ft_isalnum(str[end]) || str[end] == '_'))
+		end++;
+	ret = mesh_tgthr(str, expanded, start, end);
 	free(expanded);
-	if (!ret)
-		return (NULL);
-	if ((*i)[1])
-		free(str);
-	else
-		(*i)[1] = 1;
-	(*i)[0] = old; // Reset index back to where it got spliced
+	// We don't free 'str' here anymore; we let the main levi loop handle it safely!
 	return (ret);
 }
 
 char	*levi(char *str, char **env)
 {
 	char	**key_list;
-	char	*tmp;
-	size_t	i[2];
+	char	*current;
+	char	*next;
+	size_t	idx;
 
-	i[0] = 0;
-	tmp = str;
-	i[1] = 0;
 	key_list = parse_env_to_dict(env);
 	if (!key_list)
 		return (NULL);
-	while (tmp && tmp[i[0]])
+	current = ft_strdup(str); // Duplicate upfront so we always own the memory
+	if (!current)
+		return (free_ptr_array((void **)key_list), NULL);
+	idx = 0;
+	while (current && current[idx])
 	{
-		tmp = levi_helper(tmp, &i, key_list, env);
-		if (!tmp)
-			return (free_ptr_array((void **)key_list), NULL);
+		// Find the next '$'
+		if (current[idx] == '$')
+		{
+			next = levi_helper(current, &idx, key_list, env);
+			if (next != current) // If a replacement actually happened
+			{
+				free(current); // Safely free the old string layer
+				current = next;
+			}
+			if (!current)
+				break ;
+		}
+		else
+			idx++;
 	}
-	if (!i[1])
-		tmp = ft_strdup(tmp);
-	return (tmp);
+	free_ptr_array((void **)key_list);
+	return (current);
 }
