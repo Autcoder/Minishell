@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/17 13:52:42 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 14:10:23 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	meta_helper(char *input, size_t *i, t_token *token, char flag)
 }
 
 /*
-Handle all redirection operators and pipes (Leak-free version)
+Handle all redirection operators and pipes
 */
 static void	handle_meta(char *input, size_t *i, t_token *token)
 {

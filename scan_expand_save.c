@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 13:46:24 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 14:08:33 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,13 @@ static char	*levi_helper(char *str, size_t (*i)[2], char **key_list, char **env)
 		return (str);
 	old = (*i)[0];
 	expanded = expand(&str[++(*i)[0]], key_list, env);
-	// if (!expanded)
-	//	return (/*free key_list*/mesh_tgthr(str, ft_strdup(""), old, old));
 	while (str[(*i)[0]] && (str[(*i)[0]] != ' ' && str[(*i)[0]] != '"'))
 		(*i)[0]++;
+	// NULL check happens here since expanded gets NULL checked inside mesh_tgthr
 	ret = mesh_tgthr(str, expanded, old, (*i)[0]);
 	free(expanded);
 	if (!ret)
-		return (/*free matrix*/ NULL);
+		return (free(str), NULL);
 	if ((*i)[1])
 		free(str);
 	else
@@ -111,9 +110,8 @@ char	*levi(char *str, char **env)
 	{
 		tmp = levi_helper(tmp, &i, key_list, env);
 		if (!tmp)
-			return (/*free matrix*/ NULL);
+			return (free_ptr_array((void **)key_list), NULL);
 	}
-	/*free matrix*/
 	if (!i[1])
 		tmp = ft_strdup(tmp);
 	return (tmp);

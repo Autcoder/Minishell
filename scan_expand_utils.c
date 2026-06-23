@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/23 13:45:45 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 13:45:50 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 14:08:26 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**parse_env_to_dict(char **environ)
 		len = (size_t)(ft_strchr(environ[i], '=') - environ[i]);
 		ret[i] = ft_substr(environ[i], 0, len);
 		if (!ret[i])
-			return (/*TODO clean_matrix(),*/ NULL);
+			return (free_ptr_array((void **)ret), NULL);
 		i++;
 	}
 	ret[i] = NULL;
