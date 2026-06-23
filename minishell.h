@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/22 15:32:41 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/23 13:46:23 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,9 @@ t_token				*lexer(char *input);
 int					missfit_check(char *str);
 char				*get_type_name(t_token_type type);
 void				print_tokens(t_token *tokens);
+char				*get_any(char *env[], char *path);
+char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
+char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
+char				**parse_env_to_dict(char **environ);
 
 #endif
