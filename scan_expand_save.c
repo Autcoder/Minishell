@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 16:49:39 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/24 11:03:21 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ static char	*expand(char *str, char **key_list, char **env)
 
 	pos = scan_dollar(str, key_list);
 	if (pos == (size_t)-1)
-		return (NULL);
+		return (ft_strdup(""));
+	if (env[pos] == NULL)
+		return (ft_strdup(""));
 	i = 0;
 	while (env[pos][i] != '=')
 		i++;
@@ -77,6 +79,11 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	size_t	end;
 
 	start = *idx;
+	if (!str[start + 1] || (!ft_isalnum(str[start + 1]) && str[start + 1] != '_'))
+	{
+		*idx = start + 1;
+		return (str);
+	}
 	expanded = expand(&str[start + 1], key_list, env);
 	if (!expanded)
 	{
