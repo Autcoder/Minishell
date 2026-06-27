@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/23 16:32:52 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/27 02:41:23 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ int	main(int argc, char **argv)
 			free(tokens[i++].value);
 		free(tokens);
 		free(str);
+		//ft_echo((char *[]){"echo", "-nnnnnnnnnnn", "lol", "xd",NULL});
+		//ft_cwd();
+		//ft_env(env);
+		//ft_export(&env, "VAR=lol");
+		//ft_export(&env, NULL);
+		//ft_env(env);
 	}
 	return (rl_clear_history(), 0);
 }

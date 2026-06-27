@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 16:40:47 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/26 20:00:45 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,14 @@ char				*get_any(char *env[], char *path);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 char				**parse_env_to_dict(char **environ);
+
+/*Cleans any ** arrays*/
+void				clean_arr(char **env, size_t i);
+/*nuilt ins*/
+
+int					ft_echo(char **cmd);
+int					ft_cwd(void);
+void				ft_env(char **env);
+int					ft_export(char ***env, char *cmd);
 
 #endif

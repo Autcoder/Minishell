@@ -1,0 +1,106 @@
+#include "minishell.h"
+
+void	ft_env(char **env)
+{
+	size_t	i;
+
+	if (!env || !*env)
+	{
+		write(1, "\n", 1);
+		return ;
+	}
+	i = 0;
+	while (env[i])
+		printf("%s\n", env[i++]);
+}
+
+static int	scan_for_nflag(char *str)
+{
+	size_t	i;
+	size_t	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '-')
+		{
+			count++;
+			i++;
+			continue ;
+		}
+		if (count > 1)
+			return (1);
+		if (str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_echo(char **cmd)
+{
+	size_t	i;
+	size_t	switcher;
+
+	i = 1;
+	switcher = 1;
+	if (!cmd[1])
+		write(1, "\n", 1);
+	else
+	{
+		while (cmd[i])
+		{
+			if (!scan_for_nflag(cmd[i]))
+			{
+				switcher = 0;
+				i++;
+				continue ;
+			}
+			if (cmd[i] && cmd[i + 1])
+			{
+				ft_putstr_fd(cmd[i], 1);
+				write(1, " ", 1);
+			}
+			else if (cmd[i] && !cmd[i + 1])
+				ft_putstr_fd(cmd[i], 1);
+			i++;
+		}
+		if (switcher)
+			write(1, "\n", 1);
+	}
+	return (0);
+}
+
+int	ft_cwd(void)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (1);
+	ft_putstr_fd(cwd, 1);
+	write(1, "\n", 1);
+	free(cwd);
+	return (0);
+}
+
+int	ft_export(char ***env, char *cmd)
+{
+	size_t	i;
+
+	i = 0;
+	if (!cmd)
+		printf("bip boop, UB incoming..\n");
+	else
+	{
+		while ((*env)[i])
+			i++;
+		*env = ft_realloc(*env, sizeof(char *) * i, sizeof(char *) * (i + 2));
+		if (!(*env))
+			return (1);
+		(*env)[i++] = ft_strdup(cmd);
+		(*env)[i] = NULL;
+	}
+	return (0);
+}
