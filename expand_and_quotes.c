@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:00:03 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 16:40:29 by flenski          ###   ########.fr       */
+/*   Updated: 2026/06/29 15:46:30 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	check_unclosed_quotes(char *input)
 	size_t	i;
 	char	quote;
 
+	if (!input)
+		return (1);
 	i = 0;
 	quote = 0;
 	while (input[i])
