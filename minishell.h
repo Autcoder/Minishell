@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/26 20:00:45 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/29 15:28:51 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,18 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 }					t_token;
+
+typedef struct	s_cmd
+{
+	char	**argv;
+	char	*path;
+	int		fd_in;
+	int		fd_out;
+}				t_cmd;
+
+/*exec*/
+int					execute(t_cmd *cmds, char **env);
+t_cmd				*build_cmds(t_token *tokens);
 
 int					check_unclosed_quotes(char *input);
 void				expand_tokens(t_token *tokens, char **env);

@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/27 02:41:23 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/06/29 15:29:22 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	main(int argc, char **argv)
 		// Print tokens to verify expansion
 		handle_quotes(tokens);
 		print_tokens(tokens);
+		t_cmd	*cmds = build_cmds(tokens);
+		execute(cmds, env);
 		// TODO: parse_to_commands(tokens);
 		// TODO: execute_commands(cmds);
 		// Clean up
