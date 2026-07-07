@@ -131,6 +131,8 @@ char *find_path(char *to_find, char *path1)
 			return (/*CleanUp*/free(arg), str);
 		else if (check_access(str) == 1)
 			return (/*CleanUp*/NULL);
+//		else if (check_access(str) == 2)
+//			return (NULL);
 		free(str);
 	}
 	/*clean_up*/
@@ -202,6 +204,12 @@ int	execute(t_cmd *cmds, char **env)
 	while (cmds[i].argv)
 	{
 		cmds[i].path = find_path(cmds[i].argv[0], path);
+		if (!cmds[i].path)
+		{
+			(perror(cmds[i].argv[0]), close(fd[0]), close(fd[1]));
+			i++;
+			continue ;
+		}
 		if (cmds[i + 1].argv)
 			pipe(fd);
 		p[i] = fork();
