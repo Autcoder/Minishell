@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/06/29 15:29:22 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/07/10 23:48:57 by mprokope         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,22 @@ t_token	*get_tokens(char *str)
 	return (tokens);
 }
 
+void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (tokens[i].value)
+		free(tokens[i++].value);
+	free(tokens);
+	free(str);
+	free(cmds);
+}
+
 int	main(int argc, char **argv)
 {
 	t_token	*tokens;
 	char	*str;
-	int		i;
 	char	**env;
 
 	(void)argc;
@@ -109,11 +120,7 @@ int	main(int argc, char **argv)
 		// TODO: parse_to_commands(tokens);
 		// TODO: execute_commands(cmds);
 		// Clean up
-		i = 0;
-		while (tokens[i].value)
-			free(tokens[i++].value);
-		free(tokens);
-		free(str);
+		clean_up(cmds, tokens, str);
 		//ft_echo((char *[]){"echo", "-nnnnnnnnnnn", "lol", "xd",NULL});
 		//ft_cwd();
 		//ft_env(env);

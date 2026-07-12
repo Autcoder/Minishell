@@ -58,6 +58,46 @@ size_t	count_words(t_token *tokens, size_t start)
 	}
 	return (count);
 }
+/*TODO Handle SIgnlas in here_doc so that it reponds on ctrl-c and idk like bash*/
+int	here_doc(char *eof)
+{
+	int	fd[2];
+	pid_t	pid;
+	char	*line;
+	int		status;
+	
+	if (pipe(fd) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (close(fd[0]), close(fd[1]), -1);
+	if (!pid)
+	{
+		close(fd[0]);
+		while(42)
+		{
+			line = readline("> ");
+			if (!line)
+			{
+				perror("here_doc"); //TODO Temp
+				break ;
+			}
+			if (!ft_strncmp(line, eof, ft_strlen(eof) + 1))
+			{
+				free(line);
+				break ;
+			}
+			write(fd[1], line, ft_strlen(line));
+			write(fd[1], "\n", 1);
+			free(line);
+		}
+		close(fd[1]);
+		exit(0);
+	}
+	close(fd[1]);
+	waitpid(pid, &status, 0);
+	return (fd[0]);
+}
 
 t_cmd	*build_cmds(t_token *tokens)
 {
@@ -91,6 +131,10 @@ t_cmd	*build_cmds(t_token *tokens)
 			else if (tokens[i].type == TOKEN_APPEND)
 				cmds[cmd_i].fd_out = open(tokens[++i].value, O_WRONLY
 					| O_CREAT | O_APPEND, 0644);
+			else if (tokens[i].type == TOKEN_HERE_DOC)
+			{
+				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
+			}
 			i++;
 		}
 		cmds[cmd_i].argv[j] = NULL;
