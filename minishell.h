@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/29 15:28:51 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/07/15 18:24:56 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ typedef struct s_token
 	t_token_type	type;
 }					t_token;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
-	char	**argv;
-	char	*path;
-	int		fd_in;
-	int		fd_out;
-}				t_cmd;
+	char			**argv;
+	char			*path;
+	int				fd_in;
+	int				fd_out;
+}					t_cmd;
 
 /*exec*/
 int					execute(t_cmd *cmds, char **env);
@@ -86,6 +86,7 @@ char				*get_any(char *env[], char *path);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 char				**parse_env_to_dict(char **environ);
+void				setup_signals(void);
 
 /*Cleans any ** arrays*/
 void				clean_arr(char **env, size_t i);

@@ -61,25 +61,31 @@ size_t	count_words(t_token *tokens, size_t start)
 /*TODO Handle SIgnlas in here_doc so that it reponds on ctrl-c and idk like bash*/
 int	here_doc(char *eof)
 {
-	int	fd[2];
+	int		fd[2];
 	pid_t	pid;
 	char	*line;
 	int		status;
-	
+
 	if (pipe(fd) == -1)
 		return (-1);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), -1);
 	if (!pid)
 	{
+		signal(SIGINT, SIG_DFL);
 		close(fd[0]);
-		while(42)
+		while (42)
 		{
 			line = readline("> ");
 			if (!line)
 			{
-				perror("here_doc"); //TODO Temp
+				// Ctrl+D -> print Bash warning
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '",
+					2);
+				ft_putstr_fd(eof, 2);
+				ft_putstr_fd("')\n", 2);
 				break ;
 			}
 			if (!ft_strncmp(line, eof, ft_strlen(eof) + 1))
@@ -96,6 +102,16 @@ int	here_doc(char *eof)
 	}
 	close(fd[1]);
 	waitpid(pid, &status, 0);
+	// Restore normal interactive signals
+	setup_signals();
+	// Check if the child died because of Ctrl+C
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		close(fd[0]);
+		// Return -1 to tell build_cmds that the here_doc was aborted
+		return (-1);
+	}
 	return (fd[0]);
 }
 
@@ -126,14 +142,20 @@ t_cmd	*build_cmds(t_token *tokens)
 				cmds[cmd_i].fd_in = open(tokens[++i].value, O_RDONLY);
 			/*TODO Check if open fails and trow perror;*/
 			else if (tokens[i].type == TOKEN_REDIRECT_OUT)
-				cmds[cmd_i].fd_out = open(tokens[++i].value, O_WRONLY
-					| O_CREAT | O_TRUNC, 0644);
+				cmds[cmd_i].fd_out = open(tokens[++i].value,
+						O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			else if (tokens[i].type == TOKEN_APPEND)
-				cmds[cmd_i].fd_out = open(tokens[++i].value, O_WRONLY
-					| O_CREAT | O_APPEND, 0644);
+				cmds[cmd_i].fd_out = open(tokens[++i].value,
+						O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else if (tokens[i].type == TOKEN_HERE_DOC)
 			{
 				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
+				if (cmds[cmd_i].fd_in == -1)
+				{
+					// here_doc cancelled with Ctrl+C
+					// Free everything allocated
+					return (NULL);
+				}
 			}
 			i++;
 		}
@@ -145,7 +167,7 @@ t_cmd	*build_cmds(t_token *tokens)
 	return (cmds);
 }
 
-char *find_path(char *to_find, char *path1)
+char	*find_path(char *to_find, char *path1)
 {
 	size_t	i;
 	char	**path;
@@ -164,19 +186,19 @@ char *find_path(char *to_find, char *path1)
 		return (NULL);
 	arg = ft_strjoin("/", to_find);
 	if (!arg)
-		return (/*CleanUp path*/NULL);
+		return (/*CleanUp path*/ NULL);
 	i = 0;
 	while (path[i])
 	{
 		str = ft_strjoin(path[i++], arg);
 		if (!str)
-			return (/*CleanUp path*/free(arg), NULL);
+			return (/*CleanUp path*/ free(arg), NULL);
 		if (!check_access(str))
-			return (/*CleanUp*/free(arg), str);
+			return (/*CleanUp*/ free(arg), str);
 		else if (check_access(str) == 1)
-			return (/*CleanUp*/NULL);
-//		else if (check_access(str) == 2)
-//			return (NULL);
+			return (/*CleanUp*/ NULL);
+		//		else if (check_access(str) == 2)
+		//			return (NULL);
 		free(str);
 	}
 	/*clean_up*/
@@ -193,7 +215,7 @@ size_t	init_fd_and_count(t_cmd *cmds)
 	return (i);
 }
 
-//fd[2] = prev fd
+// fd[2] = prev fd
 
 void	child_process(t_cmd *cmds, pid_t *p, size_t i, char **env, int fd[3])
 {
@@ -218,7 +240,7 @@ void	child_process(t_cmd *cmds, pid_t *p, size_t i, char **env, int fd[3])
 		if (cmds[i].fd_out != -1)
 		{
 			dup2(cmds[i].fd_out, 1);
-			close(cmds[i].fd_out);	
+			close(cmds[i].fd_out);
 		}
 		if (is_builtin(cmds[i], env))
 			exit(0);
@@ -226,7 +248,7 @@ void	child_process(t_cmd *cmds, pid_t *p, size_t i, char **env, int fd[3])
 		{
 			execve(cmds[i].path, cmds[i].argv, env);
 			perror("execve");
-			exit(127);//TODO temp exit code
+			exit(127); // TODO temp exit code
 		}
 	}
 	if (fd[2] != -1)
@@ -244,12 +266,12 @@ int	execute(t_cmd *cmds, char **env)
 	if (!p)
 		return (1);
 	i = 0;
-	fd[2] = -1; //TODO i can move it to count_cmds
+	fd[2] = -1; // TODO i can move it to count_cmds
 	fd[1] = -1;
 	fd[0] = -1;
 	path = get_any(env, "PATH");
 	if (!path)
-		return (free(p), 1); //TODO temp solution
+		return (free(p), 1); // TODO temp solution
 	while (cmds[i].argv)
 	{
 		cmds[i].path = find_path(cmds[i].argv[0], path);
@@ -299,4 +321,3 @@ int	is_builtin(t_cmd cmd, char **env)
 		return (7);
 	return (0);
 }
-

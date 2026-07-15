@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/10 23:48:57 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/07/15 19:13:27 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_readline_signal(void)
 /*
 Setup Signal handler
 */
-static void	setup_signals(void)
+void	setup_signals(void)
 {
 	struct sigaction	sa;
 
@@ -70,6 +70,31 @@ t_token	*get_tokens(char *str)
 	return (tokens);
 }
 
+void	free_cmds(t_cmd *cmds)
+{
+	size_t	i;
+
+	if (!cmds)
+		return ;
+	i = 0;
+	// Loop until we hit the null-term cmd
+	while (cmds[i].argv)
+	{
+		// Free the argument pointer array
+		free(cmds[i].argv);
+		// Free the path string
+		if (cmds[i].path)
+			free(cmds[i].path);
+		// Close open file descriptors
+		if (cmds[i].fd_in != -1 && cmds[i].fd_in != STDIN_FILENO)
+			close(cmds[i].fd_in);
+		if (cmds[i].fd_out != -1 && cmds[i].fd_out != STDOUT_FILENO)
+			close(cmds[i].fd_out);
+		i++;
+	}
+	free(cmds);
+}
+
 void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
 {
 	size_t	i;
@@ -79,7 +104,7 @@ void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
 		free(tokens[i++].value);
 	free(tokens);
 	free(str);
-	free(cmds);
+	free_cmds(cmds);
 }
 
 int	main(int argc, char **argv)
@@ -87,6 +112,8 @@ int	main(int argc, char **argv)
 	t_token	*tokens;
 	char	*str;
 	char	**env;
+	t_cmd	*cmds;
+	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -115,18 +142,19 @@ int	main(int argc, char **argv)
 		// Print tokens to verify expansion
 		handle_quotes(tokens);
 		print_tokens(tokens);
-		t_cmd	*cmds = build_cmds(tokens);
+		cmds = build_cmds(tokens);
+		if (!cmds)
+		{
+			i = 0;
+			while (tokens[i].value)
+				free(tokens[i++].value);
+			free(tokens);
+			free(str);
+			continue ;
+		}
 		execute(cmds, env);
-		// TODO: parse_to_commands(tokens);
-		// TODO: execute_commands(cmds);
 		// Clean up
 		clean_up(cmds, tokens, str);
-		//ft_echo((char *[]){"echo", "-nnnnnnnnnnn", "lol", "xd",NULL});
-		//ft_cwd();
-		//ft_env(env);
-		//ft_export(&env, "VAR=lol");
-		//ft_export(&env, NULL);
-		//ft_env(env);
 	}
 	return (rl_clear_history(), 0);
 }
