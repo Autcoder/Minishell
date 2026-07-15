@@ -156,7 +156,7 @@ t_cmd	*build_cmds(t_token *tokens)
 				if (cmds[cmd_i].fd_in == -1)
 				{
 					// here_doc cancelled with Ctrl+C
-					// Free everything allocated
+					// TODO: Free everything allocated
 					return (NULL);
 				}
 			}
