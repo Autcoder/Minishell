@@ -220,11 +220,8 @@ void	child_process(t_cmd *cmds, pid_t *p, size_t i, char **env, int fd[3])
 			dup2(cmds[i].fd_out, 1);
 			close(cmds[i].fd_out);	
 		}
-		if (is_builtin(cmds[i]))
-		{
-			exec_built_in(cmds[i], env);
+		if (is_builtin(cmds[i], env))
 			exit(0);
-		}
 		else
 		{
 			execve(cmds[i].path, cmds[i].argv, env);
@@ -284,34 +281,12 @@ int	execute(t_cmd *cmds, char **env)
 	return (0);
 }
 
-int	exec_built_in(t_cmd cmd, char **env)
-{
-	int	i;
-
-	i = is_builtin(cmd);
-	if (i == 1)
-		ft_echo(cmd.argv);
-	if (i == 2)
-		ft_env(env);
-	if (i == 3)
-		;//ft_cd();
-	if (i == 4)
-		;//ft_export();
-	if (i == 5)
-		;//ft_unset();
-	if (i == 6)
-		ft_cwd();
-	if (i == 7)
-		;//ft_exit(env);
-	return (0);
-}
-
-int	is_builtin(t_cmd cmd)
+int	is_builtin(t_cmd cmd, char **env)
 {
 	if (!ft_strncmp(cmd.argv[0], "echo", 4))
-		return (1);
+		return (ft_echo(cmd.argv), 1);
 	if (!ft_strncmp(cmd.argv[0], "env", 3))
-		return (2);
+		return (ft_env(env), 2);
 	if (!ft_strncmp(cmd.argv[0], "cd", 2))
 		return (3);
 	if (!ft_strncmp(cmd.argv[0], "export", 6))
@@ -319,7 +294,7 @@ int	is_builtin(t_cmd cmd)
 	if (!ft_strncmp(cmd.argv[0], "unset", 5))
 		return (5);
 	if (!ft_strncmp(cmd.argv[0], "pwd", 3))
-		return (6);
+		return (ft_cwd(), 6);
 	if (!ft_strncmp(cmd.argv[0], "exit", 4))
 		return (7);
 	return (0);
