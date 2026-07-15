@@ -61,13 +61,15 @@ size_t	count_words(t_token *tokens, size_t start)
 /*TODO Handle SIgnlas in here_doc so that it reponds on ctrl-c and idk like bash*/
 int	here_doc(char *eof)
 {
-	int		fd[2];
-	pid_t	pid;
-	char	*line;
-	int		status;
+	int				fd[2];
+	pid_t			pid;
+	char			*line;
+	int				status;
+	struct termios	orig_termios;
 
 	if (pipe(fd) == -1)
 		return (-1);
+	tcgetattr(STDIN_FILENO, &orig_termios);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
@@ -102,6 +104,7 @@ int	here_doc(char *eof)
 	}
 	close(fd[1]);
 	waitpid(pid, &status, 0);
+	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 	// Restore normal interactive signals
 	setup_signals();
 	// Check if the child died because of Ctrl+C
