@@ -1,0 +1,191 @@
+[
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/minishell.d",
+   "-c",
+   "minishell.c",
+   "-o",
+   "objs/minishell.o"
+  ],
+  "file": "minishell.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/parser.d",
+   "-c",
+   "parser.c",
+   "-o",
+   "objs/parser.o"
+  ],
+  "file": "parser.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/env_thingie.d",
+   "-c",
+   "env_thingie.c",
+   "-o",
+   "objs/env_thingie.o"
+  ],
+  "file": "env_thingie.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/scan_expand_save.d",
+   "-c",
+   "scan_expand_save.c",
+   "-o",
+   "objs/scan_expand_save.o"
+  ],
+  "file": "scan_expand_save.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/scan_expand_utils.d",
+   "-c",
+   "scan_expand_utils.c",
+   "-o",
+   "objs/scan_expand_utils.o"
+  ],
+  "file": "scan_expand_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/expand_and_quotes.d",
+   "-c",
+   "expand_and_quotes.c",
+   "-o",
+   "objs/expand_and_quotes.o"
+  ],
+  "file": "expand_and_quotes.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/debug_utils.d",
+   "-c",
+   "debug_utils.c",
+   "-o",
+   "objs/debug_utils.o"
+  ],
+  "file": "debug_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/built_ins.d",
+   "-c",
+   "built_ins.c",
+   "-o",
+   "objs/built_ins.o"
+  ],
+  "file": "built_ins.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/execution.d",
+   "-c",
+   "execution.c",
+   "-o",
+   "objs/execution.o"
+  ],
+  "file": "execution.c"
+ }
+]

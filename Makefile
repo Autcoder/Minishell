@@ -63,4 +63,8 @@ fclean:
 
 re: fclean all
 
+urmom:
+	make fclean
+	compiledb -n make
+
 .PHONY: all clean fclean re

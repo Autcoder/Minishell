@@ -91,6 +91,8 @@ char				**parse_env_to_dict(char **environ);
 void				clean_arr(char **env, size_t i);
 /*nuilt ins*/
 
+int					exec_built_in(t_cmd cmd, char **env);
+int					is_builtin(t_cmd cmd);
 int					ft_echo(char **cmd);
 int					ft_cwd(void);
 void				ft_env(char **env);
