@@ -113,7 +113,6 @@ int	main(int argc, char **argv)
 	char	*str;
 	char	**env;
 	t_cmd	*cmds;
-	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -148,6 +147,7 @@ int	main(int argc, char **argv)
 			clean_up(cmds, tokens, str);
 			continue ;
 		}
+		execute(cmds, &env);
 		// Clean up
 		clean_up(cmds, tokens, str);
 	}
