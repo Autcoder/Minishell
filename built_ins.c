@@ -88,12 +88,16 @@ int	ft_cwd(void)
 int	ft_export(char ***env, char *cmd)
 {
 	size_t	i;
+	char	*temp;
 
 	i = 0;
 	if (!cmd)
-		printf("bip boop, UB incoming..\n");
-	else
+		return(printf("bip boop, UB incoming..\n"), 4);
+	temp = ft_strchr(cmd, '=');
+	*temp = '\0';
+	if (!get_any(*env, cmd))
 	{
+		*temp = '=';
 		while ((*env)[i])
 			i++;
 		*env = ft_realloc(*env, sizeof(char *) * i, sizeof(char *) * (i + 2));
@@ -101,6 +105,8 @@ int	ft_export(char ***env, char *cmd)
 			return (1);
 		(*env)[i++] = ft_strdup(cmd);
 		(*env)[i] = NULL;
+		return (4);
 	}
-	return (0);
+	printf("under construction\n");
+	return (4);
 }

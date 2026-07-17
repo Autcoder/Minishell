@@ -220,7 +220,7 @@ size_t	init_fd_and_count(t_cmd *cmds)
 
 // fd[2] = prev fd
 
-void	child_process(t_cmd *cmds, pid_t *p, size_t i, char **env, int fd[3])
+void	child_process(t_cmd *cmds, pid_t *p, size_t i, char ***env, int fd[4])
 {
 	if (!p[i])
 	{
@@ -245,23 +245,26 @@ void	child_process(t_cmd *cmds, pid_t *p, size_t i, char **env, int fd[3])
 			dup2(cmds[i].fd_out, 1);
 			close(cmds[i].fd_out);
 		}
-		if (is_builtin(cmds[i], env))
-			exit(0);
-		else
+		if (!fd[3])
 		{
-			execve(cmds[i].path, cmds[i].argv, env);
+			execve(cmds[i].path, cmds[i].argv, *env);
 			perror("execve");
 			exit(127); // TODO temp exit code
+		}
+		else
+		{
+			run_builtin(cmds[i], env);
+			exit(0);
 		}
 	}
 	if (fd[2] != -1)
 		close(fd[2]);
 }
 
-int	execute(t_cmd *cmds, char **env)
+int	execute(t_cmd *cmds, char ***env)
 {
 	size_t	i;
-	int		fd[3];
+	int		fd[4];
 	pid_t	*p;
 	char	*path;
 
@@ -272,13 +275,21 @@ int	execute(t_cmd *cmds, char **env)
 	fd[2] = -1; // TODO i can move it to count_cmds
 	fd[1] = -1;
 	fd[0] = -1;
-	path = get_any(env, "PATH");
+	path = get_any(*env, "PATH");
 	if (!path)
 		return (free(p), 1); // TODO temp solution
 	while (cmds[i].argv)
 	{
+		if (!cmds[1].argv && is_builtin(cmds[0]))
+		{
+			run_builtin(cmds[i], env);
+			break ;
+		}
+		fd[3] = 0;
+		if (is_builtin(cmds[i]))
+			fd[3] = 1;
 		cmds[i].path = find_path(cmds[i].argv[0], path);
-		if (!cmds[i].path)
+		if (!fd[3] && !cmds[i].path)
 		{
 			(perror(cmds[i].argv[0]), close(fd[0]), close(fd[1]));
 			i++;
@@ -306,21 +317,39 @@ int	execute(t_cmd *cmds, char **env)
 	return (0);
 }
 
-int	is_builtin(t_cmd cmd, char **env)
+int	is_builtin(t_cmd cmd)
 {
-	if (!ft_strncmp(cmd.argv[0], "echo", 4))
-		return (ft_echo(cmd.argv), 1);
-	if (!ft_strncmp(cmd.argv[0], "env", 3))
-		return (ft_env(env), 2);
-	if (!ft_strncmp(cmd.argv[0], "cd", 2))
+	if (!ft_strncmp(cmd.argv[0], "echo", 5))
+		return (1);
+	if (!ft_strncmp(cmd.argv[0], "env", 4))
+		return (2);
+	if (!ft_strncmp(cmd.argv[0], "cd", 3))
 		return (3);
-	if (!ft_strncmp(cmd.argv[0], "export", 6))
-		return (4);
-	if (!ft_strncmp(cmd.argv[0], "unset", 5))
+	if (!ft_strncmp(cmd.argv[0], "export", 7))
+		return (3);
+	if (!ft_strncmp(cmd.argv[0], "unset", 6))
 		return (5);
-	if (!ft_strncmp(cmd.argv[0], "pwd", 3))
+	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
+		return (6);
+	if (!ft_strncmp(cmd.argv[0], "exit", 5))
+		return (7);
+	return (0);
+}
+int	run_builtin(t_cmd cmd, char ***env)
+{
+	if (!ft_strncmp(cmd.argv[0], "echo", 5))
+		return (ft_echo(cmd.argv), 1);
+	if (!ft_strncmp(cmd.argv[0], "env", 4))
+		return (ft_env(*env), 2);
+	if (!ft_strncmp(cmd.argv[0], "cd", 3))
+		return (3);
+	if (!ft_strncmp(cmd.argv[0], "export", 7))
+		return (ft_export(env, cmd.argv[1]));
+	if (!ft_strncmp(cmd.argv[0], "unset", 6))
+		return (5);
+	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
 		return (ft_cwd(), 6);
-	if (!ft_strncmp(cmd.argv[0], "exit", 4))
+	if (!ft_strncmp(cmd.argv[0], "exit", 5))
 		return (7);
 	return (0);
 }

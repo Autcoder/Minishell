@@ -71,7 +71,7 @@ typedef struct s_cmd
 }					t_cmd;
 
 /*exec*/
-int					execute(t_cmd *cmds, char **env);
+int					execute(t_cmd *cmds, char ***env);
 t_cmd				*build_cmds(t_token *tokens);
 
 int					check_unclosed_quotes(char *input);
@@ -92,7 +92,8 @@ void				setup_signals(void);
 void				clean_arr(char **env, size_t i);
 /*nuilt ins*/
 
-int					is_builtin(t_cmd cmd, char **env);
+int					run_builtin(t_cmd cmd, char ***env);
+int					is_builtin(t_cmd cmd);
 int					ft_echo(char **cmd);
 int					ft_cwd(void);
 void				ft_env(char **env);

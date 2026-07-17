@@ -123,7 +123,7 @@ int	main(int argc, char **argv)
 	setup_signals();
 	while (42)
 	{
-		str = readline("minishell> ");
+		str = readline("\033[94m\u250c\033[0m(minishell)\033[94m\n\u2514\033[92m>> \033[0m");
 		if (!str)
 			break ;
 		if (check_unclosed_quotes(str))
@@ -145,14 +145,9 @@ int	main(int argc, char **argv)
 		cmds = build_cmds(tokens);
 		if (!cmds)
 		{
-			i = 0;
-			while (tokens[i].value)
-				free(tokens[i++].value);
-			free(tokens);
-			free(str);
+			clean_up(cmds, tokens, str);
 			continue ;
 		}
-		execute(cmds, env);
 		// Clean up
 		clean_up(cmds, tokens, str);
 	}

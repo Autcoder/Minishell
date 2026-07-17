@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*env - enviroment, path = to find in env
+ * example:
+ * path = "SHELL"*/
 char	*get_any(char *env[], char *path)
 {
 	size_t	i;
