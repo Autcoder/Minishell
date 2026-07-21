@@ -88,6 +88,7 @@ int	ft_cwd(void)
 int	ft_export(char ***env, char *cmd)
 {
 	size_t	i;
+	size_t	old;
 	char	*temp;
 
 	i = 0;
@@ -107,6 +108,14 @@ int	ft_export(char ***env, char *cmd)
 		(*env)[i] = NULL;
 		return (4);
 	}
-	printf("under construction\n");
+	while ((*env)[i] && ft_strncmp((*env)[i], cmd, ft_strlen(cmd)))
+		i++;
+	old = ft_strlen(cmd);
+	*temp = '=';
+	(*env)[i] = ft_realloc((*env)[i], ft_strlen((*env)[i])
+		+ 1, ft_strlen(cmd) + 1);
+	if (!(*env)[i])
+		return (1);
+	ft_strlcpy((*env)[i] + old, cmd + old, ft_strlen(cmd) + 1 - old);
 	return (4);
 }
