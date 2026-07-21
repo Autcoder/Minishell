@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:48:50 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:56:24 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 size_t	scan_dollar(char *str, char **key_list)

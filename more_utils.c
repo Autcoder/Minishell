@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:33:01 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:42:26 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:57:17 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 // execution helper

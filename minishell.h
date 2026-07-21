@@ -6,14 +6,13 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:51:54 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:55:33 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -21,7 +20,6 @@
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>

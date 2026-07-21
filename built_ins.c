@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:18 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:14:18 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:57:01 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 void	ft_env(char **env)

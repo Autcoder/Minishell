@@ -6,11 +6,12 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:34:29 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:34:46 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:57:27 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
 volatile sig_atomic_t	g_sigint = 0;
 

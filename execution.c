@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:50:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:55:40 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 t_cmd	*build_cmds(t_token *tokens)

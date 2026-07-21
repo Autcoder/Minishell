@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:42:28 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:55:58 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 static size_t	is_meta(char c)

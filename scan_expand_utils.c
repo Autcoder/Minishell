@@ -6,11 +6,13 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/23 13:45:45 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 14:08:26 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:56:37 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
+
 /*env - enviroment, path = to find in env
  * example:
  * path = "SHELL"*/

@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:00:03 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:49:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:56:47 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 int	check_unclosed_quotes(char *input)

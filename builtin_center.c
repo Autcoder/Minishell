@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:45:44 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:57:06 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 int	is_builtin(t_cmd cmd)
@@ -53,7 +54,8 @@ int	run_builtin(t_cmd cmd, char ***env)
 static void	print_eof_warning(char *eof)
 {
 	ft_putstr_fd("minishell: warning: here-document "
-		"delimited by end-of-file (wanted '", 2);
+					"delimited by end-of-file (wanted '",
+					2);
 	ft_putstr_fd(eof, 2);
 	ft_putstr_fd("')\n", 2);
 }

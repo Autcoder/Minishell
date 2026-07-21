@@ -6,10 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 14:41:26 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/21 09:25:25 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:56:07 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 void	clean_arr(char **env, size_t i)
