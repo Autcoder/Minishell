@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:18 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:57:01 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 10:20:02 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,24 @@ static int	scan_for_nflag(char *str)
 int	ft_echo(char **cmd)
 {
 	size_t	i;
-	size_t	switcher;
+	int		print_newline;
 
 	i = 1;
-	switcher = 1;
-	if (!cmd[1])
-		write(1, "\n", 1);
-	else
+	print_newline = 1;
+	while (cmd[i] && !scan_for_nflag(cmd[i]))
 	{
-		while (cmd[i])
-		{
-			if (!scan_for_nflag(cmd[i]))
-			{
-				switcher = 0;
-				i++;
-				continue ;
-			}
-			if (cmd[i] && cmd[i + 1])
-			{
-				ft_putstr_fd(cmd[i], 1);
-				write(1, " ", 1);
-			}
-			else if (cmd[i] && !cmd[i + 1])
-				ft_putstr_fd(cmd[i], 1);
-			i++;
-		}
-		if (switcher)
-			write(1, "\n", 1);
+		print_newline = 0;
+		i++;
 	}
+	while (cmd[i])
+	{
+		ft_putstr_fd(cmd[i], 1);
+		if (cmd[i + 1])
+			write(1, " ", 1);
+		i++;
+	}
+	if (print_newline)
+		write(1, "\n", 1);
 	return (0);
 }
 

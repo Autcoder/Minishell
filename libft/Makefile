@@ -29,22 +29,14 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I .
 DEP_DIR = deps
 DEBUG ?= 0
-RED := \033[1;31m
+
+RED   := \033[0;31m
 RESET := \033[0m
 
-define debug_warning
-$(warning $(RED)========================================$(RESET))
-$(warning $(RED)=====!!! DEBUG FLAGS ARE ACTIVE !!!===== $(RESET))
-$(warning $(RED)========================================$(RESET))
-endef
-
 ifeq ($(DEBUG),1)
-CFLAGS += -g
-$(eval $(call debug_warning))
-endif
-ifeq ($(DEBUG),2)
-CFLAGS += -g -fsanitize=address -Wconversion -Wsign-conversion -fsanitize=undefined
-$(eval $(call debug_warning))
+    CFLAGS += -g
+else ifeq ($(DEBUG),2)
+    CFLAGS += -g -fsanitize=address -Wconversion -Wsign-conversion -fsanitize=undefined
 endif
 
 all: $(NAME)

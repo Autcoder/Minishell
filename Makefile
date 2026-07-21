@@ -19,22 +19,26 @@ READLINE_INC = -I/opt/homebrew/opt/readline/include
 
 DEP_DIR = deps
 DEBUG ?= 0
-RED := \033[1;31m
-RESET := \033[0m
 
-define debug_warning
-$(warning $(RED)========================================$(RESET))
-$(warning $(RED)=====!!! DEBUG FLAGS ARE ACTIVE !!!===== $(RESET))
-$(warning $(RED)========================================$(RESET))
-endef
+# Generate a true ASCII escape character for $(info) or echo
+ESC := $(shell printf '\033')
+RED := $(ESC)[0;31m
+RESET := $(ESC)[0m
 
 ifeq ($(DEBUG),1)
-CFLAGS += -g
-$(eval $(call debug_warning))
+    CFLAGS += -g
+else ifeq ($(DEBUG),2)
+    CFLAGS += -g -fsanitize=address -Wconversion -Wsign-conversion -fsanitize=undefined
 endif
-ifeq ($(DEBUG),2)
-CFLAGS += -g -fsanitize=address -Wconversion -Wsign-conversion -fsanitize=undefined
-$(eval $(call debug_warning))
+
+# Print ONLY if DEBUG is active AND we are in the main execution pass
+ifneq ($(filter 1 2,$(DEBUG)),)
+    ifndef DEBUG_PRINTED
+        $(info $(RED)========================================$(RESET))
+        $(info $(RED)=====!!! DEBUG FLAGS ARE ACTIVE !!!=====$(RESET))
+        $(info $(RED)========================================$(RESET))
+        export DEBUG_PRINTED := 1
+    endif
 endif
 
 all: $(NAME)
