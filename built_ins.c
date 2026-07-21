@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/21 09:14:18 by flenski           #+#    #+#             */
+/*   Updated: 2026/07/21 09:14:18 by flenski          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_env(char **env)
@@ -93,7 +105,7 @@ int	ft_export(char ***env, char *cmd)
 
 	i = 0;
 	if (!cmd)
-		return(printf("bip boop, UB incoming..\n"), 4);
+		return (printf("bip boop, UB incoming..\n"), 4);
 	temp = ft_strchr(cmd, '=');
 	*temp = '\0';
 	if (!get_any(*env, cmd))
@@ -112,8 +124,8 @@ int	ft_export(char ***env, char *cmd)
 		i++;
 	old = ft_strlen(cmd);
 	*temp = '=';
-	(*env)[i] = ft_realloc((*env)[i], ft_strlen((*env)[i])
-		+ 1, ft_strlen(cmd) + 1);
+	(*env)[i] = ft_realloc((*env)[i], ft_strlen((*env)[i]) + 1, ft_strlen(cmd)
+			+ 1);
 	if (!(*env)[i])
 		return (1);
 	ft_strlcpy((*env)[i] + old, cmd + old, ft_strlen(cmd) + 1 - old);

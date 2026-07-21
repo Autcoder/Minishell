@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/23 14:10:23 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:42:28 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static void	handle_word(char *input, size_t *i, t_token *token)
 /*
 Compressed lexer Loop (frick norminette)
 */
+/*
 t_token	*lexer(char *input)
 {
 	t_token	*tokens;
@@ -116,6 +117,34 @@ t_token	*lexer(char *input)
 			cap *= 2;
 			tokens = ft_realloc(tokens, old_size, cap * sizeof(t_token));
 		}
+		if (is_meta(input[i]))
+			handle_meta(input, &i, &tokens[t_idx++]);
+		else
+			handle_word(input, &i, &tokens[t_idx++]);
+	}
+	return (tokens[t_idx].value = NULL, tokens);
+}
+*/
+
+t_token	*lexer(char *input)
+{
+	t_token	*tokens;
+	size_t	i;
+	size_t	t_idx;
+	size_t	cap;
+
+	i = 0;
+	t_idx = 0;
+	cap = 16;
+	tokens = malloc(sizeof(t_token) * cap);
+	if (!tokens)
+		return (NULL);
+	while (input[i])
+	{
+		if (input[i] == ' ' && ++i)
+			continue ;
+		if (t_idx >= cap - 1)
+			tokens = expand_tokens_parse(tokens, &cap);
 		if (is_meta(input[i]))
 			handle_meta(input, &i, &tokens[t_idx++]);
 		else

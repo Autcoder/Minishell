@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/15 18:24:56 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:51:54 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-
-// TODO: REMOVE BEFORE FINAL PUSH
-# ifdef __APPLE__
-#  define rl_clear_history clear_history
-# endif
 
 /*
 TOKEN_WORD,         // cat, ls, -l, filename
@@ -77,16 +72,22 @@ t_cmd				*build_cmds(t_token *tokens);
 int					check_unclosed_quotes(char *input);
 void				expand_tokens(t_token *tokens, char **env);
 void				handle_quotes(t_token *tokens);
+int					here_doc(char *eof);
 char				**init_env(void);
 char				*levi(char *str, char **env);
 t_token				*lexer(char *input);
-char				*get_type_name(t_token_type type);
-void				print_tokens(t_token *tokens);
 char				*get_any(char *env[], char *path);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 char				**parse_env_to_dict(char **environ);
 void				setup_signals(void);
+size_t				count_words(t_token *tokens, size_t start);
+size_t				count_cmds(t_token *tokens);
+int					check_access(char *cmd);
+int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
+						size_t cmd_i);
+size_t				init_fd_and_count(t_cmd *cmds);
+t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 
 /*Cleans any ** arrays*/
 void				clean_arr(char **env, size_t i);

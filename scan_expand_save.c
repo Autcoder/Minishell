@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/06/24 11:03:21 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:48:50 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	scan_dollar(char *str, char **key_list)
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	if (i == 0)
-		return ((size_t)-1);
+		return (SIZE_MAX);
 	j = 0;
 	while (key_list[j])
 		j++;
@@ -77,9 +77,11 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	char	*ret;
 	size_t	start;
 	size_t	end;
+	char	c;
 
 	start = *idx;
-	if (!str[start + 1] || (!ft_isalnum(str[start + 1]) && str[start + 1] != '_'))
+	c = str[start + 1];
+	if (!c || (!ft_isalnum(c) && c != '_'))
 	{
 		*idx = start + 1;
 		return (str);
@@ -87,7 +89,6 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	expanded = expand(&str[start + 1], key_list, env);
 	if (!expanded)
 	{
-		// Not a valid variable name, skip this '$' for the next iteration
 		*idx = start + 1;
 		return (str);
 	}
@@ -95,9 +96,7 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	while (str[end] && (ft_isalnum(str[end]) || str[end] == '_'))
 		end++;
 	ret = mesh_tgthr(str, expanded, start, end);
-	free(expanded);
-	// We don't free 'str' here anymore; we let the main levi loop handle it safely!
-	return (ret);
+	return (free(expanded), ret);
 }
 
 char	*levi(char *str, char **env)
@@ -110,19 +109,18 @@ char	*levi(char *str, char **env)
 	key_list = parse_env_to_dict(env);
 	if (!key_list)
 		return (NULL);
-	current = ft_strdup(str); // Duplicate upfront so we always own the memory
+	current = ft_strdup(str);
 	if (!current)
 		return (free_ptr_array((void **)key_list), NULL);
 	idx = 0;
 	while (current && current[idx])
 	{
-		// Find the next '$'
 		if (current[idx] == '$')
 		{
 			next = levi_helper(current, &idx, key_list, env);
-			if (next != current) // If a replacement actually happened
+			if (next != current)
 			{
-				free(current); // Safely free the old string layer
+				free(current);
 				current = next;
 			}
 			if (!current)
@@ -131,6 +129,5 @@ char	*levi(char *str, char **env)
 		else
 			idx++;
 	}
-	free_ptr_array((void **)key_list);
-	return (current);
+	return (free_ptr_array((void **)key_list), current);
 }

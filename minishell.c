@@ -6,54 +6,11 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/15 19:13:27 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 09:50:59 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	g_sigint = 0;
-
-/*
-Signal handler for SIGINT
-*/
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	g_sigint = 1;
-}
-
-/*
-Signal handler for readline
-*/
-int	check_readline_signal(void)
-{
-	if (g_sigint)
-	{
-		g_sigint = 0;
-		write(STDOUT_FILENO, "^C\n", 3);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	return (0);
-}
-
-/*
-Setup Signal handler
-*/
-void	setup_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = handle_sigint;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
-	rl_catch_signals = 0;
-	rl_event_hook = check_readline_signal;
-}
 
 t_token	*get_tokens(char *str)
 {
@@ -77,15 +34,11 @@ void	free_cmds(t_cmd *cmds)
 	if (!cmds)
 		return ;
 	i = 0;
-	// Loop until we hit the null-term cmd
 	while (cmds[i].argv)
 	{
-		// Free the argument pointer array
 		free(cmds[i].argv);
-		// Free the path string
 		if (cmds[i].path)
 			free(cmds[i].path);
-		// Close open file descriptors
 		if (cmds[i].fd_in != -1 && cmds[i].fd_in != STDIN_FILENO)
 			close(cmds[i].fd_in);
 		if (cmds[i].fd_out != -1 && cmds[i].fd_out != STDOUT_FILENO)
@@ -122,7 +75,7 @@ int	main(int argc, char **argv)
 	setup_signals();
 	while (42)
 	{
-		str = readline("\033[94m\u250c\033[0m(minishell)\033[94m\n\u2514\033[92m>> \033[0m");
+		str = readline("minishell> ");
 		if (!str)
 			break ;
 		if (check_unclosed_quotes(str))
@@ -130,7 +83,6 @@ int	main(int argc, char **argv)
 			free(str);
 			continue ;
 		}
-		// Tokenize the raw string
 		tokens = get_tokens(str);
 		if (!tokens)
 			continue ;
@@ -138,9 +90,7 @@ int	main(int argc, char **argv)
 		if (tokens[0].value && ft_strncmp(tokens[0].value, "exit", 4) == 0)
 			break ;
 		expand_tokens(tokens, env);
-		// Print tokens to verify expansion
 		handle_quotes(tokens);
-		print_tokens(tokens);
 		cmds = build_cmds(tokens);
 		if (!cmds)
 		{
@@ -148,7 +98,6 @@ int	main(int argc, char **argv)
 			continue ;
 		}
 		execute(cmds, &env);
-		// Clean up
 		clean_up(cmds, tokens, str);
 	}
 	return (rl_clear_history(), 0);

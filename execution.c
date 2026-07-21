@@ -1,122 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
+/*   Updated: 2026/07/21 09:50:33 by flenski          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-size_t	count_words(t_token *tokens, size_t start);
-
-int	init_cmds(t_cmd *cmds, t_token *tokens, size_t i, size_t cmd_i)
-{
-	size_t	words;
-
-	words = count_words(tokens, i);
-	cmds[cmd_i].argv = malloc(sizeof(char *) * (words + 1));
-	if (!cmds[cmd_i].argv)
-		return (1);
-	cmds[cmd_i].path = NULL;
-	cmds[cmd_i].fd_in = -1;
-	cmds[cmd_i].fd_out = -1;
-	return (0);
-}
-/*Checks if path is available to execute, 0 == Gut, 1 == Bad*/
-int	check_access(char *cmd)
-{
-	if (access(cmd, X_OK) == 0)
-		return (0);
-	else if (access(cmd, X_OK) == -1 && errno == EACCES)
-		return (1);
-	else if (access(cmd, X_OK) == -1 && errno == ENOENT)
-		return (2);
-	return (42);
-}
-
-size_t	count_cmds(t_token *tokens)
-{
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 1;
-	while (tokens[i].value)
-	{
-		if (tokens[i].type == TOKEN_PIPE)
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-size_t	count_words(t_token *tokens, size_t start)
-{
-	size_t	i;
-	size_t	count;
-
-	i = start;
-	count = 0;
-	while (tokens[i].value && tokens[i].type != TOKEN_PIPE)
-	{
-		if (tokens[i].type == TOKEN_WORD)
-			count++;
-		i++;
-	}
-	return (count);
-}
-/*TODO Handle SIgnlas in here_doc so that it reponds on ctrl-c and idk like bash*/
-int	here_doc(char *eof)
-{
-	int				fd[2];
-	pid_t			pid;
-	char			*line;
-	int				status;
-	struct termios	orig_termios;
-
-	if (pipe(fd) == -1)
-		return (-1);
-	tcgetattr(STDIN_FILENO, &orig_termios);
-	signal(SIGINT, SIG_IGN);
-	pid = fork();
-	if (pid == -1)
-		return (close(fd[0]), close(fd[1]), -1);
-	if (!pid)
-	{
-		signal(SIGINT, SIG_DFL);
-		close(fd[0]);
-		while (42)
-		{
-			line = readline("> ");
-			if (!line)
-			{
-				// Ctrl+D -> print Bash warning
-				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted '",
-					2);
-				ft_putstr_fd(eof, 2);
-				ft_putstr_fd("')\n", 2);
-				break ;
-			}
-			if (!ft_strncmp(line, eof, ft_strlen(eof) + 1))
-			{
-				free(line);
-				break ;
-			}
-			write(fd[1], line, ft_strlen(line));
-			write(fd[1], "\n", 1);
-			free(line);
-		}
-		close(fd[1]);
-		exit(0);
-	}
-	close(fd[1]);
-	waitpid(pid, &status, 0);
-	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
-	// Restore normal interactive signals
-	setup_signals();
-	// Check if the child died because of Ctrl+C
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		close(fd[0]);
-		// Return -1 to tell build_cmds that the here_doc was aborted
-		return (-1);
-	}
-	return (fd[0]);
-}
 
 t_cmd	*build_cmds(t_token *tokens)
 {
@@ -143,7 +37,7 @@ t_cmd	*build_cmds(t_token *tokens)
 				cmds[cmd_i].argv[j++] = tokens[i].value;
 			else if (tokens[i].type == TOKEN_REDIRECT_IN)
 				cmds[cmd_i].fd_in = open(tokens[++i].value, O_RDONLY);
-			/*TODO Check if open fails and trow perror;*/
+			/*TODO: Check if open fails and trow perror;*/
 			else if (tokens[i].type == TOKEN_REDIRECT_OUT)
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -208,18 +102,8 @@ char	*find_path(char *to_find, char *path1)
 	return (NULL);
 }
 
-size_t	init_fd_and_count(t_cmd *cmds)
-{
-	size_t	i;
-
-	i = 0;
-	while (cmds[i].argv)
-		i++;
-	return (i);
-}
-
+// TODO: Put your helpers for this into more_utils.c please.
 // fd[2] = prev fd
-
 void	child_process(t_cmd *cmds, pid_t *p, size_t i, char ***env, int fd[4])
 {
 	if (!p[i])
@@ -249,7 +133,7 @@ void	child_process(t_cmd *cmds, pid_t *p, size_t i, char ***env, int fd[4])
 		{
 			execve(cmds[i].path, cmds[i].argv, *env);
 			perror("execve");
-			exit(127); // TODO temp exit code
+			exit(127); // TODO: temp exit code
 		}
 		else
 		{
@@ -272,12 +156,12 @@ int	execute(t_cmd *cmds, char ***env)
 	if (!p)
 		return (1);
 	i = 0;
-	fd[2] = -1; // TODO i can move it to count_cmds
+	fd[2] = -1; // TODO: i can move it to count_cmds
 	fd[1] = -1;
 	fd[0] = -1;
 	path = get_any(*env, "PATH");
 	if (!path)
-		return (free(p), 1); // TODO temp solution
+		return (free(p), 1); // TODO: temp solution
 	while (cmds[i].argv)
 	{
 		if (!cmds[1].argv && is_builtin(cmds[0]))
@@ -314,42 +198,5 @@ int	execute(t_cmd *cmds, char ***env)
 	while (cmds[i].argv)
 		waitpid(p[i++], NULL, 0);
 	free(p);
-	return (0);
-}
-
-int	is_builtin(t_cmd cmd)
-{
-	if (!ft_strncmp(cmd.argv[0], "echo", 5))
-		return (1);
-	if (!ft_strncmp(cmd.argv[0], "env", 4))
-		return (2);
-	if (!ft_strncmp(cmd.argv[0], "cd", 3))
-		return (3);
-	if (!ft_strncmp(cmd.argv[0], "export", 7))
-		return (3);
-	if (!ft_strncmp(cmd.argv[0], "unset", 6))
-		return (5);
-	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
-		return (6);
-	if (!ft_strncmp(cmd.argv[0], "exit", 5))
-		return (7);
-	return (0);
-}
-int	run_builtin(t_cmd cmd, char ***env)
-{
-	if (!ft_strncmp(cmd.argv[0], "echo", 5))
-		return (ft_echo(cmd.argv), 1);
-	if (!ft_strncmp(cmd.argv[0], "env", 4))
-		return (ft_env(*env), 2);
-	if (!ft_strncmp(cmd.argv[0], "cd", 3))
-		return (3);
-	if (!ft_strncmp(cmd.argv[0], "export", 7))
-		return (ft_export(env, cmd.argv[1]));
-	if (!ft_strncmp(cmd.argv[0], "unset", 6))
-		return (5);
-	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
-		return (ft_cwd(), 6);
-	if (!ft_strncmp(cmd.argv[0], "exit", 5))
-		return (7);
 	return (0);
 }
