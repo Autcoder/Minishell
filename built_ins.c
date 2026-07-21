@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:18 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 10:20:02 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 13:18:32 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,39 +86,4 @@ int	ft_cwd(void)
 	write(1, "\n", 1);
 	free(cwd);
 	return (0);
-}
-
-int	ft_export(char ***env, char *cmd)
-{
-	size_t	i;
-	size_t	old;
-	char	*temp;
-
-	i = 0;
-	if (!cmd)
-		return (printf("bip boop, UB incoming..\n"), 4);
-	temp = ft_strchr(cmd, '=');
-	*temp = '\0';
-	if (!get_any(*env, cmd))
-	{
-		*temp = '=';
-		while ((*env)[i])
-			i++;
-		*env = ft_realloc(*env, sizeof(char *) * i, sizeof(char *) * (i + 2));
-		if (!(*env))
-			return (1);
-		(*env)[i++] = ft_strdup(cmd);
-		(*env)[i] = NULL;
-		return (4);
-	}
-	while ((*env)[i] && ft_strncmp((*env)[i], cmd, ft_strlen(cmd)))
-		i++;
-	old = ft_strlen(cmd);
-	*temp = '=';
-	(*env)[i] = ft_realloc((*env)[i], ft_strlen((*env)[i]) + 1, ft_strlen(cmd)
-			+ 1);
-	if (!(*env)[i])
-		return (1);
-	ft_strlcpy((*env)[i] + old, cmd + old, ft_strlen(cmd) + 1 - old);
-	return (4);
 }

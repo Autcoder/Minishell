@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:33:01 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:57:17 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 13:28:32 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,20 @@ t_token	*expand_tokens_parse(t_token *tokens, size_t *cap)
 			* sizeof(t_token));
 	*cap *= 2;
 	return (new_tokens);
+}
+
+// input helper
+t_token	*get_tokens(char *str)
+{
+	t_token	*tokens;
+
+	if (*str)
+		add_history(str);
+	tokens = lexer(str);
+	if (!tokens)
+	{
+		free(str);
+		return (NULL);
+	}
+	return (tokens);
 }

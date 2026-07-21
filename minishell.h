@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:55:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 13:31:42 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,31 @@ typedef struct s_cmd
 int					execute(t_cmd *cmds, char ***env);
 t_cmd				*build_cmds(t_token *tokens);
 
+int					check_access(char *cmd);
 int					check_unclosed_quotes(char *input);
+/* Clean partially full arrays */
+/* For full arrays we have free_ptr_arrays anyways no? */
+void				clean_arr(char **env, size_t i);
+size_t				count_cmds(t_token *tokens);
+size_t				count_words(t_token *tokens, size_t start);
 void				expand_tokens(t_token *tokens, char **env);
+t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
+char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
+char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 void				handle_quotes(t_token *tokens);
 int					here_doc(char *eof);
+int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
+						size_t cmd_i);
 char				**init_env(void);
+size_t				init_fd_and_count(t_cmd *cmds);
 char				*levi(char *str, char **env);
 t_token				*lexer(char *input);
 char				*get_any(char *env[], char *path);
-char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
-char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
+t_token				*get_tokens(char *str);
 char				**parse_env_to_dict(char **environ);
 void				setup_signals(void);
-size_t				count_words(t_token *tokens, size_t start);
-size_t				count_cmds(t_token *tokens);
-int					check_access(char *cmd);
-int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
-						size_t cmd_i);
-size_t				init_fd_and_count(t_cmd *cmds);
-t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 
-/*Cleans any ** arrays*/
-void				clean_arr(char **env, size_t i);
-/*nuilt ins*/
-
+/*built ins*/
 int					run_builtin(t_cmd cmd, char ***env);
 int					is_builtin(t_cmd cmd);
 int					ft_echo(char **cmd);

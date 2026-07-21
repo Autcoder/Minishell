@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:56:24 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 13:25:02 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,32 +103,26 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 char	*levi(char *str, char **env)
 {
 	char	**key_list;
-	char	*current;
+	char	*cur;
 	char	*next;
-	size_t	idx;
+	size_t	i;
 
 	key_list = parse_env_to_dict(env);
-	if (!key_list)
-		return (NULL);
-	current = ft_strdup(str);
-	if (!current)
-		return (free_ptr_array((void **)key_list), NULL);
-	idx = 0;
-	while (current && current[idx])
+	cur = ft_strdup(str);
+	if (!key_list || !cur)
+		return (free_ptr_array((void **)key_list), free(cur), NULL);
+	i = 0;
+	while (cur && cur[i])
 	{
-		if (current[idx] == '$')
+		if (cur[i] == '$')
 		{
-			next = levi_helper(current, &idx, key_list, env);
-			if (next != current)
-			{
-				free(current);
-				current = next;
-			}
-			if (!current)
-				break ;
+			next = levi_helper(cur, &i, key_list, env);
+			if (next != cur)
+				free(cur);
+			cur = next;
 		}
 		else
-			idx++;
+			i++;
 	}
-	return (free_ptr_array((void **)key_list), current);
+	return (free_ptr_array((void **)key_list), cur);
 }

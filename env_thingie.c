@@ -6,20 +6,29 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 14:41:26 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/21 09:56:07 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 13:35:47 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
+/*
+Changed a lil cause if malloc failed on env[0],
+while loop would've been skipped,
+it would have executed	free(env[0]),
+which is unitilized garbage and kabumm
+*/
 void	clean_arr(char **env, size_t i)
 {
-	while (i)
-		free(env[i--]);
-	free(env[i]);
+	if (!env)
+		return ;
+	while (i > 0)
+	{
+		i--;
+		free(env[i]);
+	}
 	free(env);
-	env = NULL;
 }
 
 char	**init_env(void)

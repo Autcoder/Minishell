@@ -6,27 +6,12 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/21 09:55:44 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/21 13:28:16 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-t_token	*get_tokens(char *str)
-{
-	t_token	*tokens;
-
-	if (*str)
-		add_history(str);
-	tokens = lexer(str);
-	if (!tokens)
-	{
-		free(str);
-		return (NULL);
-	}
-	return (tokens);
-}
 
 void	free_cmds(t_cmd *cmds)
 {
@@ -61,45 +46,56 @@ void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
 	free_cmds(cmds);
 }
 
-int	main(int argc, char **argv)
+static int	init_shell(char ***env)
+{
+	*env = init_env();
+	if (!*env)
+		return (1);
+	setup_signals();
+	return (0);
+}
+
+static void	process_input(char *str, char ***env)
 {
 	t_token	*tokens;
+	t_cmd	*cmds;
+
+	if (check_unclosed_quotes(str))
+		return (free(str));
+	tokens = get_tokens(str);
+	if (!tokens)
+		return (free(str));
+	expand_tokens(tokens, *env);
+	handle_quotes(tokens);
+	cmds = build_cmds(tokens);
+	if (!cmds)
+	{
+		clean_up(cmds, tokens, str);
+		return ;
+	}
+	execute(cmds, env);
+	clean_up(cmds, tokens, str);
+}
+
+int	main(int argc, char **argv)
+{
 	char	*str;
 	char	**env;
-	t_cmd	*cmds;
 
 	(void)argc;
 	(void)argv;
-	env = init_env();
-	if (!env)
+	if (init_shell(&env))
 		return (1);
-	setup_signals();
 	while (42)
 	{
 		str = readline("minishell> ");
 		if (!str)
 			break ;
-		if (check_unclosed_quotes(str))
-		{
-			free(str);
-			continue ;
-		}
-		tokens = get_tokens(str);
-		if (!tokens)
-			continue ;
-		// TODO: Remove once exit is implemented
-		if (tokens[0].value && ft_strncmp(tokens[0].value, "exit", 4) == 0)
-			break ;
-		expand_tokens(tokens, env);
-		handle_quotes(tokens);
-		cmds = build_cmds(tokens);
-		if (!cmds)
-		{
-			clean_up(cmds, tokens, str);
-			continue ;
-		}
-		execute(cmds, &env);
-		clean_up(cmds, tokens, str);
+		if (*str)
+			add_history(str);
+		process_input(str, &env);
 	}
-	return (rl_clear_history(), 0);
+	rl_clear_history();
+	free_ptr_array((void **)env);
+	return (0);
 }
