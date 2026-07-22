@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 13:17:47 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/22 07:15:10 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,40 +105,40 @@ char	*find_path(char *to_find, char *path1)
 
 // TODO: Put your helpers for this into more_utils.c please.
 // fd[2] = prev fd
-void	child_process(t_cmd *cmds, pid_t *p, size_t i, char ***env, int fd[4])
+void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 {
-	if (!p[i])
+	if (!p[fd[4]])
 	{
 		if (fd[2] != -1)
 		{
 			dup2(fd[2], 0);
 			close(fd[2]);
 		}
-		if (cmds[i + 1].argv)
+		if (cmds[fd[4] + 1].argv)
 		{
 			dup2(fd[1], 1);
 			close(fd[1]);
 			close(fd[0]);
 		}
-		if (cmds[i].fd_in != -1)
+		if (cmds[fd[4]].fd_in != -1)
 		{
-			dup2(cmds[i].fd_in, 0);
-			close(cmds[i].fd_in);
+			dup2(cmds[fd[4]].fd_in, 0);
+			close(cmds[fd[4]].fd_in);
 		}
-		if (cmds[i].fd_out != -1)
+		if (cmds[fd[4]].fd_out != -1)
 		{
-			dup2(cmds[i].fd_out, 1);
-			close(cmds[i].fd_out);
+			dup2(cmds[fd[4]].fd_out, 1);
+			close(cmds[fd[4]].fd_out);
 		}
 		if (!fd[3])
 		{
-			execve(cmds[i].path, cmds[i].argv, *env);
+			execve(cmds[fd[4]].path, cmds[fd[4]].argv, *env);
 			perror("execve");
 			exit(127); // TODO: temp exit code
 		}
 		else
 		{
-			run_builtin(cmds[i], env);
+			run_builtin(cmds[fd[4]], env);
 			exit(0);
 		}
 	}
@@ -148,8 +148,8 @@ void	child_process(t_cmd *cmds, pid_t *p, size_t i, char ***env, int fd[4])
 
 int	execute(t_cmd *cmds, char ***env)
 {
-	size_t	i;
-	int		fd[4];
+	int		i;
+	int		fd[5];
 	pid_t	*p;
 	char	*path;
 
@@ -183,7 +183,8 @@ int	execute(t_cmd *cmds, char ***env)
 		if (cmds[i + 1].argv)
 			pipe(fd);
 		p[i] = fork();
-		child_process(cmds, p, i, env, fd);
+		fd[4] = i;
+		child_process(cmds, p, env, fd);
 		if (cmds[i + 1].argv)
 		{
 			fd[2] = fd[0];
