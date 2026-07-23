@@ -69,7 +69,10 @@ t_cmd				*build_cmds(t_token *tokens);
 
 int					check_access(char *cmd);
 int					check_unclosed_quotes(char *input);
+/*Close fd's*/
+void				close_fd(int fd0, int fd1, int fd2, int fd3);
 /* Clean partially full arrays */
+void				clean_split(char **split);
 /* For full arrays we have free_ptr_arrays anyways no? */
 void				clean_arr(char **env, size_t i);
 size_t				count_cmds(t_token *tokens);
@@ -83,7 +86,7 @@ int					here_doc(char *eof);
 int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
 						size_t cmd_i);
 char				**init_env(void);
-size_t				init_fd_and_count(t_cmd *cmds);
+size_t				init_fd_and_count(t_cmd *cmds, int fd[5]);
 char				*levi(char *str, char **env);
 t_token				*lexer(char *input);
 char				*get_any(char *env[], char *path);

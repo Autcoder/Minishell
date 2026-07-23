@@ -84,23 +84,22 @@ char	*find_path(char *to_find, char *path1)
 		return (NULL);
 	arg = ft_strjoin("/", to_find);
 	if (!arg)
-		return (/*CleanUp path*/ NULL);
+		return (clean_split(path), NULL);
 	i = 0;
 	while (path[i])
 	{
 		str = ft_strjoin(path[i++], arg);
 		if (!str)
-			return (/*CleanUp path*/ free(arg), NULL);
+			return (clean_split(path), free(arg), NULL);
 		if (!check_access(str))
-			return (/*CleanUp*/ free(arg), str);
+			return (clean_split(path), free(arg), str);
 		else if (check_access(str) == 1)
-			return (/*CleanUp*/ NULL);
+			return (clean_split(path), free(arg), NULL);
 		//		else if (check_access(str) == 2)
 		//			return (NULL);
 		free(str);
 	}
-	/*clean_up*/
-	return (NULL);
+	return ((clean_split(path), free(arg)), NULL);
 }
 
 // TODO: Put your helpers for this into more_utils.c please.
@@ -153,13 +152,10 @@ int	execute(t_cmd *cmds, char ***env)
 	pid_t	*p;
 	char	*path;
 
-	p = malloc(sizeof(pid_t) * init_fd_and_count(cmds));
+	p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, fd));
 	if (!p)
 		return (1);
 	i = 0;
-	fd[2] = -1; // TODO: i can move it to count_cmds
-	fd[1] = -1;
-	fd[0] = -1;
 	path = get_any(*env, "PATH");
 	if (!path)
 		return (free(p), 1); // TODO: temp solution
@@ -176,8 +172,8 @@ int	execute(t_cmd *cmds, char ***env)
 		cmds[i].path = find_path(cmds[i].argv[0], path);
 		if (!fd[3] && !cmds[i].path)
 		{
-			(perror(cmds[i].argv[0]), close(fd[0]), close(fd[1]));
-			i++;
+			perror(cmds[i++].argv[0]);
+			close_fd(fd[0], fd[1], -1, -1);
 			continue ;
 		}
 		if (cmds[i + 1].argv)
@@ -192,10 +188,7 @@ int	execute(t_cmd *cmds, char ***env)
 		}
 		i++;
 	}
-	if (fd[0] != -1)
-		close(fd[0]);
-	if (fd[2] != -1)
-		close(fd[2]);
+	close_fd(fd[0], -1, fd[2], -1);
 	i = 0;
 	while (cmds[i].argv)
 		waitpid(p[i++], NULL, 0);

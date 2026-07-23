@@ -138,27 +138,6 @@
    "-MMD",
    "-MP",
    "-MF",
-   "deps/debug_utils.d",
-   "-c",
-   "debug_utils.c",
-   "-o",
-   "objs/debug_utils.o"
-  ],
-  "file": "debug_utils.c"
- },
- {
-  "directory": "/home/luin/42/CC/Minishell",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-I.",
-   "-I./libft",
-   "-I/opt/homebrew/opt/readline/include",
-   "-MMD",
-   "-MP",
-   "-MF",
    "deps/built_ins.d",
    "-c",
    "built_ins.c",
@@ -187,5 +166,110 @@
    "objs/execution.o"
   ],
   "file": "execution.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/builtin_center.d",
+   "-c",
+   "builtin_center.c",
+   "-o",
+   "objs/builtin_center.o"
+  ],
+  "file": "builtin_center.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/execution_utils.d",
+   "-c",
+   "execution_utils.c",
+   "-o",
+   "objs/execution_utils.o"
+  ],
+  "file": "execution_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/more_utils.d",
+   "-c",
+   "more_utils.c",
+   "-o",
+   "objs/more_utils.o"
+  ],
+  "file": "more_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/signals.d",
+   "-c",
+   "signals.c",
+   "-o",
+   "objs/signals.o"
+  ],
+  "file": "signals.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/export.d",
+   "-c",
+   "export.c",
+   "-o",
+   "objs/export.o"
+  ],
+  "file": "export.c"
  }
 ]

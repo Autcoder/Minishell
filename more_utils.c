@@ -14,13 +14,16 @@
 #include "minishell.h"
 
 // execution helper
-size_t	init_fd_and_count(t_cmd *cmds)
+size_t	init_fd_and_count(t_cmd *cmds, int fd[5])
 {
 	size_t	i;
 
 	i = 0;
 	while (cmds[i].argv)
 		i++;
+	fd[2] = -1;
+	fd[1] = -1;
+	fd[0] = -1;
 	return (i);
 }
 
@@ -49,4 +52,28 @@ t_token	*get_tokens(char *str)
 		return (NULL);
 	}
 	return (tokens);
+}
+
+void	clean_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+
+//Checks fd's if they are not -1 and closes them
+//just pass the fd as specified
+void	close_fd(int fd0, int fd1, int fd2, int fd3)
+{
+	if (fd0 != -1)
+		close(fd0);
+	if (fd1 != -1)
+		close(fd1);
+	if (fd2 != -1)
+		close(fd2);
+	if (fd3 != -1)
+		close(fd3);
 }
