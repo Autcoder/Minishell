@@ -77,7 +77,7 @@ void				clean_split(char **split);
 void				clean_arr(char **env, size_t i);
 size_t				count_cmds(t_token *tokens);
 size_t				count_words(t_token *tokens, size_t start);
-void				expand_tokens(t_token *tokens, char **env);
+void				expand_tokens(t_token *tokens, char **env, int status_code);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
@@ -87,7 +87,7 @@ int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
 						size_t cmd_i);
 char				**init_env(void);
 size_t				init_fd_and_count(t_cmd *cmds, int fd[5]);
-char				*levi(char *str, char **env);
+char				*levi(char *str, char **env, int status_code);
 t_token				*lexer(char *input);
 char				*get_any(char *env[], char *path);
 t_token				*get_tokens(char *str);

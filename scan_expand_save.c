@@ -100,7 +100,20 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	return (free(expanded), ret);
 }
 
-char	*levi(char *str, char **env)
+char	*handle_status_code(char *cur, size_t i, int status_code)
+{
+	char	*status;
+	char	*ret;
+
+	status = ft_itoa(status_code);
+	if (!status)
+		return (NULL);
+	ret = mesh_tgthr(cur, status, i, i + 2);
+	free(status);
+	return (ret);
+}
+
+char	*levi(char *str, char **env, int status_code)
 {
 	char	**key_list;
 	char	*cur;
@@ -116,10 +129,21 @@ char	*levi(char *str, char **env)
 	{
 		if (cur[i] == '$')
 		{
-			next = levi_helper(cur, &i, key_list, env);
-			if (next != cur)
-				free(cur);
-			cur = next;
+			if (cur[i + 1] && cur[i + 1] == '?')
+			{
+				next = handle_status_code(cur, i, status_code);
+ 				if (next != cur)
+					free(cur);
+				cur = next;
+				i = 0;
+			}
+			else
+			{
+				next = levi_helper(cur, &i, key_list, env);
+				if (next != cur)
+					free(cur);
+				cur = next;
+			}
 		}
 		else
 			i++;

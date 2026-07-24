@@ -31,7 +31,7 @@ int	is_builtin(t_cmd cmd)
 		return (7);
 	return (0);
 }
-
+/*TODO make the return values meningfull*/
 int	run_builtin(t_cmd cmd, char ***env)
 {
 	if (!ft_strncmp(cmd.argv[0], "echo", 5))

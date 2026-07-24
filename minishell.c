@@ -55,37 +55,40 @@ static int	init_shell(char ***env)
 	return (0);
 }
 
-static void	process_input(char *str, char ***env)
+static int	process_input(char *str, char ***env, int status_code)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
 
 	if (check_unclosed_quotes(str))
-		return (free(str));
+		return (free(str), 1);
 	tokens = get_tokens(str);
 	if (!tokens)
-		return (free(str));
-	expand_tokens(tokens, *env);
+		return (free(str), 1);
+	expand_tokens(tokens, *env, status_code);
 	handle_quotes(tokens);
 	cmds = build_cmds(tokens);
 	if (!cmds)
 	{
 		clean_up(cmds, tokens, str);
-		return ;
+		return (1);
 	}
-	execute(cmds, env);
+	status_code = execute(cmds, env);
 	clean_up(cmds, tokens, str);
+	return (status_code);
 }
 
 int	main(int argc, char **argv)
 {
 	char	*str;
 	char	**env;
+	int		status_code;
 
 	(void)argc;
 	(void)argv;
 	if (init_shell(&env))
 		return (1);
+	status_code = 0;
 	while (42)
 	{
 		str = readline("minishell> ");
@@ -93,7 +96,7 @@ int	main(int argc, char **argv)
 			break ;
 		if (*str)
 			add_history(str);
-		process_input(str, &env);
+		status_code = process_input(str, &env, status_code);
 	}
 	rl_clear_history();
 	free_ptr_array((void **)env);

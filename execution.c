@@ -145,6 +145,35 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 		close(fd[2]);
 }
 
+int	wait_helper(t_cmd *cmds, pid_t *p)
+{
+	int	i;
+	int	status;
+	int	status_code;
+
+	i = 0;
+	status_code = 0;
+	while (cmds[i].argv)
+	{
+		if (p[i] == -1)
+		{
+			i++;
+			status_code = 127;
+			continue ;
+		}
+		if (waitpid(p[i], &status, 0) != -1)
+		{
+			if (WIFEXITED(status))
+				status_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				status_code = 128 + WTERMSIG(status);
+		}
+		i++;
+	}
+	free(p);
+	return (status_code);
+}
+
 int	execute(t_cmd *cmds, char ***env)
 {
 	int		i;
@@ -163,8 +192,9 @@ int	execute(t_cmd *cmds, char ***env)
 	{
 		if (!cmds[1].argv && is_builtin(cmds[0]))
 		{
-			run_builtin(cmds[i], env);
-			break ;
+			fd[4] = run_builtin(cmds[i], env);
+			free(p);
+			return (fd[4]);
 		}
 		fd[3] = 0;
 		if (is_builtin(cmds[i]))
@@ -172,7 +202,9 @@ int	execute(t_cmd *cmds, char ***env)
 		cmds[i].path = find_path(cmds[i].argv[0], path);
 		if (!fd[3] && !cmds[i].path)
 		{
-			perror(cmds[i++].argv[0]);
+			ft_putstr_fd(cmds[i].argv[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			p[i++] = -1;
 			close_fd(fd[0], fd[1], -1, -1);
 			continue ;
 		}
@@ -189,9 +221,5 @@ int	execute(t_cmd *cmds, char ***env)
 		i++;
 	}
 	close_fd(fd[0], -1, fd[2], -1);
-	i = 0;
-	while (cmds[i].argv)
-		waitpid(p[i++], NULL, 0);
-	free(p);
-	return (0);
+	return (wait_helper(cmds, p));
 }

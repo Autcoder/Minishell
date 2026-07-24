@@ -41,7 +41,7 @@ int	check_unclosed_quotes(char *input)
 	return (0);
 }
 
-void	expand_tokens(t_token *tokens, char **env)
+void	expand_tokens(t_token *tokens, char **env, int status_code)
 {
 	int		i;
 	char	*ret;
@@ -51,7 +51,7 @@ void	expand_tokens(t_token *tokens, char **env)
 	{
 		if (tokens[i].type == TOKEN_WORD && tokens[i].value[0] != '\'')
 		{
-			ret = levi(tokens[i].value, env);
+			ret = levi(tokens[i].value, env, status_code);
 			if (ret)
 			{
 				free(tokens[i].value);
