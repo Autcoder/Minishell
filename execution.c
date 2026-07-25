@@ -131,6 +131,8 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 		}
 		if (!fd[3])
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			execve(cmds[fd[4]].path, cmds[fd[4]].argv, *env);
 			perror("execve");
 			exit(127); // TODO: temp exit code
@@ -161,13 +163,13 @@ int	wait_helper(t_cmd *cmds, pid_t *p)
 			status_code = 127;
 			continue ;
 		}
-		if (waitpid(p[i], &status, 0) != -1)
-		{
-			if (WIFEXITED(status))
-				status_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				status_code = 128 + WTERMSIG(status);
-		}
+		while (waitpid(p[i], &status, 0) == -1)
+			if (errno != EINTR)
+				break ;
+		if (WIFEXITED(status))
+			status_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			status_code = 128 + WTERMSIG(status);
 		i++;
 	}
 	free(p);
@@ -188,6 +190,7 @@ int	execute(t_cmd *cmds, char ***env)
 	path = get_any(*env, "PATH");
 	if (!path)
 		return (free(p), 1); // TODO: temp solution
+	signal(SIGINT, SIG_IGN);
 	while (cmds[i].argv)
 	{
 		if (!cmds[1].argv && is_builtin(cmds[0]))
@@ -221,5 +224,5 @@ int	execute(t_cmd *cmds, char ***env)
 		i++;
 	}
 	close_fd(fd[0], -1, fd[2], -1);
-	return (wait_helper(cmds, p));
+	return (fd[4] = wait_helper(cmds, p), setup_signals(), fd[4]);
 }
