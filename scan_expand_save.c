@@ -132,10 +132,10 @@ char	*levi(char *str, char **env, int status_code)
 			if (cur[i + 1] && cur[i + 1] == '?')
 			{
 				next = handle_status_code(cur, i, status_code);
- 				if (next != cur)
+				if (next != cur)
 					free(cur);
 				cur = next;
-				i = 0;
+				//i = 0;
 			}
 			else
 			{

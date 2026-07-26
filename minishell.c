@@ -36,14 +36,9 @@ void	free_cmds(t_cmd *cmds)
 
 void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
 {
-	size_t	i;
-
-	i = 0;
-	while (tokens[i].value)
-		free(tokens[i++].value);
+	free_cmds(cmds);
 	free(tokens);
 	free(str);
-	free_cmds(cmds);
 }
 
 static int	init_shell(char ***env)
