@@ -6,7 +6,7 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I. -I./libft
+CFLAGS = -g -Wall -Wextra -Werror -I. -I./libft
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

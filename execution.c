@@ -104,31 +104,25 @@ char	*find_path(char *to_find, char *path1)
 
 // TODO: Put your helpers for this into more_utils.c please.
 // fd[2] = prev fd
+
+void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
+{
+	dup2(fd1, fd_2_cpy);
+	close_fd(fd1, fd2, -1, -1);
+}
+
 void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 {
 	if (!p[fd[4]])
 	{
 		if (fd[2] != -1)
-		{
-			dup2(fd[2], 0);
-			close(fd[2]);
-		}
+			dup_and_close(fd[2], 0, -1);
 		if (cmds[fd[4] + 1].argv)
-		{
-			dup2(fd[1], 1);
-			close(fd[1]);
-			close(fd[0]);
-		}
+			dup_and_close(fd[1], 1, fd[0]);
 		if (cmds[fd[4]].fd_in != -1)
-		{
-			dup2(cmds[fd[4]].fd_in, 0);
-			close(cmds[fd[4]].fd_in);
-		}
+			dup_and_close(cmds[fd[4]].fd_in, 0, -1);
 		if (cmds[fd[4]].fd_out != -1)
-		{
-			dup2(cmds[fd[4]].fd_out, 1);
-			close(cmds[fd[4]].fd_out);
-		}
+			dup_and_close(cmds[fd[4]].fd_out, 1, -1);
 		if (!fd[3])
 		{
 			signal(SIGINT, SIG_DFL);
@@ -138,13 +132,9 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 			exit(127); // TODO: temp exit code
 		}
 		else
-		{
-			run_builtin(cmds[fd[4]], env);
-			exit(0);
-		}
+			exit((run_builtin(cmds[fd[4]], env), 0));
 	}
-	if (fd[2] != -1)
-		close(fd[2]);
+	close_fd(-1, -1, fd[2], -1);
 }
 
 int	wait_helper(t_cmd *cmds, pid_t *p)
@@ -163,14 +153,13 @@ int	wait_helper(t_cmd *cmds, pid_t *p)
 			status_code = 127;
 			continue ;
 		}
-		while (waitpid(p[i], &status, 0) == -1)
+		while (waitpid(p[i++], &status, 0) == -1)
 			if (errno != EINTR)
 				break ;
 		if (WIFEXITED(status))
 			status_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			status_code = 128 + WTERMSIG(status);
-		i++;
 	}
 	free(p);
 	return (status_code);
@@ -194,11 +183,7 @@ int	execute(t_cmd *cmds, char ***env)
 	while (cmds[i].argv)
 	{
 		if (!cmds[1].argv && is_builtin(cmds[0]))
-		{
-			fd[4] = run_builtin(cmds[i], env);
-			free(p);
-			return (fd[4]);
-		}
+			return (fd[4] = run_builtin(cmds[i], env), free(p), fd[4]);
 		fd[3] = 0;
 		if (is_builtin(cmds[i]))
 			fd[3] = 1;
@@ -216,13 +201,11 @@ int	execute(t_cmd *cmds, char ***env)
 		p[i] = fork();
 		fd[4] = i;
 		child_process(cmds, p, env, fd);
-		if (cmds[i + 1].argv)
+		if (cmds[++i].argv)
 		{
 			fd[2] = fd[0];
 			close(fd[1]);
 		}
-		i++;
 	}
-	close_fd(fd[0], -1, fd[2], -1);
 	return (fd[4] = wait_helper(cmds, p), setup_signals(), fd[4]);
 }
