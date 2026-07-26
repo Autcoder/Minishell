@@ -25,9 +25,9 @@ void	free_cmds(t_cmd *cmds)
 		free(cmds[i].argv);
 		if (cmds[i].path)
 			free(cmds[i].path);
-		if (cmds[i].fd_in != -1 && cmds[i].fd_in != STDIN_FILENO)
+		if (cmds[i].fd_in > 2)
 			close(cmds[i].fd_in);
-		if (cmds[i].fd_out != -1 && cmds[i].fd_out != STDOUT_FILENO)
+		if (cmds[i].fd_out > 2) 
 			close(cmds[i].fd_out);
 		i++;
 	}
@@ -36,7 +36,12 @@ void	free_cmds(t_cmd *cmds)
 
 void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
 {
+	size_t	i;
+
+	i = 0;
 	free_cmds(cmds);
+	while (tokens[i].value)
+		free(tokens[i++].value);
 	free(tokens);
 	free(str);
 }
