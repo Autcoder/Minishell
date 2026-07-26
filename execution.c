@@ -75,7 +75,7 @@ char	*find_path(char *to_find, char *path1)
 	if (!path1 || ft_strchr(to_find, '/'))
 	{
 		if (!check_access(to_find))
-			return (to_find);
+			return (ft_strdup(to_find));
 		else if (check_access(to_find) == 1)
 			return (NULL);
 	}

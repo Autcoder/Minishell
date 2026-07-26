@@ -39,9 +39,9 @@ void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
 	size_t	i;
 
 	i = 0;
-	free_cmds(cmds);
 	while (tokens[i].value)
 		free(tokens[i++].value);
+	free_cmds(cmds);
 	free(tokens);
 	free(str);
 }
