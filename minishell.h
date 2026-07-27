@@ -93,6 +93,8 @@ char				*get_any(char *env[], char *path);
 t_token				*get_tokens(char *str);
 char				**parse_env_to_dict(char **environ);
 void				setup_signals(void);
+int					internal_export(char *name, char ***env, char *value);
+char				*shel_lvl(char ***env);
 
 /*built ins*/
 int					run_builtin(t_cmd cmd, char ***env);

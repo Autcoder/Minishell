@@ -35,3 +35,23 @@ cd ..
 
 Print only actual norm errors that have to be fixed during development:
 norminette | grep -Ev "OK|Comment|Macro"
+
+
+luin@luin ~/4/C/Minishell (main)> valgrind --leak-check=full --suppressions=readline.supp --track-fds=yes env -i ./minishell
+==33960== Memcheck, a memory error detector
+==33960== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==33960== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==33960== Command: env -i ./minishell
+==33960==
+minishell> env
+PWD=/home/luin/42/CC/Minishell
+SHLVL=1
+minishell> ./minishell
+minishell> env
+PWD=/home/luin/42/CC/Minishell
+SHLVL=2
+minishell> minishell> ./minishell
+minishell> env
+PWD=/home/luin/42/CC/Minishell
+SHLVL=2
+minishell> minishell> ls

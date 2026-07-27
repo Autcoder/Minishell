@@ -1,12 +1,12 @@
 SRC = minishell.c parser.c env_thingie.c scan_expand_save.c scan_expand_utils.c expand_and_quotes.c built_ins.c execution.c \
-		builtin_center.c execution_utils.c more_utils.c signals.c export.c
+		builtin_center.c execution_utils.c more_utils.c signals.c export.c init.c
 
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 NAME = minishell
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I. -I./libft
+CFLAGS = -Wall -Wextra -Werror -I. -I./libft
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

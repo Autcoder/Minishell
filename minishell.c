@@ -27,7 +27,7 @@ void	free_cmds(t_cmd *cmds)
 			free(cmds[i].path);
 		if (cmds[i].fd_in > 2)
 			close(cmds[i].fd_in);
-		if (cmds[i].fd_out > 2) 
+		if (cmds[i].fd_out > 2)
 			close(cmds[i].fd_out);
 		i++;
 	}
@@ -51,6 +51,8 @@ static int	init_shell(char ***env)
 	*env = init_env();
 	if (!*env)
 		return (1);
+	internal_export("PWD=", env, getcwd(NULL, PATH_MAX));
+	internal_export("SHLVL=", env, shel_lvl(env));
 	setup_signals();
 	return (0);
 }

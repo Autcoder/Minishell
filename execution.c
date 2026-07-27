@@ -177,8 +177,6 @@ int	execute(t_cmd *cmds, char ***env)
 		return (1);
 	i = 0;
 	path = get_any(*env, "PATH");
-	if (!path)
-		return (free(p), 1); // TODO: temp solution
 	signal(SIGINT, SIG_IGN);
 	while (cmds[i].argv)
 	{
@@ -193,7 +191,6 @@ int	execute(t_cmd *cmds, char ***env)
 			ft_putstr_fd(cmds[i].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			p[i++] = -1;
-			close_fd(fd[0], fd[1], -1, -1);
 			continue ;
 		}
 		if (cmds[i + 1].argv)
