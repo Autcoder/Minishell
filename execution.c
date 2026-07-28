@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 11:52:25 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:55:54 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_if_word(t_token *tokens, size_t i)
 {
 	if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
 	{
-		ft_putstr_fd("syntax error: expected value", 2);
+		ft_putstr_fd("syntax error: expected value\n", 2);
 		return (1);
 	}
 	return (0);
