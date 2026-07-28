@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:55:58 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:06:06 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,43 +89,6 @@ static void	handle_word(char *input, size_t *i, t_token *token)
 	}
 	token->value = ft_substr(input, (unsigned int)start, *i - start);
 }
-
-/*
-Compressed lexer Loop (frick norminette)
-*/
-/*
-t_token	*lexer(char *input)
-{
-	t_token	*tokens;
-	size_t	i;
-	size_t	t_idx;
-	size_t	cap;
-	size_t	old_size;
-
-	i = 0;
-	t_idx = 0;
-	cap = 16;
-	tokens = malloc(sizeof(t_token) * cap);
-	if (!tokens)
-		return (NULL);
-	while (input[i])
-	{
-		if (input[i] == ' ' && ++i)
-			continue ;
-		if (t_idx >= cap - 1)
-		{
-			old_size = cap * sizeof(t_token);
-			cap *= 2;
-			tokens = ft_realloc(tokens, old_size, cap * sizeof(t_token));
-		}
-		if (is_meta(input[i]))
-			handle_meta(input, &i, &tokens[t_idx++]);
-		else
-			handle_word(input, &i, &tokens[t_idx++]);
-	}
-	return (tokens[t_idx].value = NULL, tokens);
-}
-*/
 
 t_token	*lexer(char *input)
 {

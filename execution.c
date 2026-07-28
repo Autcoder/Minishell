@@ -6,12 +6,13 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 08:17:34 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:05:16 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+#include <unistd.h>
 
 t_cmd	*build_cmds(t_token *tokens)
 {
@@ -47,6 +48,12 @@ t_cmd	*build_cmds(t_token *tokens)
 						O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else if (tokens[i].type == TOKEN_HERE_DOC)
 			{
+				if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
+				{
+					free(cmds[cmd_i].argv);
+					write(2, "syntax error, expected word\n", 30);
+					return (NULL);
+				}
 				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
 				if (cmds[cmd_i].fd_in == -1)
 				{
