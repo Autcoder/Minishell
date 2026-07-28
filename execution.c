@@ -6,13 +6,22 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 11:19:54 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:52:25 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-#include <unistd.h>
+
+int	check_if_word(t_token *tokens, size_t i)
+{
+	if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
+	{
+		ft_putstr_fd("syntax error: expected value", 2);
+		return (1);
+	}
+	return (0);
+}
 
 t_cmd	*build_cmds(t_token *tokens)
 {
@@ -41,18 +50,23 @@ t_cmd	*build_cmds(t_token *tokens)
 				cmds[cmd_i].fd_in = open(tokens[++i].value, O_RDONLY);
 			/*TODO: Check if open fails and trow perror;*/
 			else if (tokens[i].type == TOKEN_REDIRECT_OUT)
+			{
+				if (check_if_word(tokens, i) == 1)
+					return (NULL);
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			}
 			else if (tokens[i].type == TOKEN_APPEND)
+			{
+				if (check_if_word(tokens, i) == 1)
+					return (NULL);
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_APPEND, 0644);
+			}
 			else if (tokens[i].type == TOKEN_HERE_DOC)
 			{
-				if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
-				{
-					ft_putstr_fd("syntax error, expected word\n", 2);
+				if (check_if_word(tokens, i) == 1)
 					return (NULL);
-				}
 				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
 				if (cmds[cmd_i].fd_in == -1)
 				{

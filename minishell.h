@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 08:17:53 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:54:09 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ TOKEN_REDIRECT_IN,  // <
 TOKEN_REDIRECT_OUT, // >
 TOKEN_HERE_DOC,     // <<
 TOKEN_APPEND,       // >>
+TOKEN_EOF			// simply delimit
 */
 typedef enum e_token_type
 {
@@ -47,6 +48,7 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HERE_DOC,
 	TOKEN_APPEND,
+	TOKEN_EOF
 }					t_token_type;
 
 typedef struct s_token

@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 11:06:06 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:53:48 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,7 @@ t_token	*lexer(char *input)
 		else
 			handle_word(input, &i, &tokens[t_idx++]);
 	}
-	return (tokens[t_idx].value = NULL, tokens);
+	tokens[t_idx].value = NULL;
+	tokens[t_idx].type = TOKEN_EOF;
+	return (tokens);
 }
