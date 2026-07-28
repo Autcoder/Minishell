@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 13:31:42 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 08:17:53 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char				**parse_env_to_dict(char **environ);
 void				setup_signals(void);
 int					internal_export(char *name, char ***env, char *value);
 char				*shel_lvl(char ***env);
+size_t				scan_dollar(char *str, char **key_list);
+int					wait_helper(t_cmd *cmds, pid_t *p);
 
 /*built ins*/
 int					run_builtin(t_cmd cmd, char ***env);

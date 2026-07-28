@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:58:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 08:16:09 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	is_builtin(t_cmd cmd)
 		return (7);
 	return (0);
 }
+
 /*TODO make the return values meningfull*/
 int	run_builtin(t_cmd cmd, char ***env)
 {

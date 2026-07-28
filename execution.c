@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/22 07:15:10 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 08:17:34 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,34 +135,6 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 			exit((run_builtin(cmds[fd[4]], env), 0));
 	}
 	close_fd(-1, -1, fd[2], -1);
-}
-
-int	wait_helper(t_cmd *cmds, pid_t *p)
-{
-	int	i;
-	int	status;
-	int	status_code;
-
-	i = 0;
-	status_code = 0;
-	while (cmds[i].argv)
-	{
-		if (p[i] == -1)
-		{
-			i++;
-			status_code = 127;
-			continue ;
-		}
-		while (waitpid(p[i++], &status, 0) == -1)
-			if (errno != EINTR)
-				break ;
-		if (WIFEXITED(status))
-			status_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			status_code = 128 + WTERMSIG(status);
-	}
-	free(p);
-	return (status_code);
 }
 
 int	execute(t_cmd *cmds, char ***env)

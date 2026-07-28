@@ -6,36 +6,12 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 13:25:02 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 08:15:57 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-size_t	scan_dollar(char *str, char **key_list)
-{
-	size_t	i;
-	size_t	j;
-	size_t	l;
-
-	i = 0;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-		i++;
-	if (i == 0)
-		return (SIZE_MAX);
-	j = 0;
-	while (key_list[j])
-		j++;
-	l = 0;
-	while (l < j)
-	{
-		if (!ft_strncmp(str, key_list[l], i) && ft_strlen(key_list[l]) == i)
-			return (l);
-		l++;
-	}
-	return ((size_t)-1);
-}
 
 static char	*expand(char *str, char **key_list, char **env)
 {
@@ -135,7 +111,7 @@ char	*levi(char *str, char **env, int status_code)
 				if (next != cur)
 					free(cur);
 				cur = next;
-				//i = 0;
+				// i = 0;
 			}
 			else
 			{

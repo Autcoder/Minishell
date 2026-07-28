@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/23 13:45:45 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:56:37 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 08:15:33 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,28 @@ char	**parse_env_to_dict(char **environ)
 	}
 	ret[i] = NULL;
 	return (ret);
+}
+
+size_t	scan_dollar(char *str, char **key_list)
+{
+	size_t	i;
+	size_t	j;
+	size_t	l;
+
+	i = 0;
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+		i++;
+	if (i == 0)
+		return (SIZE_MAX);
+	j = 0;
+	while (key_list[j])
+		j++;
+	l = 0;
+	while (l < j)
+	{
+		if (!ft_strncmp(str, key_list[l], i) && ft_strlen(key_list[l]) == i)
+			return (l);
+		l++;
+	}
+	return ((size_t)-1);
 }

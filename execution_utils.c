@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:31:39 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:32:21 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 08:17:38 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,32 @@ size_t	count_words(t_token *tokens, size_t start)
 		i++;
 	}
 	return (count);
+}
+
+int	wait_helper(t_cmd *cmds, pid_t *p)
+{
+	int	i;
+	int	status;
+	int	status_code;
+
+	i = 0;
+	status_code = 0;
+	while (cmds[i].argv)
+	{
+		if (p[i] == -1)
+		{
+			i++;
+			status_code = 127;
+			continue ;
+		}
+		while (waitpid(p[i++], &status, 0) == -1)
+			if (errno != EINTR)
+				break ;
+		if (WIFEXITED(status))
+			status_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			status_code = 128 + WTERMSIG(status);
+	}
+	free(p);
+	return (status_code);
 }
