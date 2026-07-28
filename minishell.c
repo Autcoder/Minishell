@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/21 13:28:16 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 12:54:28 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,17 @@ static int	process_input(char *str, char ***env, int status_code)
 		clean_up(cmds, tokens, str);
 		return (1);
 	}
-	status_code = execute(cmds, env);
+	status_code = execute(cmds, env, status_code);
 	clean_up(cmds, tokens, str);
 	return (status_code);
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	char	*str;
 	char	**env;
 	int		status_code;
 
-	(void)argc;
-	(void)argv;
 	if (init_shell(&env))
 		return (1);
 	status_code = 0;

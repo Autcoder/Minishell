@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 11:54:09 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 12:55:15 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_cmd
 }					t_cmd;
 
 /*exec*/
-int					execute(t_cmd *cmds, char ***env);
+int					execute(t_cmd *cmds, char ***env, int status_code);
 t_cmd				*build_cmds(t_token *tokens);
 
 int					check_access(char *cmd);
@@ -101,12 +101,13 @@ size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_cmd *cmds, pid_t *p);
 
 /*built ins*/
-int					run_builtin(t_cmd cmd, char ***env);
+int					run_builtin(t_cmd cmd, char ***env, int status_code);
 int					is_builtin(t_cmd cmd);
-int					ft_echo(char **cmd);
 int					ft_cwd(void);
-void				ft_env(char **env);
-int					ft_export(char ***env, char *cmd);
 int					ft_cd(char ***env, char *cmd);
+int					ft_echo(char **cmd);
+void				ft_env(char **env);
+int					ft_exit(t_cmd cmd, int *exit_code);
+int					ft_export(char ***env, char *cmd);
 
 #endif

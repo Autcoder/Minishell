@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 11:55:54 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 12:56:56 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,15 +152,15 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
 			exit(127); // TODO: temp exit code
 		}
 		else
-			exit((run_builtin(cmds[fd[4]], env), 0));
+			exit((run_builtin(cmds[fd[4]], env, fd[5]), 0));
 	}
 	close_fd(-1, -1, fd[2], -1);
 }
 
-int	execute(t_cmd *cmds, char ***env)
+int	execute(t_cmd *cmds, char ***env, int status_code)
 {
 	int		i;
-	int		fd[5];
+	int		fd[6];
 	pid_t	*p;
 	char	*path;
 
@@ -173,7 +173,8 @@ int	execute(t_cmd *cmds, char ***env)
 	while (cmds[i].argv)
 	{
 		if (!cmds[1].argv && is_builtin(cmds[0]))
-			return (fd[4] = run_builtin(cmds[i], env), free(p), fd[4]);
+			return (fd[4] = run_builtin(cmds[i], env, status_code), free(p),
+				fd[4]);
 		fd[3] = 0;
 		if (is_builtin(cmds[i]))
 			fd[3] = 1;
@@ -189,6 +190,7 @@ int	execute(t_cmd *cmds, char ***env)
 			pipe(fd);
 		p[i] = fork();
 		fd[4] = i;
+		fd[5] = status_code;
 		child_process(cmds, p, env, fd);
 		if (cmds[++i].argv)
 		{
