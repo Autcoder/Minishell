@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 12:49:09 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 13:01:43 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_numeric(char *str)
 	return (1);
 }
 
-long long	ft_atoll_exit(char *str, long long *exit_code)
+long long	ft_atoll_exit(char *str, long long *status)
 {
 	long long	nb;
 	int			sign;
@@ -55,7 +55,7 @@ long long	ft_atoll_exit(char *str, long long *exit_code)
 		nb = nb * 10 + (*str - '0');
 		str++;
 	}
-	*exit_code = nb * sign;
+	*status = nb * sign;
 	if (sign == -1 && (unsigned long long)nb > (unsigned long long)LLONG_MAX
 		+ 1)
 		return (-1);
