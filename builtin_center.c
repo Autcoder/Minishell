@@ -39,7 +39,7 @@ int	run_builtin(t_cmd cmd, char ***env)
 	if (!ft_strncmp(cmd.argv[0], "env", 4))
 		return (ft_env(*env), 2);
 	if (!ft_strncmp(cmd.argv[0], "cd", 3))
-		return (3);
+		return (ft_cd(env, cmd.argv[1]));
 	if (!ft_strncmp(cmd.argv[0], "export", 7))
 		return (ft_export(env, cmd.argv[1]));
 	if (!ft_strncmp(cmd.argv[0], "unset", 6))

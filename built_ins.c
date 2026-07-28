@@ -87,3 +87,18 @@ int	ft_cwd(void)
 	free(cwd);
 	return (0);
 }
+
+int	ft_cd(char ***env, char *cmd)
+{
+	char	*cwd;
+
+	cwd = get_any(*env, "PWD");
+	if (internal_export("OLDPWD=", env, ft_strdup(cwd)))
+		return (1);
+	if (chdir(cmd) == -1)
+		return (perror("chdir"), 1); //TODO error handling and just cd
+	cwd = getcwd(NULL, PATH_MAX);
+	if (internal_export("PWD=", env, cwd))
+		return (1);
+	return (0);
+}
