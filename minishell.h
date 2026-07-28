@@ -106,7 +106,7 @@ int					is_builtin(t_cmd cmd);
 int					ft_cwd(void);
 int					ft_cd(char ***env, char *cmd);
 int					ft_echo(char **cmd);
-void				ft_env(char **env);
+int					ft_env(char **env);
 int					ft_exit(t_cmd cmd, int *exit_code);
 int					ft_export(char ***env, char *cmd);
 

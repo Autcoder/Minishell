@@ -271,5 +271,47 @@
    "objs/export.o"
   ],
   "file": "export.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/init.d",
+   "-c",
+   "init.c",
+   "-o",
+   "objs/init.o"
+  ],
+  "file": "init.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/exit.d",
+   "-c",
+   "exit.c",
+   "-o",
+   "objs/exit.o"
+  ],
+  "file": "exit.c"
  }
 ]

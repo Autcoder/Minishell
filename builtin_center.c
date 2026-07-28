@@ -22,7 +22,7 @@ int	is_builtin(t_cmd cmd)
 	if (!ft_strncmp(cmd.argv[0], "cd", 3))
 		return (3);
 	if (!ft_strncmp(cmd.argv[0], "export", 7))
-		return (3);
+		return (4);
 	if (!ft_strncmp(cmd.argv[0], "unset", 6))
 		return (5);
 	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
@@ -36,9 +36,9 @@ int	is_builtin(t_cmd cmd)
 int	run_builtin(t_cmd cmd, char ***env, int status_code)
 {
 	if (!ft_strncmp(cmd.argv[0], "echo", 5))
-		return (ft_echo(cmd.argv), 1);
+		return (ft_echo(cmd.argv));
 	if (!ft_strncmp(cmd.argv[0], "env", 4))
-		return (ft_env(*env), 2);
+		return (ft_env(*env));
 	if (!ft_strncmp(cmd.argv[0], "cd", 3))
 		return (ft_cd(env, cmd.argv[1]));
 	if (!ft_strncmp(cmd.argv[0], "export", 7))
@@ -46,7 +46,7 @@ int	run_builtin(t_cmd cmd, char ***env, int status_code)
 	if (!ft_strncmp(cmd.argv[0], "unset", 6))
 		return (5);
 	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
-		return (ft_cwd(), 6);
+		return (ft_cwd());
 	if (!ft_strncmp(cmd.argv[0], "exit", 5))
 		return (ft_exit(cmd, &status_code), 7);
 	return (0);

@@ -13,18 +13,19 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-void	ft_env(char **env)
+int	ft_env(char **env)
 {
 	size_t	i;
 
 	if (!env || !*env)
 	{
 		write(1, "\n", 1);
-		return ;
+		return (0);
 	}
 	i = 0;
 	while (env[i])
 		printf("%s\n", env[i++]);
+	return (0);
 }
 
 static int	scan_for_nflag(char *str)
@@ -40,13 +41,13 @@ static int	scan_for_nflag(char *str)
 		{
 			count++;
 			i++;
-			continue ;
 		}
 		if (count > 1)
 			return (1);
-		if (str[i] != 'n')
+		if (count == 1 && str[i] == 'n')
+			i++;
+		else
 			return (1);
-		i++;
 	}
 	return (0);
 }
@@ -91,12 +92,21 @@ int	ft_cwd(void)
 int	ft_cd(char ***env, char *cmd)
 {
 	char	*cwd;
+	char	*home;
 
 	cwd = get_any(*env, "PWD");
 	if (internal_export("OLDPWD=", env, ft_strdup(cwd)))
 		return (1);
+	if (!cmd)
+	{
+		home = get_any(*env, "HOME");
+		if (!home)
+			return (ft_putstr_fd("bash: cd: HOME not set\n", 2), 1);
+		else
+			cmd = home;
+	}
 	if (chdir(cmd) == -1)
-		return (perror("chdir"), 1); //TODO error handling and just cd
+		return (perror("chdir"), 126); //TODO error handling and just cd
 	cwd = getcwd(NULL, PATH_MAX);
 	if (internal_export("PWD=", env, cwd))
 		return (1);

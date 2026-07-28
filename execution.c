@@ -18,7 +18,7 @@ int	check_if_word(t_token *tokens, size_t i)
 	if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
 	{
 		ft_putstr_fd("syntax error: expected value\n", 2);
-		return (1);
+		return (2);
 	}
 	return (0);
 }
@@ -47,25 +47,35 @@ t_cmd	*build_cmds(t_token *tokens)
 			if (tokens[i].type == TOKEN_WORD)
 				cmds[cmd_i].argv[j++] = tokens[i].value;
 			else if (tokens[i].type == TOKEN_REDIRECT_IN)
+			{
+				if (check_if_word(tokens, i) == 2)
+					return (NULL);
 				cmds[cmd_i].fd_in = open(tokens[++i].value, O_RDONLY);
+				if (cmds[cmd_i].fd_in == -1)
+					return (perror(tokens[i].value), NULL);
+			}
 			/*TODO: Check if open fails and trow perror;*/
 			else if (tokens[i].type == TOKEN_REDIRECT_OUT)
 			{
-				if (check_if_word(tokens, i) == 1)
+				if (check_if_word(tokens, i) == 2)
 					return (NULL);
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (cmds[cmd_i].fd_out == -1)
+					return (perror(tokens[i].value), NULL);
 			}
 			else if (tokens[i].type == TOKEN_APPEND)
 			{
-				if (check_if_word(tokens, i) == 1)
+				if (check_if_word(tokens, i) == 2)
 					return (NULL);
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_APPEND, 0644);
+				if (cmds[cmd_i].fd_out == -1)
+					return (perror(tokens[i].value), NULL);
 			}
 			else if (tokens[i].type == TOKEN_HERE_DOC)
 			{
-				if (check_if_word(tokens, i) == 1)
+				if (check_if_word(tokens, i) == 2)
 					return (NULL);
 				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
 				if (cmds[cmd_i].fd_in == -1)
@@ -172,7 +182,7 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 	signal(SIGINT, SIG_IGN);
 	while (cmds[i].argv)
 	{
-		if (!cmds[1].argv && is_builtin(cmds[0]))
+		if (!cmds[1].argv && (is_builtin(cmds[0]) == 4 || is_builtin(cmds[0]) == 5))
 			return (fd[4] = run_builtin(cmds[i], env, status_code), free(p),
 				fd[4]);
 		fd[3] = 0;
