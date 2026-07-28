@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 11:05:16 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/28 11:19:54 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ t_cmd	*build_cmds(t_token *tokens)
 			{
 				if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
 				{
-					free(cmds[cmd_i].argv);
-					write(2, "syntax error, expected word\n", 30);
+					ft_putstr_fd("syntax error, expected word\n", 2);
 					return (NULL);
 				}
 				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
