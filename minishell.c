@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/29 13:04:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 23:09:07 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,9 @@ void	free_cmds(t_cmd *cmds)
 	free(cmds);
 }
 
-void	clean_up(t_cmd *cmds, t_token *tokens, char *str)
+void	clean_up(t_cmd *cmds, char *str)
 {
-	size_t	i;
-
-	i = 0;
-	while (tokens[i].value)
-		free(tokens[i++].value);
 	free_cmds(cmds);
-	free(tokens);
 	free(str);
 }
 
@@ -55,6 +49,21 @@ static int	init_shell(char ***env)
 	internal_export("SHLVL=", env, shel_lvl(env));
 	setup_signals();
 	return (0);
+}
+
+void	free_tokens(t_token *tokens)
+{
+	size_t	i;
+
+	if (!tokens)
+		return ;
+	i = 0;
+	while (tokens[i].value)
+	{
+		free(tokens[i].value);
+		i++;
+	}
+	free(tokens);
 }
 
 static int	process_input(char *str, char ***env, int status_code)
@@ -72,11 +81,13 @@ static int	process_input(char *str, char ***env, int status_code)
 	cmds = build_cmds(tokens);
 	if (!cmds)
 	{
-		clean_up(cmds, tokens, str);
+		clean_up(cmds, str);
+		free_tokens(tokens);
 		return (1);
 	}
+	free_tokens(tokens);
 	status_code = execute(cmds, env, status_code);
-	clean_up(cmds, tokens, str);
+	clean_up(cmds, str);
 	return (status_code);
 }
 
