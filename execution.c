@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 18:11:54 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 18:50:22 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void	free_cmds_exec(t_cmd *cmds, size_t count)
 	i = 0;
 	while (i < count)
 	{
-		if (cmds[i].fd_in != -1)
+		if (cmds[i].argv)
+			free(cmds[i].argv);
+		if (cmds[i].path)
+			free(cmds[i].path);
+		if (cmds[i].fd_in > 2)
 			close(cmds[i].fd_in);
-		if (cmds[i].fd_out != -1)
+		if (cmds[i].fd_out > 2)
 			close(cmds[i].fd_out);
 		i++;
 	}
@@ -238,7 +242,6 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 		}
 		ex.idx++;
 	}
-
 	ret = wait_helper(cmds, &p);
 	setup_signals();
 	return (ret);
