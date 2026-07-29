@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 18:59:48 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:27:08 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
 
 void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 {
+	int	status;
+
 	if (!p[ex->idx])
 	{
 		if (ex->prev_fd != -1)
@@ -181,7 +183,12 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 			exit(127);
 		}
 		else
-			exit(run_builtin(cmds[ex->idx], env, ex->status_code));
+		{
+			status = run_builtin(cmds[ex->idx], env, ex->status_code);
+			free(p);
+			free_cmds(cmds);
+			exit(status);
+		}
 	}
 	if (ex->prev_fd != -1)
 		close(ex->prev_fd);

@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 08:59:22 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:27:02 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ size_t				count_cmds(t_token *tokens);
 size_t				count_words(t_token *tokens, size_t start);
 void				expand_tokens(t_token *tokens, char **env, int status_code);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
+void				free_cmds(t_cmd *cmds);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 void				handle_quotes(t_token *tokens);
