@@ -71,5 +71,11 @@ re: fclean all
 urmom:
 	make fclean
 	compiledb -n make
+cl:
+	@rm -rf $(OBJ_DIR) $(DEP_DIR)
+	@rm -f $(NAME)
+	@echo "cleaned all (BUT LIBFT).!."
+
+r: cl all
 
 .PHONY: all clean fclean re

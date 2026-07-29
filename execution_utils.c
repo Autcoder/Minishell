@@ -70,7 +70,7 @@ size_t	count_words(t_token *tokens, size_t start)
 	return (count);
 }
 
-int	wait_helper(t_cmd *cmds, pid_t *p)
+int	wait_helper(t_cmd *cmds, pid_t **p)
 {
 	int	i;
 	int	status;
@@ -80,13 +80,13 @@ int	wait_helper(t_cmd *cmds, pid_t *p)
 	status_code = 0;
 	while (cmds[i].argv)
 	{
-		if (p[i] == -1)
+		if ((*p)[i] == -1)
 		{
 			i++;
 			status_code = 127;
 			continue ;
 		}
-		while (waitpid(p[i++], &status, 0) == -1)
+		while (waitpid((*p)[i++], &status, 0) == -1)
 			if (errno != EINTR)
 				break ;
 		if (WIFEXITED(status))
@@ -94,6 +94,6 @@ int	wait_helper(t_cmd *cmds, pid_t *p)
 		else if (WIFSIGNALED(status))
 			status_code = 128 + WTERMSIG(status);
 	}
-	free(p);
+	free((*p));
 	return (status_code);
 }

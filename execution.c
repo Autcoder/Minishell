@@ -238,7 +238,8 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 		}
 		ex.idx++;
 	}
-	ret = wait_helper(cmds, p);
+
+	ret = wait_helper(cmds, &p);
 	setup_signals();
 	return (ret);
 }

@@ -115,7 +115,7 @@ void				setup_signals(void);
 int					internal_export(char *name, char ***env, char *value);
 char				*shel_lvl(char ***env);
 size_t				scan_dollar(char *str, char **key_list);
-int					wait_helper(t_cmd *cmds, pid_t *p);
+int					wait_helper(t_cmd *cmds, pid_t **p);
 
 /*built ins*/
 int					run_builtin(t_cmd cmd, char ***env, int status_code);
