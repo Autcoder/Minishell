@@ -28,7 +28,7 @@ RESET := $(ESC)[0m
 ifeq ($(DEBUG),1)
     CFLAGS += -g
 else ifeq ($(DEBUG),2)
-    CFLAGS += -g -fsanitize=address -Wconversion -Wsign-conversion -fsanitize=undefined
+    CFLAGS += -g -fsanitize=address -Wconversion -Wsign-conversion -fsanitize=undefined -Warray-bounds -Wnull-dereference
 endif
 
 # Print ONLY if DEBUG is active AND we are in the main execution pass

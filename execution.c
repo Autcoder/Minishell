@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 09:27:55 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 17:35:52 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 
 int	execute(t_cmd *cmds, char ***env, int status_code)
 {
-	int		i;
 	t_exec	ex;
 	pid_t	*p;
 	char	*path;
@@ -178,34 +177,33 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 	p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, (int *)&ex));
 	if (!p)
 		return (1);
-	i = 0;
+	ex.idx = 0;
 	path = get_any(*env, "PATH");
 	signal(SIGINT, SIG_IGN);
-	while (cmds[i].argv)
+	while (cmds[ex.idx].argv)
 	{
-		if (!cmds[1].argv && (is_builtin(cmds[0]) == 4
-				|| is_builtin(cmds[0]) == 5 || is_builtin(cmds[0]) == 7))
+		ex.is_builtin = is_builtin(cmds[ex.idx]);
+		if (!cmds[1].argv && (ex.is_builtin == 4 || ex.is_builtin == 5
+				|| ex.is_builtin == 7))
 		{
-			ret = run_builtin(cmds[i], env, status_code);
+			ret = run_builtin(cmds[ex.idx], env, status_code);
 			free(p);
 			return (ret);
 		}
-		ex.is_builtin = (is_builtin(cmds[i]) != 0);
-		cmds[i].path = find_path(cmds[i].argv[0], path);
-		if (!ex.is_builtin && !cmds[i].path)
+		cmds[ex.idx].path = find_path(cmds[ex.idx].argv[0], path);
+		if (!ex.is_builtin && !cmds[ex.idx].path)
 		{
-			ft_putstr_fd(cmds[i].argv[0], 2);
+			ft_putstr_fd(cmds[ex.idx].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
-			p[i++] = -1;
+			p[ex.idx++] = -1;
 			continue ;
 		}
-		if (cmds[i + 1].argv)
+		if (cmds[ex.idx + 1].argv)
 			pipe(ex.pipe);
-		p[i] = fork();
-		ex.idx = i;
+		p[ex.idx] = fork();
 		ex.status_code = status_code;
 		child_process(cmds, p, env, &ex);
-		if (cmds[++i].argv)
+		if (cmds[++ex.idx].argv)
 		{
 			ex.prev_fd = ex.pipe[0];
 			close(ex.pipe[1]);
