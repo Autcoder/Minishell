@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/28 12:54:28 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 13:04:33 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ int	main(void)
 	{
 		str = readline("minishell> ");
 		if (!str)
+		{
+			ft_putstr_fd("exit\n", 1);
 			break ;
+		}
 		if (*str)
 			add_history(str);
 		status_code = process_input(str, &env, status_code);
