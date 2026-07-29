@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 12:55:15 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 08:59:22 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,23 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 }					t_cmd;
+
+// execution
+/*
+int pipe[2];     // replaces fd[0] (read) and fd[1] (write)
+int prev_fd;     // replaces fd[2]
+int is_builtin;  // replaces fd[3]
+int idx;         // replaces fd[4] (current command index)
+int status_code; // replaces fd[5]
+*/
+typedef struct s_exec
+{
+	int				pipe[2];
+	int				prev_fd;
+	int				is_builtin;
+	int				idx;
+	int				status_code;
+}					t_exec;
 
 /*exec*/
 int					execute(t_cmd *cmds, char ***env, int status_code);

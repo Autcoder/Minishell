@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 13:01:43 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 09:11:32 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ long long	ft_atoll_exit(char *str, long long *status)
 	return (0);
 }
 
-// TODO: Get exit code as parameter
 int	ft_exit(t_cmd cmd, int *exit_code)
 {
 	long long	status;
@@ -75,13 +74,14 @@ int	ft_exit(t_cmd cmd, int *exit_code)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd.argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		return (1);
+		*exit_code = 2;
+		return (2);
 	}
 	if (cmd.argv[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		// TODO: Change exit code to 1
-		return (1);
+		*exit_code = 2;
+		return (2);
 	}
 	exit((unsigned char)status);
 	return (0);

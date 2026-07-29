@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 08:15:57 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 09:06:28 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	return (free(expanded), ret);
 }
 
-char	*handle_status_code(char *cur, size_t i, int status_code)
+char	*handle_status_code(char *cur, size_t *i, int status_code)
 {
 	char	*status;
 	char	*ret;
@@ -84,7 +84,9 @@ char	*handle_status_code(char *cur, size_t i, int status_code)
 	status = ft_itoa(status_code);
 	if (!status)
 		return (NULL);
-	ret = mesh_tgthr(cur, status, i, i + 2);
+	ret = mesh_tgthr(cur, status, *i, *i + 2);
+	if (ret)
+		*i += ft_strlen(status);
 	free(status);
 	return (ret);
 }
@@ -107,11 +109,10 @@ char	*levi(char *str, char **env, int status_code)
 		{
 			if (cur[i + 1] && cur[i + 1] == '?')
 			{
-				next = handle_status_code(cur, i, status_code);
+				next = handle_status_code(cur, &i, status_code);
 				if (next != cur)
 					free(cur);
 				cur = next;
-				// i = 0;
 			}
 			else
 			{

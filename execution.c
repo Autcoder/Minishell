@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 12:56:56 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 09:27:55 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,40 +141,41 @@ void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
 	close_fd(fd1, fd2, -1, -1);
 }
 
-void	child_process(t_cmd *cmds, pid_t *p, char ***env, int fd[5])
+void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 {
-	if (!p[fd[4]])
+	if (!p[ex->idx])
 	{
-		if (fd[2] != -1)
-			dup_and_close(fd[2], 0, -1);
-		if (cmds[fd[4] + 1].argv)
-			dup_and_close(fd[1], 1, fd[0]);
-		if (cmds[fd[4]].fd_in != -1)
-			dup_and_close(cmds[fd[4]].fd_in, 0, -1);
-		if (cmds[fd[4]].fd_out != -1)
-			dup_and_close(cmds[fd[4]].fd_out, 1, -1);
-		if (!fd[3])
+		if (ex->prev_fd != -1)
+			dup_and_close(ex->prev_fd, 0, -1);
+		if (cmds[ex->idx + 1].argv)
+			dup_and_close(ex->pipe[1], 1, ex->pipe[0]);
+		if (cmds[ex->idx].fd_in != -1)
+			dup_and_close(cmds[ex->idx].fd_in, 0, -1);
+		if (cmds[ex->idx].fd_out != -1)
+			dup_and_close(cmds[ex->idx].fd_out, 1, -1);
+		if (!ex->is_builtin)
 		{
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
-			execve(cmds[fd[4]].path, cmds[fd[4]].argv, *env);
+			execve(cmds[ex->idx].path, cmds[ex->idx].argv, *env);
 			perror("execve");
 			exit(127); // TODO: temp exit code
 		}
 		else
-			exit((run_builtin(cmds[fd[4]], env, fd[5]), 0));
+			exit(run_builtin(cmds[ex->idx], env, ex->status_code));
 	}
-	close_fd(-1, -1, fd[2], -1);
+	close_fd(-1, -1, ex->prev_fd, -1);
 }
 
 int	execute(t_cmd *cmds, char ***env, int status_code)
 {
 	int		i;
-	int		fd[6];
+	t_exec	ex;
 	pid_t	*p;
 	char	*path;
+	int		ret;
 
-	p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, fd));
+	p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, (int *)&ex));
 	if (!p)
 		return (1);
 	i = 0;
@@ -182,14 +183,16 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 	signal(SIGINT, SIG_IGN);
 	while (cmds[i].argv)
 	{
-		if (!cmds[1].argv && (is_builtin(cmds[0]) == 4 || is_builtin(cmds[0]) == 5))
-			return (fd[4] = run_builtin(cmds[i], env, status_code), free(p),
-				fd[4]);
-		fd[3] = 0;
-		if (is_builtin(cmds[i]))
-			fd[3] = 1;
+		if (!cmds[1].argv && (is_builtin(cmds[0]) == 4
+				|| is_builtin(cmds[0]) == 5 || is_builtin(cmds[0]) == 7))
+		{
+			ret = run_builtin(cmds[i], env, status_code);
+			free(p);
+			return (ret);
+		}
+		ex.is_builtin = (is_builtin(cmds[i]) != 0);
 		cmds[i].path = find_path(cmds[i].argv[0], path);
-		if (!fd[3] && !cmds[i].path)
+		if (!ex.is_builtin && !cmds[i].path)
 		{
 			ft_putstr_fd(cmds[i].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
@@ -197,16 +200,18 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 			continue ;
 		}
 		if (cmds[i + 1].argv)
-			pipe(fd);
+			pipe(ex.pipe);
 		p[i] = fork();
-		fd[4] = i;
-		fd[5] = status_code;
-		child_process(cmds, p, env, fd);
+		ex.idx = i;
+		ex.status_code = status_code;
+		child_process(cmds, p, env, &ex);
 		if (cmds[++i].argv)
 		{
-			fd[2] = fd[0];
-			close(fd[1]);
+			ex.prev_fd = ex.pipe[0];
+			close(ex.pipe[1]);
 		}
 	}
-	return (fd[4] = wait_helper(cmds, p), setup_signals(), fd[4]);
+	ret = wait_helper(cmds, p);
+	setup_signals();
+	return (ret);
 }

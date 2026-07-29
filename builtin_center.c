@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 12:58:21 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 08:50:49 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	run_builtin(t_cmd cmd, char ***env, int status_code)
 	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
 		return (ft_cwd());
 	if (!ft_strncmp(cmd.argv[0], "exit", 5))
-		return (ft_exit(cmd, &status_code), 7);
+		return (ft_exit(cmd, &status_code));
 	return (0);
 }
 
