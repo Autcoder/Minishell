@@ -6,7 +6,7 @@
 /*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 17:35:52 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/29 18:11:54 by flenski          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,24 @@ int	check_if_word(t_token *tokens, size_t i)
 		return (2);
 	}
 	return (0);
+}
+
+void	free_cmds_exec(t_cmd *cmds, size_t count)
+{
+	size_t	i;
+
+	if (!cmds)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		if (cmds[i].fd_in != -1)
+			close(cmds[i].fd_in);
+		if (cmds[i].fd_out != -1)
+			close(cmds[i].fd_out);
+		i++;
+	}
+	free(cmds);
 }
 
 t_cmd	*build_cmds(t_token *tokens)
@@ -40,7 +58,7 @@ t_cmd	*build_cmds(t_token *tokens)
 	while (cmd_i < n)
 	{
 		if (init_cmds(cmds, tokens, i, cmd_i))
-			return (free(cmds), NULL);
+			return (free_cmds_exec(cmds, cmd_i), NULL);
 		j = 0;
 		while (tokens[i].value && tokens[i].type != TOKEN_PIPE)
 		{
@@ -49,41 +67,47 @@ t_cmd	*build_cmds(t_token *tokens)
 			else if (tokens[i].type == TOKEN_REDIRECT_IN)
 			{
 				if (check_if_word(tokens, i) == 2)
-					return (NULL);
+					return (free_cmds_exec(cmds, cmd_i + 1), NULL);
+				if (cmds[cmd_i].fd_in != -1)
+					close(cmds[cmd_i].fd_in);
 				cmds[cmd_i].fd_in = open(tokens[++i].value, O_RDONLY);
 				if (cmds[cmd_i].fd_in == -1)
-					return (perror(tokens[i].value), NULL);
+					return (perror(tokens[i].value), free_cmds_exec(cmds, cmd_i
+							+ 1), NULL);
 			}
-			/*TODO: Check if open fails and trow perror;*/
 			else if (tokens[i].type == TOKEN_REDIRECT_OUT)
 			{
 				if (check_if_word(tokens, i) == 2)
-					return (NULL);
+					return (free_cmds_exec(cmds, cmd_i + 1), NULL);
+				if (cmds[cmd_i].fd_out != -1)
+					close(cmds[cmd_i].fd_out);
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				if (cmds[cmd_i].fd_out == -1)
-					return (perror(tokens[i].value), NULL);
+					return (perror(tokens[i].value), free_cmds_exec(cmds, cmd_i
+							+ 1), NULL);
 			}
 			else if (tokens[i].type == TOKEN_APPEND)
 			{
 				if (check_if_word(tokens, i) == 2)
-					return (NULL);
+					return (free_cmds_exec(cmds, cmd_i + 1), NULL);
+				if (cmds[cmd_i].fd_out != -1)
+					close(cmds[cmd_i].fd_out);
 				cmds[cmd_i].fd_out = open(tokens[++i].value,
 						O_WRONLY | O_CREAT | O_APPEND, 0644);
 				if (cmds[cmd_i].fd_out == -1)
-					return (perror(tokens[i].value), NULL);
+					return (perror(tokens[i].value), free_cmds_exec(cmds, cmd_i
+							+ 1), NULL);
 			}
 			else if (tokens[i].type == TOKEN_HERE_DOC)
 			{
 				if (check_if_word(tokens, i) == 2)
-					return (NULL);
+					return (free_cmds_exec(cmds, cmd_i + 1), NULL);
+				if (cmds[cmd_i].fd_in != -1)
+					close(cmds[cmd_i].fd_in);
 				cmds[cmd_i].fd_in = here_doc(tokens[++i].value);
 				if (cmds[cmd_i].fd_in == -1)
-				{
-					// here_doc cancelled with Ctrl+C
-					// TODO: Free everything allocated
-					return (NULL);
-				}
+					return (free_cmds_exec(cmds, cmd_i + 1), NULL);
 			}
 			i++;
 		}
@@ -125,15 +149,10 @@ char	*find_path(char *to_find, char *path1)
 			return (clean_split(path), free(arg), str);
 		else if (check_access(str) == 1)
 			return (clean_split(path), free(arg), NULL);
-		//		else if (check_access(str) == 2)
-		//			return (NULL);
 		free(str);
 	}
 	return ((clean_split(path), free(arg)), NULL);
 }
-
-// TODO: Put your helpers for this into more_utils.c please.
-// fd[2] = prev fd
 
 void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
 {
@@ -159,12 +178,13 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 			signal(SIGQUIT, SIG_DFL);
 			execve(cmds[ex->idx].path, cmds[ex->idx].argv, *env);
 			perror("execve");
-			exit(127); // TODO: temp exit code
+			exit(127);
 		}
 		else
 			exit(run_builtin(cmds[ex->idx], env, ex->status_code));
 	}
-	close_fd(-1, -1, ex->prev_fd, -1);
+	if (ex->prev_fd != -1)
+		close(ex->prev_fd);
 }
 
 int	execute(t_cmd *cmds, char ***env, int status_code)
@@ -195,6 +215,10 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 		{
 			ft_putstr_fd(cmds[ex.idx].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
+			if (cmds[ex.idx].fd_in != -1)
+				close(cmds[ex.idx].fd_in);
+			if (cmds[ex.idx].fd_out != -1)
+				close(cmds[ex.idx].fd_out);
 			p[ex.idx++] = -1;
 			continue ;
 		}
@@ -203,11 +227,16 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 		p[ex.idx] = fork();
 		ex.status_code = status_code;
 		child_process(cmds, p, env, &ex);
-		if (cmds[++ex.idx].argv)
+		if (cmds[ex.idx].fd_in != -1)
+			close(cmds[ex.idx].fd_in);
+		if (cmds[ex.idx].fd_out != -1)
+			close(cmds[ex.idx].fd_out);
+		if (cmds[ex.idx + 1].argv)
 		{
 			ex.prev_fd = ex.pipe[0];
 			close(ex.pipe[1]);
 		}
+		ex.idx++;
 	}
 	ret = wait_helper(cmds, p);
 	setup_signals();
