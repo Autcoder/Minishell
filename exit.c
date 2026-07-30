@@ -6,12 +6,13 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 10:55:29 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 11:21:14 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+#include <limits.h>
 
 int	is_numeric(char *str)
 {
@@ -37,9 +38,11 @@ long long	ft_atoll_exit(char *str, long long *status)
 {
 	unsigned long long	nb;
 	int					sign;
+	unsigned long long	lm;
 
 	nb = 0;
 	sign = 1;
+	lm = (unsigned long long)LLONG_MAX;
 	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
@@ -48,14 +51,10 @@ long long	ft_atoll_exit(char *str, long long *status)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
-		if (nb > (unsigned long long)LLONG_MAX / 10)
+		if (nb > LLONG_MAX / 10 || (nb == lm / 10 && (unsigned long long)(*str
+					- '0') > (lm % 10 + (sign == -1))))
 			return (-1);
-		if (nb == (unsigned long long)LLONG_MAX / 10
-			&& (unsigned long long)(*str - '0') > (unsigned long long)(LLONG_MAX
-				% 10 + (sign == -1)))
-			return (-1);
-		nb = nb * 10 + (unsigned long long)(*str - '0');
-		str++;
+		nb = nb * 10 + (unsigned long long)(*str++ - '0');
 	}
 	if (sign == -1)
 		*status = -(long long)nb;
