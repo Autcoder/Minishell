@@ -1,2 +1,0 @@
-cat: Makefile: No such file or directory
-/home/luin/42_minishell_tester/tester.sh: line 634: 204341 Segmentation fault         LD_PRELOAD=/home/luin/42_minishell_tester/utils/libintercept/libintercept.so /home/luin/42/CC/Minishell/minishell
