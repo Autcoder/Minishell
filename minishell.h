@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 08:13:12 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 08:29:28 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ size_t				count_words(t_token *tokens, size_t start);
 void				expand_tokens(t_token *tokens, char **env, int status_code);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 void				free_cmds(t_cmd *cmds);
+void				free_env(char ***env);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 void				handle_quotes(t_token *tokens);
@@ -124,7 +125,7 @@ int					ft_cwd(void);
 int					ft_cd(char ***env, char *cmd);
 int					ft_echo(char **cmd);
 int					ft_env(char **env);
-int					ft_exit(t_cmd cmd, int *exit_code);
+int					ft_exit(t_cmd cmd, int *exit_code, char ***env);
 int					ft_export(char ***env, char *cmd);
 
 #endif

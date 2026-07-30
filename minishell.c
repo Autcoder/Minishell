@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/29 23:09:07 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 08:39:22 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ void	free_tokens(t_token *tokens)
 {
 	size_t	i;
 
+	// printf("free_tokens: %p\n", (void *)tokens);
 	if (!tokens)
 		return ;
 	i = 0;
 	while (tokens[i].value)
 	{
+		printf("freeing token: %s\n", tokens[i].value);
 		free(tokens[i].value);
 		i++;
 	}
@@ -85,9 +87,9 @@ static int	process_input(char *str, char ***env, int status_code)
 		free_tokens(tokens);
 		return (1);
 	}
-	free_tokens(tokens);
 	status_code = execute(cmds, env, status_code);
 	clean_up(cmds, str);
+	free_tokens(tokens);
 	return (status_code);
 }
 
@@ -108,8 +110,6 @@ int	main(void)
 			ft_putstr_fd("exit\n", 1);
 			break ;
 		}
-		if (*str)
-			add_history(str);
 		status_code = process_input(str, &env, status_code);
 	}
 	rl_clear_history();

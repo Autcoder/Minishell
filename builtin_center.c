@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_center.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 08:50:49 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 08:25:34 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int	is_builtin(t_cmd cmd)
 {
+	if (!cmd.argv || !cmd.argv[0])
+        return (0);
 	if (!ft_strncmp(cmd.argv[0], "echo", 5))
 		return (1);
 	if (!ft_strncmp(cmd.argv[0], "env", 4))
@@ -48,7 +50,7 @@ int	run_builtin(t_cmd cmd, char ***env, int status_code)
 	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
 		return (ft_cwd());
 	if (!ft_strncmp(cmd.argv[0], "exit", 5))
-		return (ft_exit(cmd, &status_code));
+		return (ft_exit(cmd, &status_code, env));
 	return (0);
 }
 

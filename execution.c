@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 19:27:08 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 08:29:59 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 			status = run_builtin(cmds[ex->idx], env, ex->status_code);
 			free(p);
 			free_cmds(cmds);
+			free_env(env);
 			exit(status);
 		}
 	}

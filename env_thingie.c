@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_thingie.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 14:41:26 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/21 13:35:47 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 08:28:36 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**init_env(void)
 	while (environ[i])
 	{
 		env[i] = ft_strdup(environ[i]);
-		if (!env)
+		if (!env[i])
 			return (clean_arr(env, i), NULL);
 		i++;
 	}
