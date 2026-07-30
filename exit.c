@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 08:28:48 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 10:55:29 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	is_numeric(char *str)
 
 long long	ft_atoll_exit(char *str, long long *status)
 {
-	long long	nb;
-	int			sign;
+	unsigned long long	nb;
+	int					sign;
 
 	nb = 0;
 	sign = 1;
@@ -48,17 +48,19 @@ long long	ft_atoll_exit(char *str, long long *status)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
-		if (nb > LLONG_MAX / 10)
+		if (nb > (unsigned long long)LLONG_MAX / 10)
 			return (-1);
-		if (nb == LLONG_MAX / 10 && (*str - '0') > LLONG_MAX % 10)
+		if (nb == (unsigned long long)LLONG_MAX / 10
+			&& (unsigned long long)(*str - '0') > (unsigned long long)(LLONG_MAX
+				% 10 + (sign == -1)))
 			return (-1);
-		nb = nb * 10 + (*str - '0');
+		nb = nb * 10 + (unsigned long long)(*str - '0');
 		str++;
 	}
-	*status = nb * sign;
-	if (sign == -1 && (unsigned long long)nb > (unsigned long long)LLONG_MAX
-		+ 1)
-		return (-1);
+	if (sign == -1)
+		*status = -(long long)nb;
+	else
+		*status = (long long)nb;
 	return (0);
 }
 
@@ -78,16 +80,21 @@ void	free_env(char ***env)
 	*env = NULL;
 }
 
-int	ft_exit(t_cmd cmd, int *exit_code, char ***env)
+// NOTE: casting to unsigned char, because then reading only 8-bit values
+void	exit_clean(char ***env, t_cmd *cmds, long long exit_code)
+{
+	free_env(env);
+	clean_up(cmds, NULL);
+	exit((unsigned char)exit_code);
+}
+
+int	ft_exit(t_cmd cmd, int *exit_code, char ***env, t_cmd *cmds)
 {
 	long long	status;
 
 	ft_putstr_fd("exit\n", 2);
 	if (!cmd.argv[1])
-	{
-		free_env(env);
-		exit(*exit_code);
-	}
+		exit_clean(env, cmds, *exit_code);
 	if (!is_numeric(cmd.argv[1]) || ft_atoll_exit(cmd.argv[1], &status) == -1)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -102,7 +109,6 @@ int	ft_exit(t_cmd cmd, int *exit_code, char ***env)
 		*exit_code = 2;
 		return (2);
 	}
-	free_env(env);
-	exit((unsigned char)status);
+	exit_clean(env, cmds, status);
 	return (0);
 }

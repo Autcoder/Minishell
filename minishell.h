@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 08:29:28 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 10:43:02 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ int					check_access(char *cmd);
 int					check_unclosed_quotes(char *input);
 /*Close fd's*/
 void				close_fd(int fd0, int fd1, int fd2, int fd3);
+void				clean_arr(char **env, size_t i);
 /* Clean partially full arrays */
 void				clean_split(char **split);
-/* For full arrays we have free_ptr_arrays anyways no? */
-void				clean_arr(char **env, size_t i);
+void				clean_up(t_cmd *cmds, char *str);
 size_t				count_cmds(t_token *tokens);
 size_t				count_words(t_token *tokens, size_t start);
 void				expand_tokens(t_token *tokens, char **env, int status_code);
@@ -119,13 +119,14 @@ size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_cmd *cmds, pid_t **p);
 
 /*built ins*/
-int					run_builtin(t_cmd cmd, char ***env, int status_code);
+int					run_builtin(t_cmd cmd, char ***env, int status_code,
+						t_cmd *cmds);
 int					is_builtin(t_cmd cmd);
 int					ft_cwd(void);
 int					ft_cd(char ***env, char *cmd);
 int					ft_echo(char **cmd);
 int					ft_env(char **env);
-int					ft_exit(t_cmd cmd, int *exit_code, char ***env);
+int					ft_exit(t_cmd cmd, int *exit_code, char ***env, t_cmd *cmds);
 int					ft_export(char ***env, char *cmd);
 
 #endif

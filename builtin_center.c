@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 08:25:34 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 10:42:43 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_builtin(t_cmd cmd)
 }
 
 /*TODO make the return values meningfull*/
-int	run_builtin(t_cmd cmd, char ***env, int status_code)
+int	run_builtin(t_cmd cmd, char ***env, int status_code, t_cmd *cmds)
 {
 	if (!ft_strncmp(cmd.argv[0], "echo", 5))
 		return (ft_echo(cmd.argv));
@@ -50,7 +50,7 @@ int	run_builtin(t_cmd cmd, char ***env, int status_code)
 	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
 		return (ft_cwd());
 	if (!ft_strncmp(cmd.argv[0], "exit", 5))
-		return (ft_exit(cmd, &status_code, env));
+		return (ft_exit(cmd, &status_code, env, cmds));
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 10:33:13 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 10:42:13 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 		}
 		else
 		{
-			status = run_builtin(cmds[ex->idx], env, ex->status_code);
+			status = run_builtin(cmds[ex->idx], env, ex->status_code, cmds);
 			free(p);
 			free_cmds(cmds);
 			free_env(env);
@@ -216,7 +216,7 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 		if (!cmds[1].argv && (ex.is_builtin == 4 || ex.is_builtin == 5
 				|| ex.is_builtin == 7))
 		{
-			ret = run_builtin(cmds[ex.idx], env, status_code);
+			ret = run_builtin(cmds[ex.idx], env, status_code, cmds);
 			free(p);
 			return (ret);
 		}
