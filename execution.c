@@ -6,12 +6,13 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 10:42:13 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 13:06:04 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+#include <term.h>
 
 int	check_if_word(t_token *tokens, size_t i)
 {
@@ -186,7 +187,7 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 		}
 		else
 		{
-			status = run_builtin(cmds[ex->idx], env, ex->status_code, cmds);
+			status = run_builtin(cmds[ex->idx], env, *ex, cmds);
 			free(p);
 			free_cmds(cmds);
 			free_env(env);
@@ -200,12 +201,11 @@ void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
 int	execute(t_cmd *cmds, char ***env, int status_code)
 {
 	t_exec	ex;
-	pid_t	*p;
 	char	*path;
 	int		ret;
 
-	p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, (int *)&ex));
-	if (!p)
+	ex.p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, (int *)&ex));
+	if (!ex.p)
 		return (1);
 	ex.idx = 0;
 	path = get_any(*env, "PATH");
@@ -213,11 +213,12 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 	while (cmds[ex.idx].argv)
 	{
 		ex.is_builtin = is_builtin(cmds[ex.idx]);
+		ex.status_code = status_code;
 		if (!cmds[1].argv && (ex.is_builtin == 4 || ex.is_builtin == 5
 				|| ex.is_builtin == 7))
 		{
-			ret = run_builtin(cmds[ex.idx], env, status_code, cmds);
-			free(p);
+			ret = run_builtin(cmds[ex.idx], env, ex, cmds);
+			free(ex.p);
 			return (ret);
 		}
 		cmds[ex.idx].path = find_path(cmds[ex.idx].argv[0], path);
@@ -229,14 +230,13 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 				close(cmds[ex.idx].fd_in);
 			if (cmds[ex.idx].fd_out != -1)
 				close(cmds[ex.idx].fd_out);
-			p[ex.idx++] = -1;
+			ex.p[ex.idx++] = -1;
 			continue ;
 		}
 		if (cmds[ex.idx + 1].argv)
 			pipe(ex.pipe);
-		p[ex.idx] = fork();
-		ex.status_code = status_code;
-		child_process(cmds, p, env, &ex);
+		ex.p[ex.idx] = fork();
+		child_process(cmds, ex.p, env, &ex);
 		if (cmds[ex.idx].fd_in != -1)
 			close(cmds[ex.idx].fd_in);
 		if (cmds[ex.idx].fd_out != -1)
@@ -248,7 +248,7 @@ int	execute(t_cmd *cmds, char ***env, int status_code)
 		}
 		ex.idx++;
 	}
-	ret = wait_helper(cmds, &p);
+	ret = wait_helper(cmds, &ex.p);
 	setup_signals();
 	return (ret);
 }

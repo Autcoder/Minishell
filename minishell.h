@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 12:17:47 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 13:07:37 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_exec
 	int				is_builtin;
 	int				idx;
 	int				status_code;
+	pid_t			*p;
 }					t_exec;
 
 /*exec*/
@@ -119,15 +120,13 @@ size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_cmd *cmds, pid_t **p);
 
 /*built ins*/
-int					run_builtin(t_cmd cmd, char ***env, int status_code,
-						t_cmd *cmds);
+int					run_builtin(t_cmd cmd, char ***env, t_exec ex, t_cmd *cmds);
 int					is_builtin(t_cmd cmd);
 int					ft_cwd(void);
 int					ft_cd(char ***env, char *cmd);
 int					ft_echo(char **cmd);
 int					ft_env(char **env);
-int					ft_exit(t_cmd cmd, int *exit_code, char ***env,
-						t_cmd *cmds);
+int					ft_exit(t_cmd cmd, t_exec *ex, char ***env, t_cmd *cmds);
 int					ft_export(char ***env, char *cmd);
 
 #endif

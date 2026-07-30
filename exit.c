@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 12:15:41 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 13:08:53 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,34 +80,35 @@ void	free_env(char ***env)
 }
 
 // NOTE: casting to unsigned char, because then reading only 8-bit values
-void	exit_clean(char ***env, t_cmd *cmds, long long exit_code)
+void	exit_clean(char ***env, t_cmd *cmds, long long exit_code, t_exec *ex)
 {
 	free_env(env);
+	free(ex->p);
 	clean_up(cmds, NULL);
 	exit((unsigned char)exit_code);
 }
 
-int	ft_exit(t_cmd cmd, int *exit_code, char ***env, t_cmd *cmds)
+int	ft_exit(t_cmd cmd, t_exec	*ex, char ***env, t_cmd *cmds)
 {
 	long long	status;
 
 	ft_putstr_fd("exit\n", 2);
 	if (!cmd.argv[1])
-		exit_clean(env, cmds, *exit_code);
+		exit_clean(env, cmds, ex->status_code, ex);
 	if (!is_numeric(cmd.argv[1]) || ft_atoll_exit(cmd.argv[1], &status) == -1)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd.argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		*exit_code = 2;
+		ex->status_code = 2;
 		return (2);
 	}
 	if (cmd.argv[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		*exit_code = 2;
+		ex->status_code = 2;
 		return (2);
 	}
-	exit_clean(env, cmds, status);
+	exit_clean(env, cmds, status, ex);
 	return (0);
 }
