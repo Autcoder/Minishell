@@ -1,0 +1,4 @@
+minishell: warning: here-document delimited by end-of-file (wanted 'luin')
+why: command not found
+not: command not found
+luin: command not found

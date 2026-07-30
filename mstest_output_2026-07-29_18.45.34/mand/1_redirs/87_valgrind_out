@@ -1,0 +1,586 @@
+==210335== Memcheck, a memory error detector
+==210335== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==210335== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==210335== Command: /home/luin/42/CC/Minishell/minishell
+==210335== Parent PID: 210334
+==210335== 
+==210336== 
+==210336== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==210336== Open file descriptor 5: /dev/ptmx
+==210336==    <inherited from parent>
+==210336== 
+==210336== Open file descriptor 2: /dev/null
+==210336==    <inherited from parent>
+==210336== 
+==210336== Open file descriptor 1: /dev/null
+==210336==    <inherited from parent>
+==210336== 
+==210336== Open file descriptor 0:
+==210336==    <inherited from parent>
+==210336== 
+==210336== 
+==210336== HEAP SUMMARY:
+==210336==     in use at exit: 9,794 bytes in 52 blocks
+==210336==   total heap usage: 143 allocs, 91 frees, 20,020 bytes allocated
+==210336== 
+==210336== 3 bytes in 1 blocks are still reachable in loss record 1 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210336==    by 0x4001A2D: meta_helper (parser.c:28)
+==210336==    by 0x4001864: handle_meta (parser.c:60)
+==210336==    by 0x4001741: lexer (parser.c:113)
+==210336==    by 0x40044A6: get_tokens (more_utils.c:48)
+==210336==    by 0x40015BE: process_input (minishell.c:67)
+==210336==    by 0x40014C8: main (minishell.c:102)
+==210336== 
+==210336== 8 bytes in 1 blocks are still reachable in loss record 2 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210336==    by 0x400487B: update_var (export.c:46)
+==210336==    by 0x4004711: ft_export (export.c:103)
+==210336==    by 0x4004AAA: internal_export (init.c:48)
+==210336==    by 0x400156A: init_shell (minishell.c:55)
+==210336==    by 0x4001467: main (minishell.c:89)
+==210336== 
+==210336== 10 bytes in 2 blocks are still reachable in loss record 3 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4002984: strip_word_quotes (expand_and_quotes.c:72)
+==210336==    by 0x4002914: handle_quotes (expand_and_quotes.c:102)
+==210336==    by 0x40015F7: process_input (minishell.c:71)
+==210336==    by 0x40014C8: main (minishell.c:102)
+==210336== 
+==210336== 24 bytes in 1 blocks are still reachable in loss record 8 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210336==    by 0x400487B: update_var (export.c:46)
+==210336==    by 0x4004711: ft_export (export.c:103)
+==210336==    by 0x4004AAA: internal_export (init.c:48)
+==210336==    by 0x4001546: init_shell (minishell.c:54)
+==210336==    by 0x4001467: main (minishell.c:89)
+==210336== 
+==210336== 24 bytes in 1 blocks are still reachable in loss record 11 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x40040C9: init_cmds (execution_utils.c:20)
+==210336==    by 0x4002F96: build_cmds (execution.c:60)
+==210336==    by 0x4001600: process_input (minishell.c:72)
+==210336==    by 0x40014C8: main (minishell.c:102)
+==210336== 
+==210336== 48 bytes in 1 blocks are still reachable in loss record 12 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4002F59: build_cmds (execution.c:55)
+==210336==    by 0x4001600: process_input (minishell.c:72)
+==210336==    by 0x40014C8: main (minishell.c:102)
+==210336== 
+==210336== 120 bytes in 1 blocks are still reachable in loss record 13 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4963A85: getdelim (iogetdelim.c:65)
+==210336==    by 0x486740F: readline (in /home/luin/42_minishell_tester/utils/libintercept/libintercept.so)
+==210336==    by 0x4001488: main (minishell.c:94)
+==210336== 
+==210336== 256 bytes in 1 blocks are still reachable in loss record 14 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4001690: lexer (parser.c:103)
+==210336==    by 0x40044A6: get_tokens (more_utils.c:48)
+==210336==    by 0x40015BE: process_input (minishell.c:67)
+==210336==    by 0x40014C8: main (minishell.c:102)
+==210336== 
+==210336== 304 bytes in 1 blocks are still reachable in loss record 15 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4001B90: init_env (env_thingie.c:45)
+==210336==    by 0x4001500: init_shell (minishell.c:51)
+==210336==    by 0x4001467: main (minishell.c:89)
+==210336== 
+==210336== 4,883 bytes in 35 blocks are still reachable in loss record 17 of 17
+==210336==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210336==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210336==    by 0x4001BDC: init_env (env_thingie.c:51)
+==210336==    by 0x4001500: init_shell (minishell.c:51)
+==210336==    by 0x4001467: main (minishell.c:89)
+==210336== 
+==210336== LEAK SUMMARY:
+==210336==    definitely lost: 0 bytes in 0 blocks
+==210336==    indirectly lost: 0 bytes in 0 blocks
+==210336==      possibly lost: 0 bytes in 0 blocks
+==210336==    still reachable: 5,680 bytes in 45 blocks
+==210336==         suppressed: 4,114 bytes in 7 blocks
+==210336== 
+==210336== ERROR SUMMARY: 14 errors from 14 contexts (suppressed: 7 from 7)
+--210336-- 
+--210336-- used_suppression:      7 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,114 bytes in 7 blocks
+==210336== 
+==210336== ERROR SUMMARY: 14 errors from 14 contexts (suppressed: 7 from 7)
+==210335== Use of uninitialised value of size 8
+==210335==    at 0x49EB5AC: ___cbaud_to_speed (speed.c:132)
+==210335==    by 0x49EB5AC: ___termios2_canonicalize_speeds (speed.c:247)
+==210335==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210335==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Uninitialised value was created by a stack allocation
+==210335==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210335== 
+==210335== Use of uninitialised value of size 8
+==210335==    at 0x49EB5CE: ___cbaud_to_speed (speed.c:132)
+==210335==    by 0x49EB5CE: ___termios2_canonicalize_speeds (speed.c:249)
+==210335==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210335==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Uninitialised value was created by a stack allocation
+==210335==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210335== 
+==210335== Syscall param ioctl(generic) points to uninitialised byte(s)
+==210335==    at 0x49EB9A0: tcsetattr (tcsetattr.c:86)
+==210335==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Address 0x1ffefff6d0 is on thread 1's stack
+==210335==  in frame #0, created by tcsetattr (tcsetattr.c:25)
+==210335==  Uninitialised value was created by a stack allocation
+==210335==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210335== 
+==210335== File descriptor 3: file descriptor 3 is already closed
+==210335==    at 0x49E5B09: close (close.c:27)
+==210335==    by 0x4001387: free_cmds (minishell.c:29)
+==210335==    by 0x400142D: clean_up (minishell.c:44)
+==210335==    by 0x4001649: process_input (minishell.c:79)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Previously closed
+==210335==    at 0x49E5B09: close (close.c:27)
+==210335==    by 0x4003ACB: execute (execution.c:231)
+==210335==    by 0x4001635: process_input (minishell.c:78)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Originally opened
+==210335==    at 0x49E9D09: pipe (pipe.c:29)
+==210335==    by 0x4003E74: here_doc (builtin_center.c:97)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==210338== Open file descriptor 5: /dev/ptmx
+==210338==    <inherited from parent>
+==210338== 
+==210338== Open file descriptor 2: /dev/null
+==210338==    <inherited from parent>
+==210338== 
+==210338== Open file descriptor 1: /dev/null
+==210338==    <inherited from parent>
+==210338== 
+==210338== Open file descriptor 0:
+==210338==    <inherited from parent>
+==210338== 
+==210338== 
+==210338== HEAP SUMMARY:
+==210338==     in use at exit: 9,954 bytes in 64 blocks
+==210338==   total heap usage: 498 allocs, 434 frees, 31,632 bytes allocated
+==210338== 
+==210338== 1 bytes in 1 blocks are still reachable in loss record 1 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4002984: strip_word_quotes (expand_and_quotes.c:72)
+==210338==    by 0x4002914: handle_quotes (expand_and_quotes.c:102)
+==210338==    by 0x40015F7: process_input (minishell.c:71)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 4 bytes in 1 blocks are still reachable in loss record 2 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4004E68: ft_calloc (memory/ft_calloc.c:24)
+==210338==    by 0x400385C: execute (execution.c:197)
+==210338==    by 0x4001635: process_input (minishell.c:78)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 6 bytes in 1 blocks are still reachable in loss record 3 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4005800: ft_strjoin (string/ft_strjoin.c:25)
+==210338==    by 0x4003570: find_path (execution.c:145)
+==210338==    by 0x400396F: execute (execution.c:213)
+==210338==    by 0x4001635: process_input (minishell.c:78)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 8 bytes in 1 blocks are still reachable in loss record 4 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210338==    by 0x400487B: update_var (export.c:46)
+==210338==    by 0x4004711: ft_export (export.c:103)
+==210338==    by 0x4004AAA: internal_export (init.c:48)
+==210338==    by 0x400156A: init_shell (minishell.c:55)
+==210338==    by 0x4001467: main (minishell.c:89)
+==210338== 
+==210338== 16 bytes in 1 blocks are still reachable in loss record 5 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x40040C9: init_cmds (execution_utils.c:20)
+==210338==    by 0x4002F96: build_cmds (execution.c:60)
+==210338==    by 0x4001600: process_input (minishell.c:72)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 24 bytes in 1 blocks are still reachable in loss record 6 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210338==    by 0x400487B: update_var (export.c:46)
+==210338==    by 0x4004711: ft_export (export.c:103)
+==210338==    by 0x4004AAA: internal_export (init.c:48)
+==210338==    by 0x4001546: init_shell (minishell.c:54)
+==210338==    by 0x4001467: main (minishell.c:89)
+==210338== 
+==210338== 48 bytes in 1 blocks are still reachable in loss record 11 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4002F59: build_cmds (execution.c:55)
+==210338==    by 0x4001600: process_input (minishell.c:72)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 120 bytes in 1 blocks are still reachable in loss record 14 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4963A85: getdelim (iogetdelim.c:65)
+==210338==    by 0x486740F: readline (in /home/luin/42_minishell_tester/utils/libintercept/libintercept.so)
+==210338==    by 0x4001488: main (minishell.c:94)
+==210338== 
+==210338== 256 bytes in 1 blocks are still reachable in loss record 15 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4001690: lexer (parser.c:103)
+==210338==    by 0x40044A6: get_tokens (more_utils.c:48)
+==210338==    by 0x40015BE: process_input (minishell.c:67)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 304 bytes in 1 blocks are still reachable in loss record 16 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4001B90: init_env (env_thingie.c:45)
+==210338==    by 0x4001500: init_shell (minishell.c:51)
+==210338==    by 0x4001467: main (minishell.c:89)
+==210338== 
+==210338== 4,883 bytes in 35 blocks are still reachable in loss record 18 of 18
+==210338==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210338==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210338==    by 0x4001BDC: init_env (env_thingie.c:51)
+==210338==    by 0x4001500: init_shell (minishell.c:51)
+==210338==    by 0x4001467: main (minishell.c:89)
+==210338== 
+==210338== LEAK SUMMARY:
+==210338==    definitely lost: 0 bytes in 0 blocks
+==210338==    indirectly lost: 0 bytes in 0 blocks
+==210338==      possibly lost: 0 bytes in 0 blocks
+==210338==    still reachable: 5,670 bytes in 45 blocks
+==210338==         suppressed: 4,284 bytes in 19 blocks
+==210338== 
+==210338== ERROR SUMMARY: 19 errors from 19 contexts (suppressed: 7 from 7)
+==210338== 
+==210338== 1 errors in context 1 of 19:
+==210338== File descriptor 3: /dev/null is already closed
+==210338==    at 0x49E5B09: close (close.c:27)
+==210338==    by 0x4001387: free_cmds (minishell.c:29)
+==210338==    by 0x400142D: clean_up (minishell.c:44)
+==210338==    by 0x4001649: process_input (minishell.c:79)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338==  Previously closed
+==210338==    at 0x49E5B09: close (close.c:27)
+==210338==    by 0x4003ACB: execute (execution.c:231)
+==210338==    by 0x4001635: process_input (minishell.c:78)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338==  Originally opened
+==210338==    at 0x49E9D09: pipe (pipe.c:29)
+==210338==    by 0x4003E74: here_doc (builtin_center.c:97)
+==210338==    by 0x40033B5: build_cmds (execution.c:108)
+==210338==    by 0x4001600: process_input (minishell.c:72)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338== 
+==210338== 1 errors in context 2 of 19:
+==210338== Syscall param ioctl(generic) points to uninitialised byte(s)
+==210338==    at 0x49EB9A0: tcsetattr (tcsetattr.c:86)
+==210338==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210338==    by 0x40033B5: build_cmds (execution.c:108)
+==210338==    by 0x4001600: process_input (minishell.c:72)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338==  Address 0x1ffefff6d0 is on thread 1's stack
+==210338==  in frame #0, created by tcsetattr (tcsetattr.c:25)
+==210338==  Uninitialised value was created by a stack allocation
+==210338==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210338== 
+==210338== 
+==210338== 1 errors in context 3 of 19:
+==210338== Use of uninitialised value of size 8
+==210338==    at 0x49EB5CE: ___cbaud_to_speed (speed.c:132)
+==210338==    by 0x49EB5CE: ___termios2_canonicalize_speeds (speed.c:249)
+==210338==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210338==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210338==    by 0x40033B5: build_cmds (execution.c:108)
+==210338==    by 0x4001600: process_input (minishell.c:72)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338==  Uninitialised value was created by a stack allocation
+==210338==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210338== 
+==210338== 
+==210338== 1 errors in context 4 of 19:
+==210338== Use of uninitialised value of size 8
+==210338==    at 0x49EB5AC: ___cbaud_to_speed (speed.c:132)
+==210338==    by 0x49EB5AC: ___termios2_canonicalize_speeds (speed.c:247)
+==210338==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210338==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210338==    by 0x40033B5: build_cmds (execution.c:108)
+==210338==    by 0x4001600: process_input (minishell.c:72)
+==210338==    by 0x40014C8: main (minishell.c:102)
+==210338==  Uninitialised value was created by a stack allocation
+==210338==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210338== 
+--210338-- 
+--210338-- used_suppression:      7 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,284 bytes in 19 blocks
+==210338== 
+==210338== ERROR SUMMARY: 19 errors from 19 contexts (suppressed: 7 from 7)
+==210339== 
+==210339== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==210339== Open file descriptor 5: /dev/ptmx
+==210339==    <inherited from parent>
+==210339== 
+==210339== Open file descriptor 2: /dev/null
+==210339==    <inherited from parent>
+==210339== 
+==210339== Open file descriptor 1: /dev/null
+==210339==    <inherited from parent>
+==210339== 
+==210339== Open file descriptor 0:
+==210339==    <inherited from parent>
+==210339== 
+==210339== 
+==210339== HEAP SUMMARY:
+==210339==     in use at exit: 10,053 bytes in 70 blocks
+==210339==   total heap usage: 553 allocs, 483 frees, 32,950 bytes allocated
+==210339== 
+==210339== 4 bytes in 1 blocks are still reachable in loss record 1 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4004E68: ft_calloc (memory/ft_calloc.c:24)
+==210339==    by 0x400385C: execute (execution.c:197)
+==210339==    by 0x4001635: process_input (minishell.c:78)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 8 bytes in 1 blocks are still reachable in loss record 2 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210339==    by 0x400487B: update_var (export.c:46)
+==210339==    by 0x4004711: ft_export (export.c:103)
+==210339==    by 0x4004AAA: internal_export (init.c:48)
+==210339==    by 0x400156A: init_shell (minishell.c:55)
+==210339==    by 0x4001467: main (minishell.c:89)
+==210339== 
+==210339== 11 bytes in 1 blocks are still reachable in loss record 3 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4002984: strip_word_quotes (expand_and_quotes.c:72)
+==210339==    by 0x4002914: handle_quotes (expand_and_quotes.c:102)
+==210339==    by 0x40015F7: process_input (minishell.c:71)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 11 bytes in 1 blocks are still reachable in loss record 4 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210339==    by 0x40034B1: find_path (execution.c:132)
+==210339==    by 0x400396F: execute (execution.c:213)
+==210339==    by 0x4001635: process_input (minishell.c:78)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 16 bytes in 1 blocks are still reachable in loss record 5 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x40040C9: init_cmds (execution_utils.c:20)
+==210339==    by 0x4002F96: build_cmds (execution.c:60)
+==210339==    by 0x4001600: process_input (minishell.c:72)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 24 bytes in 1 blocks are still reachable in loss record 6 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210339==    by 0x400487B: update_var (export.c:46)
+==210339==    by 0x4004711: ft_export (export.c:103)
+==210339==    by 0x4004AAA: internal_export (init.c:48)
+==210339==    by 0x4001546: init_shell (minishell.c:54)
+==210339==    by 0x4001467: main (minishell.c:89)
+==210339== 
+==210339== 48 bytes in 1 blocks are still reachable in loss record 9 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4002F59: build_cmds (execution.c:55)
+==210339==    by 0x4001600: process_input (minishell.c:72)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 120 bytes in 1 blocks are still reachable in loss record 14 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4963A85: getdelim (iogetdelim.c:65)
+==210339==    by 0x486740F: readline (in /home/luin/42_minishell_tester/utils/libintercept/libintercept.so)
+==210339==    by 0x4001488: main (minishell.c:94)
+==210339== 
+==210339== 256 bytes in 1 blocks are still reachable in loss record 15 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4001690: lexer (parser.c:103)
+==210339==    by 0x40044A6: get_tokens (more_utils.c:48)
+==210339==    by 0x40015BE: process_input (minishell.c:67)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 304 bytes in 1 blocks are still reachable in loss record 16 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4001B90: init_env (env_thingie.c:45)
+==210339==    by 0x4001500: init_shell (minishell.c:51)
+==210339==    by 0x4001467: main (minishell.c:89)
+==210339== 
+==210339== 4,883 bytes in 35 blocks are still reachable in loss record 18 of 18
+==210339==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==210339==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==210339==    by 0x4001BDC: init_env (env_thingie.c:51)
+==210339==    by 0x4001500: init_shell (minishell.c:51)
+==210339==    by 0x4001467: main (minishell.c:89)
+==210339== 
+==210339== LEAK SUMMARY:
+==210339==    definitely lost: 0 bytes in 0 blocks
+==210339==    indirectly lost: 0 bytes in 0 blocks
+==210339==      possibly lost: 0 bytes in 0 blocks
+==210339==    still reachable: 5,685 bytes in 45 blocks
+==210339==         suppressed: 4,368 bytes in 25 blocks
+==210339== 
+==210339== ERROR SUMMARY: 19 errors from 19 contexts (suppressed: 7 from 7)
+==210339== 
+==210339== 1 errors in context 1 of 19:
+==210339== File descriptor 3: /dev/null is already closed
+==210339==    at 0x49E5B09: close (close.c:27)
+==210339==    by 0x4001387: free_cmds (minishell.c:29)
+==210339==    by 0x400142D: clean_up (minishell.c:44)
+==210339==    by 0x4001649: process_input (minishell.c:79)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339==  Previously closed
+==210339==    at 0x49E5B09: close (close.c:27)
+==210339==    by 0x4003ACB: execute (execution.c:231)
+==210339==    by 0x4001635: process_input (minishell.c:78)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339==  Originally opened
+==210339==    at 0x49E9D09: pipe (pipe.c:29)
+==210339==    by 0x4003E74: here_doc (builtin_center.c:97)
+==210339==    by 0x40033B5: build_cmds (execution.c:108)
+==210339==    by 0x4001600: process_input (minishell.c:72)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339== 
+==210339== 1 errors in context 2 of 19:
+==210339== Syscall param ioctl(generic) points to uninitialised byte(s)
+==210339==    at 0x49EB9A0: tcsetattr (tcsetattr.c:86)
+==210339==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210339==    by 0x40033B5: build_cmds (execution.c:108)
+==210339==    by 0x4001600: process_input (minishell.c:72)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339==  Address 0x1ffefff6d0 is on thread 1's stack
+==210339==  in frame #0, created by tcsetattr (tcsetattr.c:25)
+==210339==  Uninitialised value was created by a stack allocation
+==210339==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210339== 
+==210339== 
+==210339== 1 errors in context 3 of 19:
+==210339== Use of uninitialised value of size 8
+==210339==    at 0x49EB5CE: ___cbaud_to_speed (speed.c:132)
+==210339==    by 0x49EB5CE: ___termios2_canonicalize_speeds (speed.c:249)
+==210339==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210339==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210339==    by 0x40033B5: build_cmds (execution.c:108)
+==210339==    by 0x4001600: process_input (minishell.c:72)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339==  Uninitialised value was created by a stack allocation
+==210339==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210339== 
+==210339== 
+==210339== 1 errors in context 4 of 19:
+==210339== Use of uninitialised value of size 8
+==210339==    at 0x49EB5AC: ___cbaud_to_speed (speed.c:132)
+==210339==    by 0x49EB5AC: ___termios2_canonicalize_speeds (speed.c:247)
+==210339==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210339==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210339==    by 0x40033B5: build_cmds (execution.c:108)
+==210339==    by 0x4001600: process_input (minishell.c:72)
+==210339==    by 0x40014C8: main (minishell.c:102)
+==210339==  Uninitialised value was created by a stack allocation
+==210339==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210339== 
+--210339-- 
+--210339-- used_suppression:      7 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,368 bytes in 25 blocks
+==210339== 
+==210339== ERROR SUMMARY: 19 errors from 19 contexts (suppressed: 7 from 7)
+==210335== 
+==210335== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==210335== Open file descriptor 5: /dev/ptmx
+==210335==    <inherited from parent>
+==210335== 
+==210335== Open file descriptor 2: /dev/null
+==210335==    <inherited from parent>
+==210335== 
+==210335== Open file descriptor 1: /dev/null
+==210335==    <inherited from parent>
+==210335== 
+==210335== Open file descriptor 0:
+==210335==    <inherited from parent>
+==210335== 
+==210335== 
+==210335== HEAP SUMMARY:
+==210335==     in use at exit: 4,016 bytes in 1 blocks
+==210335==   total heap usage: 726 allocs, 725 frees, 38,903 bytes allocated
+==210335== 
+==210335== LEAK SUMMARY:
+==210335==    definitely lost: 0 bytes in 0 blocks
+==210335==    indirectly lost: 0 bytes in 0 blocks
+==210335==      possibly lost: 0 bytes in 0 blocks
+==210335==    still reachable: 0 bytes in 0 blocks
+==210335==         suppressed: 4,016 bytes in 1 blocks
+==210335== 
+==210335== ERROR SUMMARY: 8 errors from 8 contexts (suppressed: 1 from 1)
+==210335== 
+==210335== 1 errors in context 1 of 8:
+==210335== File descriptor 3: file descriptor 3 is already closed
+==210335==    at 0x49E5B09: close (close.c:27)
+==210335==    by 0x4001387: free_cmds (minishell.c:29)
+==210335==    by 0x400142D: clean_up (minishell.c:44)
+==210335==    by 0x4001649: process_input (minishell.c:79)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Previously closed
+==210335==    at 0x49E5B09: close (close.c:27)
+==210335==    by 0x4003ACB: execute (execution.c:231)
+==210335==    by 0x4001635: process_input (minishell.c:78)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Originally opened
+==210335==    at 0x49E9D09: pipe (pipe.c:29)
+==210335==    by 0x4003E74: here_doc (builtin_center.c:97)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335== 
+==210335== 1 errors in context 2 of 8:
+==210335== Syscall param ioctl(generic) points to uninitialised byte(s)
+==210335==    at 0x49EB9A0: tcsetattr (tcsetattr.c:86)
+==210335==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Address 0x1ffefff6d0 is on thread 1's stack
+==210335==  in frame #0, created by tcsetattr (tcsetattr.c:25)
+==210335==  Uninitialised value was created by a stack allocation
+==210335==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210335== 
+==210335== 
+==210335== 1 errors in context 3 of 8:
+==210335== Use of uninitialised value of size 8
+==210335==    at 0x49EB5CE: ___cbaud_to_speed (speed.c:132)
+==210335==    by 0x49EB5CE: ___termios2_canonicalize_speeds (speed.c:249)
+==210335==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210335==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Uninitialised value was created by a stack allocation
+==210335==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210335== 
+==210335== 
+==210335== 1 errors in context 4 of 8:
+==210335== Use of uninitialised value of size 8
+==210335==    at 0x49EB5AC: ___cbaud_to_speed (speed.c:132)
+==210335==    by 0x49EB5AC: ___termios2_canonicalize_speeds (speed.c:247)
+==210335==    by 0x49EB932: tcsetattr (tcsetattr.c:42)
+==210335==    by 0x4003F06: here_doc (builtin_center.c:108)
+==210335==    by 0x40033B5: build_cmds (execution.c:108)
+==210335==    by 0x4001600: process_input (minishell.c:72)
+==210335==    by 0x40014C8: main (minishell.c:102)
+==210335==  Uninitialised value was created by a stack allocation
+==210335==    at 0x4003E60: here_doc (builtin_center.c:91)
+==210335== 
+--210335-- 
+--210335-- used_suppression:      1 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==210335== 
+==210335== ERROR SUMMARY: 8 errors from 8 contexts (suppressed: 1 from 1)

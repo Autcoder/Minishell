@@ -1,0 +1,158 @@
+==226125== Memcheck, a memory error detector
+==226125== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==226125== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==226125== Command: /home/luin/42/CC/Minishell/minishell
+==226125== Parent PID: 226124
+==226125== 
+==226125== Invalid read of size 1
+==226125==    at 0x400555D: ft_strncmp (string/ft_strncmp.c:24)
+==226125==    by 0x4003B86: is_builtin (builtin_center.c:18)
+==226125==    by 0x40038E6: execute (execution.c:205)
+==226125==    by 0x4001635: process_input (minishell.c:78)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==226125== 
+==226125== 
+==226125== Process terminating with default action of signal 11 (SIGSEGV)
+==226125==  Access not within mapped region at address 0x0
+==226125==    at 0x400555D: ft_strncmp (string/ft_strncmp.c:24)
+==226125==    by 0x4003B86: is_builtin (builtin_center.c:18)
+==226125==    by 0x40038E6: execute (execution.c:205)
+==226125==    by 0x4001635: process_input (minishell.c:78)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125==  If you believe this happened as a result of a stack
+==226125==  overflow in your program's main thread (unlikely but
+==226125==  possible), you can try to increase the size of the
+==226125==  main thread stack using the --main-stacksize= flag.
+==226125==  The main thread stack size used in this run was 8388608.
+==226125== 
+==226125== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==226125== Open file descriptor 5: /dev/ptmx
+==226125==    <inherited from parent>
+==226125== 
+==226125== Open file descriptor 2: /dev/null
+==226125==    <inherited from parent>
+==226125== 
+==226125== Open file descriptor 1: /dev/null
+==226125==    <inherited from parent>
+==226125== 
+==226125== Open file descriptor 0:
+==226125==    <inherited from parent>
+==226125== 
+==226125== 
+==226125== HEAP SUMMARY:
+==226125==     in use at exit: 13,941 bytes in 56 blocks
+==226125==   total heap usage: 182 allocs, 126 frees, 20,329 bytes allocated
+==226125== 
+==226125== 2 bytes in 1 blocks are still reachable in loss record 1 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==226125==    by 0x400182E: handle_meta (parser.c:57)
+==226125==    by 0x4001741: lexer (parser.c:113)
+==226125==    by 0x40044A6: get_tokens (more_utils.c:48)
+==226125==    by 0x40015BE: process_input (minishell.c:67)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125== 
+==226125== 8 bytes in 1 blocks are still reachable in loss record 2 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==226125==    by 0x400487B: update_var (export.c:46)
+==226125==    by 0x4004711: ft_export (export.c:103)
+==226125==    by 0x4004AAA: internal_export (init.c:48)
+==226125==    by 0x400156A: init_shell (minishell.c:55)
+==226125==    by 0x4001467: main (minishell.c:89)
+==226125== 
+==226125== 8 bytes in 1 blocks are still reachable in loss record 3 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4004E68: ft_calloc (memory/ft_calloc.c:24)
+==226125==    by 0x400385C: execute (execution.c:197)
+==226125==    by 0x4001635: process_input (minishell.c:78)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125== 
+==226125== 12 bytes in 3 blocks are still reachable in loss record 6 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4002984: strip_word_quotes (expand_and_quotes.c:72)
+==226125==    by 0x4002914: handle_quotes (expand_and_quotes.c:102)
+==226125==    by 0x40015F7: process_input (minishell.c:71)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125== 
+==226125== 24 bytes in 1 blocks are still reachable in loss record 9 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==226125==    by 0x400487B: update_var (export.c:46)
+==226125==    by 0x4004711: ft_export (export.c:103)
+==226125==    by 0x4004AAA: internal_export (init.c:48)
+==226125==    by 0x4001546: init_shell (minishell.c:54)
+==226125==    by 0x4001467: main (minishell.c:89)
+==226125== 
+==226125== 40 bytes in 2 blocks are still reachable in loss record 12 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x40040C9: init_cmds (execution_utils.c:20)
+==226125==    by 0x4002F96: build_cmds (execution.c:60)
+==226125==    by 0x4001600: process_input (minishell.c:72)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125== 
+==226125== 72 bytes in 1 blocks are still reachable in loss record 13 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4002F59: build_cmds (execution.c:55)
+==226125==    by 0x4001600: process_input (minishell.c:72)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125== 
+==226125== 120 bytes in 1 blocks are still reachable in loss record 14 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4963A85: getdelim (iogetdelim.c:65)
+==226125==    by 0x486740F: readline (in /home/luin/42_minishell_tester/utils/libintercept/libintercept.so)
+==226125==    by 0x4001488: main (minishell.c:94)
+==226125== 
+==226125== 256 bytes in 1 blocks are still reachable in loss record 15 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4001690: lexer (parser.c:103)
+==226125==    by 0x40044A6: get_tokens (more_utils.c:48)
+==226125==    by 0x40015BE: process_input (minishell.c:67)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125== 
+==226125== 304 bytes in 1 blocks are still reachable in loss record 16 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4001B90: init_env (env_thingie.c:45)
+==226125==    by 0x4001500: init_shell (minishell.c:51)
+==226125==    by 0x4001467: main (minishell.c:89)
+==226125== 
+==226125== 4,096 bytes in 1 blocks are still reachable in loss record 18 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4961F20: _IO_file_doallocate (filedoalloc.c:91)
+==226125==    by 0x4971922: _IO_doallocbuf (genops.c:373)
+==226125==    by 0x4971922: _IO_doallocbuf (genops.c:368)
+==226125==    by 0x496F48D: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:520)
+==226125==    by 0x4963AB2: getdelim (iogetdelim.c:77)
+==226125==    by 0x486740F: readline (in /home/luin/42_minishell_tester/utils/libintercept/libintercept.so)
+==226125==    by 0x4001488: main (minishell.c:94)
+==226125== 
+==226125== 4,883 bytes in 35 blocks are still reachable in loss record 19 of 19
+==226125==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==226125==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==226125==    by 0x4001BDC: init_env (env_thingie.c:51)
+==226125==    by 0x4001500: init_shell (minishell.c:51)
+==226125==    by 0x4001467: main (minishell.c:89)
+==226125== 
+==226125== LEAK SUMMARY:
+==226125==    definitely lost: 0 bytes in 0 blocks
+==226125==    indirectly lost: 0 bytes in 0 blocks
+==226125==      possibly lost: 0 bytes in 0 blocks
+==226125==    still reachable: 9,825 bytes in 49 blocks
+==226125==         suppressed: 4,116 bytes in 7 blocks
+==226125== 
+==226125== ERROR SUMMARY: 17 errors from 17 contexts (suppressed: 7 from 7)
+==226125== 
+==226125== 1 errors in context 1 of 17:
+==226125== Invalid read of size 1
+==226125==    at 0x400555D: ft_strncmp (string/ft_strncmp.c:24)
+==226125==    by 0x4003B86: is_builtin (builtin_center.c:18)
+==226125==    by 0x40038E6: execute (execution.c:205)
+==226125==    by 0x4001635: process_input (minishell.c:78)
+==226125==    by 0x40014C8: main (minishell.c:102)
+==226125==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==226125== 
+--226125-- 
+--226125-- used_suppression:      7 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,116 bytes in 7 blocks
+==226125== 
+==226125== ERROR SUMMARY: 17 errors from 17 contexts (suppressed: 7 from 7)

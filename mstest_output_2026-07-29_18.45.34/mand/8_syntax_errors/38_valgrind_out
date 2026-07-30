@@ -1,0 +1,37 @@
+==226074== Memcheck, a memory error detector
+==226074== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==226074== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==226074== Command: /home/luin/42/CC/Minishell/minishell
+==226074== Parent PID: 226073
+==226074== 
+==226074== 
+==226074== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==226074== Open file descriptor 5: /dev/ptmx
+==226074==    <inherited from parent>
+==226074== 
+==226074== Open file descriptor 2: /dev/null
+==226074==    <inherited from parent>
+==226074== 
+==226074== Open file descriptor 1: /dev/null
+==226074==    <inherited from parent>
+==226074== 
+==226074== Open file descriptor 0:
+==226074==    <inherited from parent>
+==226074== 
+==226074== 
+==226074== HEAP SUMMARY:
+==226074==     in use at exit: 4,016 bytes in 1 blocks
+==226074==   total heap usage: 244 allocs, 243 frees, 22,853 bytes allocated
+==226074== 
+==226074== LEAK SUMMARY:
+==226074==    definitely lost: 0 bytes in 0 blocks
+==226074==    indirectly lost: 0 bytes in 0 blocks
+==226074==      possibly lost: 0 bytes in 0 blocks
+==226074==    still reachable: 0 bytes in 0 blocks
+==226074==         suppressed: 4,016 bytes in 1 blocks
+==226074== 
+==226074== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 1 from 1)
+--226074-- 
+--226074-- used_suppression:      1 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==226074== 
+==226074== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 1 from 1)

@@ -1,0 +1,2 @@
+hello: command not found
+/home/luin/42_minishell_tester/tester.sh: line 634: 162591 Segmentation fault         LD_PRELOAD=/home/luin/42_minishell_tester/utils/libintercept/libintercept.so /home/luin/42/CC/Minishell/minishell

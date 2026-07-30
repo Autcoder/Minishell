@@ -1,0 +1,71 @@
+==208846== Memcheck, a memory error detector
+==208846== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==208846== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==208846== Command: /home/luin/42/CC/Minishell/minishell
+==208846== Parent PID: 208845
+==208846== 
+==208846== File descriptor 3: /dev/null is already closed
+==208846==    at 0x49E5B09: close (close.c:27)
+==208846==    by 0x4001387: free_cmds (minishell.c:29)
+==208846==    by 0x400142D: clean_up (minishell.c:44)
+==208846==    by 0x4001649: process_input (minishell.c:79)
+==208846==    by 0x40014C8: main (minishell.c:102)
+==208846==  Previously closed
+==208846==    at 0x49E5B09: close (close.c:27)
+==208846==    by 0x4003ACB: execute (execution.c:231)
+==208846==    by 0x4001635: process_input (minishell.c:78)
+==208846==    by 0x40014C8: main (minishell.c:102)
+==208846==  Originally opened
+==208846==    at 0x49E9B6C: open (open64.c:41)
+==208846==    by 0x40030DC: build_cmds (execution.c:73)
+==208846==    by 0x4001600: process_input (minishell.c:72)
+==208846==    by 0x40014C8: main (minishell.c:102)
+==208846== 
+==208846== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==208846== Open file descriptor 5: /dev/ptmx
+==208846==    <inherited from parent>
+==208846== 
+==208846== Open file descriptor 2: /dev/null
+==208846==    <inherited from parent>
+==208846== 
+==208846== Open file descriptor 1: /dev/null
+==208846==    <inherited from parent>
+==208846== 
+==208846== Open file descriptor 0:
+==208846==    <inherited from parent>
+==208846== 
+==208846== 
+==208846== HEAP SUMMARY:
+==208846==     in use at exit: 4,016 bytes in 1 blocks
+==208846==   total heap usage: 204 allocs, 203 frees, 22,109 bytes allocated
+==208846== 
+==208846== LEAK SUMMARY:
+==208846==    definitely lost: 0 bytes in 0 blocks
+==208846==    indirectly lost: 0 bytes in 0 blocks
+==208846==      possibly lost: 0 bytes in 0 blocks
+==208846==    still reachable: 0 bytes in 0 blocks
+==208846==         suppressed: 4,016 bytes in 1 blocks
+==208846== 
+==208846== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 1 from 1)
+==208846== 
+==208846== 1 errors in context 1 of 5:
+==208846== File descriptor 3: /dev/null is already closed
+==208846==    at 0x49E5B09: close (close.c:27)
+==208846==    by 0x4001387: free_cmds (minishell.c:29)
+==208846==    by 0x400142D: clean_up (minishell.c:44)
+==208846==    by 0x4001649: process_input (minishell.c:79)
+==208846==    by 0x40014C8: main (minishell.c:102)
+==208846==  Previously closed
+==208846==    at 0x49E5B09: close (close.c:27)
+==208846==    by 0x4003ACB: execute (execution.c:231)
+==208846==    by 0x4001635: process_input (minishell.c:78)
+==208846==    by 0x40014C8: main (minishell.c:102)
+==208846==  Originally opened
+==208846==    at 0x49E9B6C: open (open64.c:41)
+==208846==    by 0x40030DC: build_cmds (execution.c:73)
+==208846==    by 0x4001600: process_input (minishell.c:72)
+==208846==    by 0x40014C8: main (minishell.c:102)
+--208846-- 
+--208846-- used_suppression:      1 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==208846== 
+==208846== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 1 from 1)

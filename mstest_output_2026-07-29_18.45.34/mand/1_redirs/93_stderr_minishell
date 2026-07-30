@@ -1,0 +1,2 @@
+minishell: warning: here-document delimited by end-of-file (wanted 'lala')
+/home/luin/42_minishell_tester/tester.sh: line 634: 210712 Segmentation fault         LD_PRELOAD=/home/luin/42_minishell_tester/utils/libintercept/libintercept.so /home/luin/42/CC/Minishell/minishell

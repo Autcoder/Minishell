@@ -1,0 +1,44 @@
+==208385== Memcheck, a memory error detector
+==208385== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==208385== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==208385== Command: /home/luin/42/CC/Minishell/minishell
+==208385== Parent PID: 208384
+==208385== 
+==208385== 
+==208385== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==208385== Open file descriptor 5: /dev/ptmx
+==208385==    <inherited from parent>
+==208385== 
+==208385== Open file descriptor 2: /dev/null
+==208385==    <inherited from parent>
+==208385== 
+==208385== Open file descriptor 1: /dev/null
+==208385==    <inherited from parent>
+==208385== 
+==208385== Open file descriptor 0:
+==208385==    <inherited from parent>
+==208385== 
+==208385== 
+==208385== HEAP SUMMARY:
+==208385==     in use at exit: 4,048 bytes in 2 blocks
+==208385==   total heap usage: 266 allocs, 264 frees, 22,115 bytes allocated
+==208385== 
+==208385== 32 bytes in 1 blocks are definitely lost in loss record 1 of 2
+==208385==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==208385==    by 0x40040C9: init_cmds (execution_utils.c:20)
+==208385==    by 0x4002F96: build_cmds (execution.c:60)
+==208385==    by 0x4001600: process_input (minishell.c:72)
+==208385==    by 0x40014C8: main (minishell.c:102)
+==208385== 
+==208385== LEAK SUMMARY:
+==208385==    definitely lost: 32 bytes in 1 blocks
+==208385==    indirectly lost: 0 bytes in 0 blocks
+==208385==      possibly lost: 0 bytes in 0 blocks
+==208385==    still reachable: 0 bytes in 0 blocks
+==208385==         suppressed: 4,016 bytes in 1 blocks
+==208385== 
+==208385== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 1 from 1)
+--208385-- 
+--208385-- used_suppression:      1 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==208385== 
+==208385== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 1 from 1)

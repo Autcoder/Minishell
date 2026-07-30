@@ -1,0 +1,147 @@
+==184255== Memcheck, a memory error detector
+==184255== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==184255== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==184255== Command: /home/luin/42/CC/Minishell/minishell
+==184255== Parent PID: 184254
+==184255== 
+==184258== 
+==184258== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==184258== Open file descriptor 5: /dev/ptmx
+==184258==    <inherited from parent>
+==184258== 
+==184258== Open file descriptor 2: /dev/null
+==184258==    <inherited from parent>
+==184258== 
+==184258== Open file descriptor 1: /dev/null
+==184258==    <inherited from parent>
+==184258== 
+==184258== Open file descriptor 0:
+==184258==    <inherited from parent>
+==184258== 
+==184258== 
+==184258== HEAP SUMMARY:
+==184258==     in use at exit: 9,904 bytes in 55 blocks
+==184258==   total heap usage: 286 allocs, 231 frees, 23,608 bytes allocated
+==184258== 
+==184258== 4 bytes in 1 blocks are still reachable in loss record 1 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4004E68: ft_calloc (memory/ft_calloc.c:24)
+==184258==    by 0x400385C: execute (execution.c:197)
+==184258==    by 0x4001635: process_input (minishell.c:78)
+==184258==    by 0x40014C8: main (minishell.c:102)
+==184258== 
+==184258== 8 bytes in 1 blocks are still reachable in loss record 2 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==184258==    by 0x400487B: update_var (export.c:46)
+==184258==    by 0x4004711: ft_export (export.c:103)
+==184258==    by 0x4004AAA: internal_export (init.c:48)
+==184258==    by 0x400156A: init_shell (minishell.c:55)
+==184258==    by 0x4001467: main (minishell.c:89)
+==184258== 
+==184258== 10 bytes in 1 blocks are still reachable in loss record 3 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4005800: ft_strjoin (string/ft_strjoin.c:25)
+==184258==    by 0x4003570: find_path (execution.c:145)
+==184258==    by 0x400396F: execute (execution.c:213)
+==184258==    by 0x4001635: process_input (minishell.c:78)
+==184258==    by 0x40014C8: main (minishell.c:102)
+==184258== 
+==184258== 24 bytes in 1 blocks are still reachable in loss record 6 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==184258==    by 0x400487B: update_var (export.c:46)
+==184258==    by 0x4004711: ft_export (export.c:103)
+==184258==    by 0x4004AAA: internal_export (init.c:48)
+==184258==    by 0x4001546: init_shell (minishell.c:54)
+==184258==    by 0x4001467: main (minishell.c:89)
+==184258== 
+==184258== 39 bytes in 4 blocks are still reachable in loss record 9 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4002984: strip_word_quotes (expand_and_quotes.c:72)
+==184258==    by 0x4002914: handle_quotes (expand_and_quotes.c:102)
+==184258==    by 0x40015F7: process_input (minishell.c:71)
+==184258==    by 0x40014C8: main (minishell.c:102)
+==184258== 
+==184258== 40 bytes in 1 blocks are still reachable in loss record 12 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x40040C9: init_cmds (execution_utils.c:20)
+==184258==    by 0x4002F96: build_cmds (execution.c:60)
+==184258==    by 0x4001600: process_input (minishell.c:72)
+==184258==    by 0x40014C8: main (minishell.c:102)
+==184258== 
+==184258== 48 bytes in 1 blocks are still reachable in loss record 13 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4002F59: build_cmds (execution.c:55)
+==184258==    by 0x4001600: process_input (minishell.c:72)
+==184258==    by 0x40014C8: main (minishell.c:102)
+==184258== 
+==184258== 120 bytes in 1 blocks are still reachable in loss record 14 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4963A85: getdelim (iogetdelim.c:65)
+==184258==    by 0x486740F: readline (in /home/luin/42_minishell_tester/utils/libintercept/libintercept.so)
+==184258==    by 0x4001488: main (minishell.c:94)
+==184258== 
+==184258== 256 bytes in 1 blocks are still reachable in loss record 15 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4001690: lexer (parser.c:103)
+==184258==    by 0x40044A6: get_tokens (more_utils.c:48)
+==184258==    by 0x40015BE: process_input (minishell.c:67)
+==184258==    by 0x40014C8: main (minishell.c:102)
+==184258== 
+==184258== 304 bytes in 1 blocks are still reachable in loss record 16 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4001B90: init_env (env_thingie.c:45)
+==184258==    by 0x4001500: init_shell (minishell.c:51)
+==184258==    by 0x4001467: main (minishell.c:89)
+==184258== 
+==184258== 4,883 bytes in 35 blocks are still reachable in loss record 18 of 18
+==184258==    at 0x484F818: malloc (vg_replace_malloc.c:446)
+==184258==    by 0x4005690: ft_strdup (string/ft_strdup.c:23)
+==184258==    by 0x4001BDC: init_env (env_thingie.c:51)
+==184258==    by 0x4001500: init_shell (minishell.c:51)
+==184258==    by 0x4001467: main (minishell.c:89)
+==184258== 
+==184258== LEAK SUMMARY:
+==184258==    definitely lost: 0 bytes in 0 blocks
+==184258==    indirectly lost: 0 bytes in 0 blocks
+==184258==      possibly lost: 0 bytes in 0 blocks
+==184258==    still reachable: 5,736 bytes in 48 blocks
+==184258==         suppressed: 4,168 bytes in 7 blocks
+==184258== 
+==184258== ERROR SUMMARY: 15 errors from 15 contexts (suppressed: 7 from 7)
+--184258-- 
+--184258-- used_suppression:      7 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,168 bytes in 7 blocks
+==184258== 
+==184258== ERROR SUMMARY: 15 errors from 15 contexts (suppressed: 7 from 7)
+==184255== 
+==184255== FILE DESCRIPTORS: 4 open (4 inherited) at exit.
+==184255== Open file descriptor 5: /dev/ptmx
+==184255==    <inherited from parent>
+==184255== 
+==184255== Open file descriptor 2: /dev/null
+==184255==    <inherited from parent>
+==184255== 
+==184255== Open file descriptor 1: /dev/null
+==184255==    <inherited from parent>
+==184255== 
+==184255== Open file descriptor 0:
+==184255==    <inherited from parent>
+==184255== 
+==184255== 
+==184255== HEAP SUMMARY:
+==184255==     in use at exit: 4,016 bytes in 1 blocks
+==184255==   total heap usage: 287 allocs, 286 frees, 23,728 bytes allocated
+==184255== 
+==184255== LEAK SUMMARY:
+==184255==    definitely lost: 0 bytes in 0 blocks
+==184255==    indirectly lost: 0 bytes in 0 blocks
+==184255==      possibly lost: 0 bytes in 0 blocks
+==184255==    still reachable: 0 bytes in 0 blocks
+==184255==         suppressed: 4,016 bytes in 1 blocks
+==184255== 
+==184255== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 1 from 1)
+--184255-- 
+--184255-- used_suppression:      1 libreadline /home/luin/42_minishell_tester/utils/minishell.supp:2 suppressed: 4,016 bytes in 1 blocks
+==184255== 
+==184255== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 1 from 1)

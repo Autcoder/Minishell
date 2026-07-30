@@ -126,7 +126,7 @@ char	*find_path(char *to_find, char *path1)
 	char	*arg;
 	char	*str;
 
-	if (!to_find)
+	if (!to_find || !*to_find)
 		return (NULL);
 	if (!path1 || ft_strchr(to_find, '/'))
 	{
@@ -237,7 +237,7 @@ int	execute(t_data *data)
 		}
 		// Assign directly to data->cmds[idx].path!
 		data->cmds[idx].path = find_path(data->cmds[idx].argv[0], path);
-		if (!data->ex.is_builtin && !data->cmds[idx].path)
+		if (!data->ex.is_builtin && (!data->cmds[idx].path || !data->cmds[idx].argv[0]))
 		{
 			ft_putstr_fd(data->cmds[idx].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
