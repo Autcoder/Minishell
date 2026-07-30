@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:31:39 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 08:17:38 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 08:13:27 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
 
 int	init_cmds(t_cmd *cmds, t_token *tokens, size_t i, size_t cmd_i)
 {

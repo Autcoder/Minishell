@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 19:27:02 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 08:13:12 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <curses.h>
 # include <dirent.h>
-# include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
