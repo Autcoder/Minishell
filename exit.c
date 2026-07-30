@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 11:21:14 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 11:26:58 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ long long	ft_atoll_exit(char *str, long long *status)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
-		if (nb > LLONG_MAX / 10 || (nb == lm / 10 && (unsigned long long)(*str
+		if (nb > lm / 10 || (nb == lm / 10 && (unsigned long long)(*str
 					- '0') > (lm % 10 + (sign == -1))))
 			return (-1);
 		nb = nb * 10 + (unsigned long long)(*str++ - '0');
 	}
-	if (sign == -1)
-		*status = -(long long)nb;
+	if (sign == -1 && nb == lm + 1)
+		*status = LLONG_MIN;
 	else
-		*status = (long long)nb;
+		*status = (long long)nb * sign;
 	return (0);
 }
 
