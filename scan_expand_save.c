@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scan_expand_save.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/29 09:06:28 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 15:59:35 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,16 @@ char	*handle_status_code(char *cur, size_t *i, int status_code)
 	return (ret);
 }
 
-char	*levi(char *str, char **env, int status_code)
+char	*levi(t_data *data, char *str)
 {
 	char	**key_list;
 	char	*cur;
 	char	*next;
 	size_t	i;
 
-	key_list = parse_env_to_dict(env);
+	if (!str)
+		return (NULL);
+	key_list = parse_env_to_dict(data->env);
 	cur = ft_strdup(str);
 	if (!key_list || !cur)
 		return (free_ptr_array((void **)key_list), free(cur), NULL);
@@ -109,14 +111,14 @@ char	*levi(char *str, char **env, int status_code)
 		{
 			if (cur[i + 1] && cur[i + 1] == '?')
 			{
-				next = handle_status_code(cur, &i, status_code);
+				next = handle_status_code(cur, &i, data->status_code);
 				if (next != cur)
 					free(cur);
 				cur = next;
 			}
 			else
 			{
-				next = levi_helper(cur, &i, key_list, env);
+				next = levi_helper(cur, &i, key_list, data->env);
 				if (next != cur)
 					free(cur);
 				cur = next;

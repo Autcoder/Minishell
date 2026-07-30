@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/30 12:51:53 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 16:09:49 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,66 +45,41 @@ static int	init_shell(char ***env)
 	return (0);
 }
 
-void	free_tokens(t_token *tokens)
+static int	process_input(t_data *data)
 {
-	size_t	i;
-
-	if (!tokens)
-		return ;
-	i = 0;
-	while (tokens[i].value)
-	{
-		free(tokens[i].value);
-		i++;
-	}
-	free(tokens);
-}
-
-static int	process_input(char *str, char ***env, int status_code)
-{
-	t_token	*tokens;
-	t_cmd	*cmds;
-
-	if (check_unclosed_quotes(str))
-		return (free(str), 1);
-	tokens = get_tokens(str);
-	if (!tokens)
-		return (free(str), 1);
-	expand_tokens(tokens, *env, status_code);
-	handle_quotes(tokens);
-	cmds = build_cmds(tokens);
-	if (!cmds)
-	{
-		clean_up(cmds, str);
-		free_tokens(tokens);
-		return (1);
-	}
-	status_code = execute(cmds, env, status_code);
-	clean_up(cmds, str);
-	free_tokens(tokens);
-	return (status_code);
+	if (check_unclosed_quotes(data->str))
+		return (reset_loop_data(data), 1);
+	data->tokens = get_tokens(data->str);
+	if (!data->tokens)
+		return (reset_loop_data(data), 1);
+	expand_tokens(data);
+	handle_quotes(data->tokens);
+	data->cmds = build_cmds(data->tokens);
+	if (!data->cmds)
+		return (reset_loop_data(data), 1);
+	data->status_code = execute(data);
+	reset_loop_data(data);
+	return (data->status_code);
 }
 
 int	main(void)
 {
-	char	*str;
-	char	**env;
-	int		status_code;
+	t_data	data;
 
-	if (init_shell(&env))
+	if (init_shell(&data.env))
 		return (1);
-	status_code = 0;
+	data.status_code = 0;
 	while (42)
 	{
-		str = readline("minishell> ");
-		if (!str)
+		data.str = readline("minishell> ");
+		if (!data.str)
 		{
 			ft_putstr_fd("exit\n", 1);
 			break ;
 		}
-		status_code = process_input(str, &env, status_code);
+		data.status_code = process_input(&data);
+		reset_loop_data(&data);
 	}
-	rl_clear_history();
-	free_ptr_array((void **)env);
+	free_all_data(&data);
 	return (0);
 }

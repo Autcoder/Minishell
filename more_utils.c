@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:33:01 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 13:28:32 by flenski          ###   ########.fr       */
+/*   Updated: 2026/07/30 15:48:58 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "minishell.h"
 
 // execution helper
-size_t	init_fd_and_count(t_cmd *cmds, int fd[5])
+size_t	count_and_init_exec(t_cmd *cmds, t_exec *ex)
 {
 	size_t	i;
 
 	i = 0;
 	while (cmds[i].argv)
 		i++;
-	fd[2] = -1;
-	fd[1] = -1;
-	fd[0] = -1;
+	ex->prev_fd = -1;
+	ex->pipe[0] = -1;
+	ex->pipe[1] = -1;
 	return (i);
 }
 
@@ -47,10 +47,7 @@ t_token	*get_tokens(char *str)
 		add_history(str);
 	tokens = lexer(str);
 	if (!tokens)
-	{
-		free(str);
 		return (NULL);
-	}
 	return (tokens);
 }
 

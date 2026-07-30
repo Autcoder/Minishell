@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 13:06:52 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 15:18:28 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,23 @@ int	is_builtin(t_cmd cmd)
 }
 
 /*TODO make the return values meningfull*/
-int	run_builtin(t_cmd cmd, char ***env, t_exec	ex, t_cmd *cmds)
+int	run_builtin(t_data *data)
 {
-	if (!ft_strncmp(cmd.argv[0], "echo", 5))
-		return (ft_echo(cmd.argv));
-	if (!ft_strncmp(cmd.argv[0], "env", 4))
-		return (ft_env(*env));
-	if (!ft_strncmp(cmd.argv[0], "cd", 3))
-		return (ft_cd(env, cmd.argv[1]));
-	if (!ft_strncmp(cmd.argv[0], "export", 7))
-		return (ft_export(env, cmd.argv[1]));
-	if (!ft_strncmp(cmd.argv[0], "unset", 6))
+	char **commands = data->cmds->argv;
+	if (!ft_strncmp(commands[0], "echo", 5))
+		return (ft_echo(commands));
+	if (!ft_strncmp(commands[0], "env", 4))
+		return (ft_env(data->env));
+	if (!ft_strncmp(commands[0], "cd", 3))
+		return (ft_cd(&data->env, commands[1]));
+	if (!ft_strncmp(commands[0], "export", 7))
+		return (ft_export(&data->env, commands[1]));
+	if (!ft_strncmp(commands[0], "unset", 6))
 		return (5);
-	if (!ft_strncmp(cmd.argv[0], "pwd", 4))
+	if (!ft_strncmp(commands[0], "pwd", 4))
 		return (ft_cwd());
-	if (!ft_strncmp(cmd.argv[0], "exit", 5))
-		return (ft_exit(cmd, &ex, env, cmds));
+	if (!ft_strncmp(commands[0], "exit", 5))
+		return (ft_exit(data));
 	return (0);
 }
 

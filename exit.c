@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 13:08:53 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 16:10:30 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ long long	ft_atoll_exit(char *str, long long *status)
 	while (*str >= '0' && *str <= '9')
 	{
 		if (nb > lm / 10 || (nb == lm / 10 && (unsigned long long)(*str
-				- '0') > (lm % 10 + (sign == -1))))
+					- '0') > (lm % 10 + (sign == -1))))
 			return (-1);
 		nb = nb * 10 + (unsigned long long)(*str++ - '0');
 	}
@@ -80,35 +80,34 @@ void	free_env(char ***env)
 }
 
 // NOTE: casting to unsigned char, because then reading only 8-bit values
-void	exit_clean(char ***env, t_cmd *cmds, long long exit_code, t_exec *ex)
+void	exit_clean(long long exit_code, t_data *data)
 {
-	free_env(env);
-	free(ex->p);
-	clean_up(cmds, NULL);
+	free_all_data(data);
 	exit((unsigned char)exit_code);
 }
 
-int	ft_exit(t_cmd cmd, t_exec	*ex, char ***env, t_cmd *cmds)
+int	ft_exit(t_data *data)
 {
 	long long	status;
 
 	ft_putstr_fd("exit\n", 2);
-	if (!cmd.argv[1])
-		exit_clean(env, cmds, ex->status_code, ex);
-	if (!is_numeric(cmd.argv[1]) || ft_atoll_exit(cmd.argv[1], &status) == -1)
+	if (!data->cmds->argv[1])
+		exit_clean(data->status_code, data);
+	if (!is_numeric(data->cmds->argv[1]) || ft_atoll_exit(data->cmds->argv[1],
+			&status) == -1)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(cmd.argv[1], 2);
+		ft_putstr_fd(data->cmds->argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		ex->status_code = 2;
+		data->status_code = 2;
 		return (2);
 	}
-	if (cmd.argv[2])
+	if (data->cmds->argv[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		ex->status_code = 2;
+		data->status_code = 2;
 		return (2);
 	}
-	exit_clean(env, cmds, status, ex);
+	exit_clean(status, data);
 	return (0);
 }

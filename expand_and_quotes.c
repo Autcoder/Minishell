@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:00:03 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 09:38:30 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 15:58:11 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,26 @@ int	check_unclosed_quotes(char *input)
 	return (0);
 }
 
-void	expand_tokens(t_token *tokens, char **env, int status_code)
+void    expand_tokens(t_data *data)
 {
-	int		i;
-	char	*ret;
+    int     i;
+    char    *ret;
 
-	i = 0;
-	while (tokens[i].value)
-	{
-		if (tokens[i].type == TOKEN_WORD && tokens[i].value[0] != '\'')
-		{
-			ret = levi(tokens[i].value, env, status_code);
-			if (ret)
-			{
-				free(tokens[i].value);
-				tokens[i].value = ret;
-			}
-		}
-		i++;
-	}
+    i = 0;
+    while (data->tokens[i].value)
+    {
+        if (data->tokens[i].type == TOKEN_WORD
+            && data->tokens[i].value[0] != '\'')
+        {
+            ret = levi(data, data->tokens[i].value);
+            if (ret)
+            {
+                free(data->tokens[i].value);
+                data->tokens[i].value = ret;
+            }
+        }
+        i++;
+    }
 }
 
 static char	*strip_word_quotes(char *str)

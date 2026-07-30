@@ -6,15 +6,15 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 12:52:35 by flink             #+#    #+#             */
-/*   Updated: 2026/07/30 12:53:04 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 14:59:40 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	clean_up(t_cmd *cmds, char *str)
+void	clean_up(t_data *data)
 {
-	free_cmds(cmds);
-	if (str)
-		free(str);
+	free_cmds(data->cmds);
+	if (data->str)
+		free(data->str);
 }

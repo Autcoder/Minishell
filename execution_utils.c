@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:31:39 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 08:13:27 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 16:12:15 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ size_t	count_words(t_token *tokens, size_t start)
 	return (count);
 }
 
-int	wait_helper(t_cmd *cmds, pid_t **p)
+int	wait_helper(t_data *data)
 {
 	int	i;
 	int	status;
@@ -79,15 +79,15 @@ int	wait_helper(t_cmd *cmds, pid_t **p)
 
 	i = 0;
 	status_code = 0;
-	while (cmds[i].argv)
+	while (data->cmds[i].argv)
 	{
-		if ((*p)[i] == -1)
+		if (data->p[i] == -1)
 		{
 			i++;
 			status_code = 127;
 			continue ;
 		}
-		while (waitpid((*p)[i++], &status, 0) == -1)
+		while (waitpid(data->p[i++], &status, 0) == -1)
 			if (errno != EINTR)
 				break ;
 		if (WIFEXITED(status))
@@ -95,6 +95,5 @@ int	wait_helper(t_cmd *cmds, pid_t **p)
 		else if (WIFSIGNALED(status))
 			status_code = 128 + WTERMSIG(status);
 	}
-	free((*p));
 	return (status_code);
 }

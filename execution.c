@@ -6,13 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 13:06:04 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 16:32:03 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-#include <term.h>
 
 int	check_if_word(t_token *tokens, size_t i)
 {
@@ -163,92 +162,121 @@ void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
 	close_fd(fd1, fd2, -1, -1);
 }
 
-void	child_process(t_cmd *cmds, pid_t *p, char ***env, t_exec *ex)
+void	child_process(t_data *data, int idx)
 {
-	int	status;
+	t_cmd	cmd;
+	int		status;
 
-	if (!p[ex->idx])
+	cmd = data->cmds[idx];
+	// Reset signals for normal external binaries
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	// Ignore SIGPIPE so write() returns
+	//-1 instead of crashing the child process!
+	signal(SIGPIPE, SIG_IGN);
+	// 1. Input pipe
+	if (data->ex.prev_fd != -1)
 	{
-		if (ex->prev_fd != -1)
-			dup_and_close(ex->prev_fd, 0, -1);
-		if (cmds[ex->idx + 1].argv)
-			dup_and_close(ex->pipe[1], 1, ex->pipe[0]);
-		if (cmds[ex->idx].fd_in != -1)
-			dup_and_close(cmds[ex->idx].fd_in, 0, -1);
-		if (cmds[ex->idx].fd_out != -1)
-			dup_and_close(cmds[ex->idx].fd_out, 1, -1);
-		if (!ex->is_builtin)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			execve(cmds[ex->idx].path, cmds[ex->idx].argv, *env);
-			perror("execve");
-			exit(127);
-		}
-		else
-		{
-			status = run_builtin(cmds[ex->idx], env, *ex, cmds);
-			free(p);
-			free_cmds(cmds);
-			free_env(env);
-			exit(status);
-		}
+		dup2(data->ex.prev_fd, STDIN_FILENO);
+		close(data->ex.prev_fd);
 	}
-	if (ex->prev_fd != -1)
-		close(ex->prev_fd);
+	// 2. Output pipe
+	if (data->cmds[idx + 1].argv)
+	{
+		close(data->ex.pipe[0]);
+		dup2(data->ex.pipe[1], STDOUT_FILENO);
+		close(data->ex.pipe[1]);
+	}
+	// 3. File redirections
+	if (cmd.fd_in != -1)
+	{
+		dup2(cmd.fd_in, STDIN_FILENO);
+		close(cmd.fd_in);
+	}
+	if (cmd.fd_out != -1)
+	{
+		dup2(cmd.fd_out, STDOUT_FILENO);
+		close(cmd.fd_out);
+	}
+	// 4. Execution
+	if (data->ex.is_builtin)
+	{
+		status = run_builtin(data);
+		free_all_data(data);
+		exit(status);
+	}
+	signal(SIGPIPE, SIG_DFL);
+	// Restore default for external binaries like cat/grep
+	execve(cmd.path, cmd.argv, data->env);
+	perror("execve");
+	free_all_data(data);
+	exit(127);
 }
 
-int	execute(t_cmd *cmds, char ***env, int status_code)
+int	execute(t_data *data)
 {
-	t_exec	ex;
 	char	*path;
 	int		ret;
+	int		idx;
 
-	ex.p = ft_calloc(sizeof(pid_t), init_fd_and_count(cmds, (int *)&ex));
-	if (!ex.p)
+	data->p = ft_calloc(count_and_init_exec(data->cmds, &data->ex),
+			sizeof(pid_t));
+	if (!data->p)
 		return (1);
-	ex.idx = 0;
-	path = get_any(*env, "PATH");
+	idx = 0;
+	path = get_any(data->env, "PATH");
 	signal(SIGINT, SIG_IGN);
-	while (cmds[ex.idx].argv)
+	while (data->cmds[idx].argv)
 	{
-		ex.is_builtin = is_builtin(cmds[ex.idx]);
-		ex.status_code = status_code;
-		if (!cmds[1].argv && (ex.is_builtin == 4 || ex.is_builtin == 5
-				|| ex.is_builtin == 7))
+		data->ex.is_builtin = is_builtin(data->cmds[idx]);
+		data->status_code = data->status_code;
+		if (idx == 0 && !data->cmds[1].argv && data->ex.is_builtin)
 		{
-			ret = run_builtin(cmds[ex.idx], env, ex, cmds);
-			free(ex.p);
+			ret = run_builtin(data);
 			return (ret);
 		}
-		cmds[ex.idx].path = find_path(cmds[ex.idx].argv[0], path);
-		if (!ex.is_builtin && !cmds[ex.idx].path)
+		// Assign directly to data->cmds[idx].path!
+		data->cmds[idx].path = find_path(data->cmds[idx].argv[0], path);
+		if (!data->ex.is_builtin && !data->cmds[idx].path)
 		{
-			ft_putstr_fd(cmds[ex.idx].argv[0], 2);
+			ft_putstr_fd(data->cmds[idx].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
-			if (cmds[ex.idx].fd_in != -1)
-				close(cmds[ex.idx].fd_in);
-			if (cmds[ex.idx].fd_out != -1)
-				close(cmds[ex.idx].fd_out);
-			ex.p[ex.idx++] = -1;
+			if (data->cmds[idx].fd_in != -1)
+				close(data->cmds[idx].fd_in);
+			if (data->cmds[idx].fd_out != -1)
+				close(data->cmds[idx].fd_out);
+			data->p[idx++] = -1;
 			continue ;
 		}
-		if (cmds[ex.idx + 1].argv)
-			pipe(ex.pipe);
-		ex.p[ex.idx] = fork();
-		child_process(cmds, ex.p, env, &ex);
-		if (cmds[ex.idx].fd_in != -1)
-			close(cmds[ex.idx].fd_in);
-		if (cmds[ex.idx].fd_out != -1)
-			close(cmds[ex.idx].fd_out);
-		if (cmds[ex.idx + 1].argv)
+		if (data->cmds[idx + 1].argv)
+			pipe(data->ex.pipe);
+		data->p[idx] = fork();
+		if (data->p[idx] < 0)
 		{
-			ex.prev_fd = ex.pipe[0];
-			close(ex.pipe[1]);
+			perror("fork");
+			return (1);
 		}
-		ex.idx++;
+		if (data->p[idx] == 0)
+			child_process(data, idx);
+		if (data->cmds[idx].fd_in != -1)
+			close(data->cmds[idx].fd_in);
+		if (data->cmds[idx].fd_out != -1)
+			close(data->cmds[idx].fd_out);
+		if (data->cmds[idx + 1].argv)
+		{
+			if (data->ex.prev_fd != -1)
+				close(data->ex.prev_fd);
+			data->ex.prev_fd = data->ex.pipe[0];
+			close(data->ex.pipe[1]);
+		}
+		else if (data->ex.prev_fd != -1)
+		{
+			close(data->ex.prev_fd);
+			data->ex.prev_fd = -1;
+		}
+		idx++;
 	}
-	ret = wait_helper(cmds, &ex.p);
+	ret = wait_helper(data);
 	setup_signals();
 	return (ret);
 }
