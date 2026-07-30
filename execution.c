@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 08:29:59 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 10:33:13 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ char	*find_path(char *to_find, char *path1)
 	char	*arg;
 	char	*str;
 
+	if (!to_find)
+		return (NULL);
 	if (!path1 || ft_strchr(to_find, '/'))
 	{
 		if (!check_access(to_find))

@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/30 08:39:22 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 10:30:54 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,11 @@ void	free_tokens(t_token *tokens)
 {
 	size_t	i;
 
-	// printf("free_tokens: %p\n", (void *)tokens);
 	if (!tokens)
 		return ;
 	i = 0;
 	while (tokens[i].value)
 	{
-		printf("freeing token: %s\n", tokens[i].value);
 		free(tokens[i].value);
 		i++;
 	}
