@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 10:43:02 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 12:17:47 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ int					ft_cwd(void);
 int					ft_cd(char ***env, char *cmd);
 int					ft_echo(char **cmd);
 int					ft_env(char **env);
-int					ft_exit(t_cmd cmd, int *exit_code, char ***env, t_cmd *cmds);
+int					ft_exit(t_cmd cmd, int *exit_code, char ***env,
+						t_cmd *cmds);
 int					ft_export(char ***env, char *cmd);
 
 #endif

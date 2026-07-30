@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/30 10:47:40 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 12:51:53 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ void	free_cmds(t_cmd *cmds)
 		i++;
 	}
 	free(cmds);
-}
-
-void	clean_up(t_cmd *cmds, char *str)
-{
-	free_cmds(cmds);
-	if (str)
-		free(str);
 }
 
 static int	init_shell(char ***env)

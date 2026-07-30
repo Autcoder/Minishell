@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 10:42:43 by flink            ###   ########.fr       */
+/*   Updated: 2026/07/30 12:51:21 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	is_builtin(t_cmd cmd)
 {
 	if (!cmd.argv || !cmd.argv[0])
-        return (0);
+		return (0);
 	if (!ft_strncmp(cmd.argv[0], "echo", 5))
 		return (1);
 	if (!ft_strncmp(cmd.argv[0], "env", 4))
