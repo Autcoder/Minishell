@@ -131,7 +131,7 @@ size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_data *data);
 
 /*built ins*/
-int					run_builtin(t_data *data);
+int					run_builtin(t_data *data, int idx);
 int					is_builtin(t_cmd cmd);
 int					ft_cwd(void);
 int					ft_cd(char ***env, char *cmd);

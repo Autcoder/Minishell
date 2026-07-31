@@ -199,9 +199,10 @@ void	child_process(t_data *data, int idx)
 		close(cmd.fd_out);
 	}
 	// 4. Execution
+	printf("Is_built_in: %s\n", data->ex.is_builtin ? "yes" : "no");
 	if (data->ex.is_builtin)
 	{
-		status = run_builtin(data);
+		status = run_builtin(data, idx);
 		free_all_data(data);
 		exit(status);
 	}
@@ -232,7 +233,7 @@ int	execute(t_data *data)
 		data->status_code = data->status_code;
 		if (idx == 0 && !data->cmds[1].argv && data->ex.is_builtin)
 		{
-			ret = run_builtin(data);
+			ret = run_builtin(data, idx);
 			return (ret);
 		}
 		// Assign directly to data->cmds[idx].path!

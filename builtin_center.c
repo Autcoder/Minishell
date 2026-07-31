@@ -35,9 +35,11 @@ int	is_builtin(t_cmd cmd)
 }
 
 /*TODO make the return values meningfull*/
-int	run_builtin(t_data *data)
+int	run_builtin(t_data *data, int idx)
 {
-	char **commands = data->cmds->argv;
+	char **commands;
+
+	commands = data->cmds[idx].argv;
 	if (!ft_strncmp(commands[0], "echo", 5))
 		return (ft_echo(commands));
 	if (!ft_strncmp(commands[0], "env", 4))
