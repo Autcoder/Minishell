@@ -234,6 +234,7 @@ int	execute(t_data *data)
 		if (idx == 0 && !data->cmds[1].argv && data->ex.is_builtin)
 		{
 			ret = run_builtin(data, idx);
+			setup_signals();
 			return (ret);
 		}
 		// Assign directly to data->cmds[idx].path!
