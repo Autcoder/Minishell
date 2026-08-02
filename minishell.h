@@ -139,5 +139,6 @@ int					ft_echo(char **cmd);
 int					ft_env(char **env);
 int					ft_exit(t_data *data);
 int					ft_export(char ***env, char *cmd);
+int					ft_unset(t_data *data, char **argv);
 
 #endif

@@ -49,7 +49,7 @@ int	run_builtin(t_data *data, int idx)
 	if (!ft_strncmp(commands[0], "export", 7))
 		return (ft_export(&data->env, commands[1]));
 	if (!ft_strncmp(commands[0], "unset", 6))
-		return (5);
+		return (ft_unset(data, commands));
 	if (!ft_strncmp(commands[0], "pwd", 4))
 		return (ft_cwd());
 	if (!ft_strncmp(commands[0], "exit", 5))
