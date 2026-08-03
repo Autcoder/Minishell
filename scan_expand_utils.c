@@ -31,7 +31,7 @@ char	*get_any(char *env[], char *path)
 		j = 0;
 		while (path[j] == env[i][j])
 			j++;
-		if (!path[j])
+		if (!path[j] && env[i][j] == '=')
 			break ;
 		i++;
 	}
