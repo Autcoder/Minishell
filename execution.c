@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/03 08:56:11 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 10:14:42 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	child_process(t_data *data, int idx)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	// Ignore SIGPIPE so write() returns
-	//-1 instead of crashing the child process!
+	//-1 instead of crashing the child process
 	signal(SIGPIPE, SIG_IGN);
 	// 1. Input pipe
 	if (data->ex.prev_fd != -1)
@@ -237,7 +237,7 @@ int	execute(t_data *data)
 			setup_signals();
 			return (ret);
 		}
-		// Assign directly to data->cmds[idx].path!
+		// Assign directly to data->cmds[idx].path
 		data->cmds[idx].path = find_path(data->cmds[idx].argv[0], path);
 		if (!data->ex.is_builtin && (!data->cmds[idx].path
 				|| !data->cmds[idx].argv[0]))

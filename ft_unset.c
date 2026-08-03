@@ -6,25 +6,29 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 08:55:09 by flink             #+#    #+#             */
-/*   Updated: 2026/08/03 08:55:31 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 10:26:22 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+#include <stddef.h>
 
 /*Actually done by Myron but bro forgor header kek*/
 
 static int	search_var(char *env, char *to_find)
 {
 	char	*temp;
+	size_t	key_len;
 
+	if (!env || !to_find)
+		return (0);
 	temp = ft_strchr(env, '=');
 	if (!temp)
-		return (0);
-	*temp = '\0';
-	if (ft_strlen(env) == ft_strlen(to_find) && !ft_strncmp(env, to_find,
-			ft_strlen(to_find)))
+		key_len = (size_t)(temp - env);
+	else
+		key_len = ft_strlen(env);
+	if (ft_strlen(to_find) == key_len && ft_strncmp(env, to_find, key_len) == 0)
 		return (*temp = '=', 1);
 	return (*temp = '=', 0);
 }
