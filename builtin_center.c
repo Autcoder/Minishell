@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:29:31 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 15:18:28 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 08:56:31 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_builtin(t_cmd cmd)
 /*TODO make the return values meningfull*/
 int	run_builtin(t_data *data, int idx)
 {
-	char **commands;
+	char	**commands;
 
 	commands = data->cmds[idx].argv;
 	if (!ft_strncmp(commands[0], "echo", 5))

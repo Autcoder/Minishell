@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   scan_expand_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/23 13:45:45 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/28 08:15:33 by flenski          ###   ########.fr       */
+/*   Updated: 2026/08/03 09:22:42 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-/*env - enviroment, path = to find in env
+/*
+ * env - enviroment, path = to find in env
  * example:
- * path = "SHELL"*/
+ * path = "SHELL"
+*/
 char	*get_any(char *env[], char *path)
 {
 	size_t	i;
@@ -24,7 +26,7 @@ char	*get_any(char *env[], char *path)
 	i = 0;
 	if (!path)
 		return (NULL);
-	while (env[i])
+	while (env && env[i])
 	{
 		j = 0;
 		while (path[j] == env[i][j])
@@ -33,7 +35,7 @@ char	*get_any(char *env[], char *path)
 			break ;
 		i++;
 	}
-	if (env[i])
+	if (env && env[i])
 		return ((env[i] + (ft_strlen(path) + 1)));
 	return (NULL);
 }
@@ -86,7 +88,7 @@ char	**parse_env_to_dict(char **environ)
 	size_t	len;
 	char	**ret;
 
-	if (!environ[0])
+	if (!environ || !environ[0])
 		return (NULL);
 	i = 0;
 	while (environ[i])

@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 16:06:48 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 09:24:44 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void				expand_tokens(t_data *data);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 void				free_all_data(t_data *data);
 void				free_cmds(t_cmd *cmds);
-void				free_env(char ***env);
+void				free_env(char **env);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 void				handle_quotes(t_token *tokens);

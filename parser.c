@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 03:12:20 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 14:31:36 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 09:03:58 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_token	*lexer(char *input)
 	i = 0;
 	t_idx = 0;
 	cap = 16;
-	tokens = malloc(sizeof(t_token) * cap);
+	tokens = ft_calloc(cap, sizeof(t_token));
 	if (!tokens)
 		return (NULL);
 	while (input[i])

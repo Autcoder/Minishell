@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 16:10:30 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 09:18:29 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ long long	ft_atoll_exit(char *str, long long *status)
 	while (*str >= '0' && *str <= '9')
 	{
 		if (nb > lm / 10 || (nb == lm / 10 && (unsigned long long)(*str
-					- '0') > (lm % 10 + (sign == -1))))
+				- '0') > (lm % 10 + (sign == -1))))
 			return (-1);
 		nb = nb * 10 + (unsigned long long)(*str++ - '0');
 	}
@@ -61,22 +61,6 @@ long long	ft_atoll_exit(char *str, long long *status)
 	else
 		*status = (long long)nb * sign;
 	return (0);
-}
-
-void	free_env(char ***env)
-{
-	size_t	i;
-
-	if (!env || !*env)
-		return ;
-	i = 0;
-	while ((*env)[i])
-	{
-		free((*env)[i]);
-		i++;
-	}
-	free(*env);
-	*env = NULL;
 }
 
 // NOTE: casting to unsigned char, because then reading only 8-bit values

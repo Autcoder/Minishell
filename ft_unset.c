@@ -1,5 +1,19 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/03 08:55:09 by flink             #+#    #+#             */
+/*   Updated: 2026/08/03 08:55:31 by flink            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft/libft.h"
+#include "minishell.h"
+
+/*Actually done by Myron but bro forgor header kek*/
 
 static int	search_var(char *env, char *to_find)
 {
@@ -9,9 +23,9 @@ static int	search_var(char *env, char *to_find)
 	if (!temp)
 		return (0);
 	*temp = '\0';
-	if (ft_strlen(env) == ft_strlen(to_find)
-		&& !ft_strncmp(env, to_find, ft_strlen(to_find)))
-			return (*temp = '=', 1);
+	if (ft_strlen(env) == ft_strlen(to_find) && !ft_strncmp(env, to_find,
+			ft_strlen(to_find)))
+		return (*temp = '=', 1);
 	return (*temp = '=', 0);
 }
 
@@ -27,8 +41,8 @@ void	shift_left(t_data *data, int *idx)
 
 int	ft_unset(t_data *data, char **argv)
 {
-	int		i;
-	int		idx;
+	int	i;
+	int	idx;
 
 	i = 1;
 	while (argv[i])
@@ -45,10 +59,11 @@ int	ft_unset(t_data *data, char **argv)
 			continue ;
 		}
 		shift_left(data, &idx);
-		data->env = ft_realloc(data->env, sizeof(char *) * (idx + 2), sizeof(char *) * (idx + 1));
+		data->env = ft_realloc(data->env, sizeof(char *) * (size_t)(idx + 2),
+				sizeof(char *) * (size_t)(idx + 1));
 		if (!data->env)
 			return (1);
 		i++;
 	}
-	return (0);	
+	return (0);
 }

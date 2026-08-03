@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/07/30 16:09:49 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 09:39:42 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(void)
 {
 	t_data	data;
 
+	ft_bzero(&data, sizeof(data));
 	if (init_shell(&data.env))
 		return (1);
 	data.status_code = 0;

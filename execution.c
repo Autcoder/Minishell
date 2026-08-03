@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 16:32:03 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/03 08:56:11 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,8 @@ int	execute(t_data *data)
 		}
 		// Assign directly to data->cmds[idx].path!
 		data->cmds[idx].path = find_path(data->cmds[idx].argv[0], path);
-		if (!data->ex.is_builtin && (!data->cmds[idx].path || !data->cmds[idx].argv[0]))
+		if (!data->ex.is_builtin && (!data->cmds[idx].path
+				|| !data->cmds[idx].argv[0]))
 		{
 			ft_putstr_fd(data->cmds[idx].argv[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
