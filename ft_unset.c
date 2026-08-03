@@ -43,6 +43,16 @@ void	shift_left(t_data *data, int *idx)
 	}
 }
 
+static int	shift_and_realloc(t_data *data, int *idx)
+{
+	shift_left(data, idx);
+	data->env = ft_realloc(data->env, sizeof(char *) * (size_t)(idx + 2),
+			sizeof(char *) * (size_t)(idx + 1));
+	if (!data->env)
+		return (1);
+	return (0);
+}
+
 int	ft_unset(t_data *data, char **argv)
 {
 	int	i;
@@ -62,10 +72,7 @@ int	ft_unset(t_data *data, char **argv)
 			i++;
 			continue ;
 		}
-		shift_left(data, &idx);
-		data->env = ft_realloc(data->env, sizeof(char *) * (size_t)(idx + 2),
-				sizeof(char *) * (size_t)(idx + 1));
-		if (!data->env)
+		if (shift_and_realloc(data, &idx))
 			return (1);
 		i++;
 	}
