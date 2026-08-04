@@ -34,13 +34,13 @@ void	free_cmds(t_cmd *cmds)
 	free(cmds);
 }
 
-static int	init_shell(char ***env)
+static int	init_shell(t_data *data)
 {
-	*env = init_env();
-	if (!*env)
+	data->env = init_env();
+	if (!data->env)
 		return (1);
-	internal_export("PWD=", env, getcwd(NULL, PATH_MAX));
-	internal_export("SHLVL=", env, shel_lvl(env));
+	internal_export("PWD=", data, getcwd(NULL, PATH_MAX));
+	internal_export("SHLVL=", data, shel_lvl(data->env));
 	setup_signals();
 	return (0);
 }
@@ -67,7 +67,7 @@ int	main(void)
 	t_data	data;
 
 	ft_bzero(&data, sizeof(data));
-	if (init_shell(&data.env))
+	if (init_shell(&data))
 		return (1);
 	data.status_code = 0;
 	while (42)

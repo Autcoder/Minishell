@@ -118,7 +118,7 @@ int					here_doc(char *eof);
 int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
 						size_t cmd_i);
 char				**init_env(void);
-int					internal_export(char *name, char ***env, char *value);
+int					internal_export(char *name, t_data *data, char *value);
 char				*levi(t_data *data, char *str);
 t_token				*lexer(char *input);
 char				*get_any(char *env[], char *path);
@@ -126,7 +126,7 @@ t_token				*get_tokens(char *str);
 char				**parse_env_to_dict(char **environ);
 void				reset_loop_data(t_data *data);
 void				setup_signals(void);
-char				*shel_lvl(char ***env);
+char				*shel_lvl(char **env);
 size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_data *data);
 
@@ -134,11 +134,11 @@ int					wait_helper(t_data *data);
 int					run_builtin(t_data *data, int idx);
 int					is_builtin(t_cmd cmd);
 int					ft_cwd(void);
-int					ft_cd(char ***env, char *cmd);
+int					ft_cd(t_data *data, char *cmd);
 int					ft_echo(char **cmd);
-int					ft_env(char **env);
+int					ft_env(t_data *data);
 int					ft_exit(t_data *data);
-int					ft_export(char ***env, char *cmd);
+int					ft_export(char ***env, char *cmd);//TODO Fix, multiple vars + export +=smth
 int					ft_unset(t_data *data, char **argv);
 
 #endif

@@ -55,7 +55,6 @@ void	free_env(char **env)
 {
 	size_t	i;
 
-	return ;
 	if (!env)
 		return ;
 	i = 0;

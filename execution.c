@@ -234,6 +234,8 @@ int	execute(t_data *data)
 		if (idx == 0 && !data->cmds[1].argv && data->ex.is_builtin)
 		{
 			ret = run_builtin(data, idx);
+			free(data->p);
+			data->p = NULL;
 			setup_signals();
 			return (ret);
 		}

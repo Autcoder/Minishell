@@ -19,11 +19,11 @@
  *
  *Return is always Mallocated!
  * */
-char	*shel_lvl(char ***env)
+char	*shel_lvl(char **env)
 {
 	char	*str;
 
-	str = get_any(*env, "SHLVL");
+	str = get_any(env, "SHLVL");
 	if (!str)
 		return (ft_strdup("1"));
 	else
@@ -35,7 +35,7 @@ char	*shel_lvl(char ***env)
  * value should always be mallocated, it will be freed internaly
  * in case of error function will return 1
  * */
-int	internal_export(char *name, char ***env, char *value)
+int	internal_export(char *name, t_data *data, char *value)
 {
 	char	*str;
 
@@ -45,7 +45,7 @@ int	internal_export(char *name, char ***env, char *value)
 	str = ft_strjoin(name, value);
 	if (!str)
 		return (free(value), 1);
-	ft_export(env, str);
+	ft_export(&data->env, str);
 	free(str);
 	free(value);
 	return (0);

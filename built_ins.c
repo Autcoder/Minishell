@@ -13,10 +13,12 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-int	ft_env(char **env)
+int	ft_env(t_data *data)
 {
 	size_t	i;
+	char	**env;
 
+	env = data->env;
 	if (!env || !*env)
 	{
 		write(1, "\n", 1);
@@ -89,17 +91,17 @@ int	ft_cwd(void)
 	return (0);
 }
 
-int	ft_cd(char ***env, char *cmd)
+int	ft_cd(t_data *data, char *cmd)
 {
 	char	*cwd;
 	char	*home;
 
-	cwd = get_any(*env, "PWD");
-	if (internal_export("OLDPWD=", env, ft_strdup(cwd)))
+	cwd = get_any(data->env, "PWD");
+	if (internal_export("OLDPWD=", data, ft_strdup(cwd)))
 		return (1);
 	if (!cmd)
 	{
-		home = get_any(*env, "HOME");
+		home = get_any(data->env, "HOME");
 		if (!home)
 			return (ft_putstr_fd("bash: cd: HOME not set\n", 2), 1);
 		else
@@ -108,7 +110,7 @@ int	ft_cd(char ***env, char *cmd)
 	if (chdir(cmd) == -1)
 		return (perror("chdir"), 126); //TODO error handling and just cd
 	cwd = getcwd(NULL, PATH_MAX);
-	if (internal_export("PWD=", env, cwd))
+	if (internal_export("PWD=", data, cwd))
 		return (1);
 	return (0);
 }
