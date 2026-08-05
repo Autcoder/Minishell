@@ -37,16 +37,18 @@ char	*shel_lvl(char **env)
  * */
 int	internal_export(char *name, t_data *data, char *value)
 {
-	char	*str;
+	char	*str[3];
 
 	if (!value)
 		return (1); //TODO we should prbl do global clean up
 					//if smth breaks, just exit
-	str = ft_strjoin(name, value);
-	if (!str)
+	str[0] = NULL;
+	str[1] = ft_strjoin(name, value);
+	if (!str[1])
 		return (free(value), 1);
-	ft_export(&data->env, str);
-	free(str);
+	str[2] = NULL;
+	ft_export(data, str);
+	free(str[1]);
 	free(value);
 	return (0);
 }

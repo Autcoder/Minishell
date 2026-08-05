@@ -138,7 +138,7 @@ int					ft_cd(t_data *data, char *cmd);
 int					ft_echo(char **cmd);
 int					ft_env(t_data *data);
 int					ft_exit(t_data *data);
-int					ft_export(char ***env, char *cmd);//TODO Fix, multiple vars + export +=smth
+int					ft_export(t_data *data, char **argv);//TODO Fix, multiple vars + export +=smth
 int					ft_unset(t_data *data, char **argv);
 
 #endif

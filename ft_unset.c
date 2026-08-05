@@ -25,12 +25,11 @@ static int	search_var(char *env, char *to_find)
 		return (0);
 	temp = ft_strchr(env, '=');
 	if (!temp)
-		return (0);
+		return (1);
 	key_len = (size_t)(temp - env);
-	*temp = '\0';
 	if (ft_strlen(to_find) == key_len && ft_strncmp(env, to_find, key_len) == 0)
-		return (*temp = '=', 1);
-	return (*temp = '=', 0);
+		return (1);
+	return (0);
 }
 
 void	shift_left(t_data *data, int *idx)

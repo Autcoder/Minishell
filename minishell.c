@@ -44,11 +44,11 @@ static int	init_shell(t_data *data)
 	setup_signals();
 	return (0);
 }
-
+//TODO changed some ret values
 static int	process_input(t_data *data)
 {
 	if (check_unclosed_quotes(data->str))
-		return (reset_loop_data(data), 1);
+		return (reset_loop_data(data), 2);
 	data->tokens = get_tokens(data->str);
 	if (!data->tokens)
 		return (reset_loop_data(data), 1);
@@ -56,7 +56,7 @@ static int	process_input(t_data *data)
 	handle_quotes(data->tokens);
 	data->cmds = build_cmds(data->tokens);
 	if (!data->cmds)
-		return (reset_loop_data(data), 1);
+		return (reset_loop_data(data), 2);
 	data->status_code = execute(data);
 	reset_loop_data(data);
 	return (data->status_code);

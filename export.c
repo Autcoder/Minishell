@@ -10,99 +10,71 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
+#include "libft/libft.h"
 
-/*
-** env_var: the environment variable to compare with cmd
-** cmd: the command to compare with env_var
-** return: 1 if env_var matches cmd, 0 otherwise
-*/
-static int	key_matches(const char *env_var, const char *cmd)
+int	add_var(t_data *data, char *cmd)
 {
 	size_t	i;
 
 	i = 0;
-	while (env_var[i] && env_var[i] != '=' && cmd[i] && cmd[i] != '=')
-	{
-		if (env_var[i] != cmd[i])
-			return (0);
+	while (data->env[i])
 		i++;
-	}
-	return ((env_var[i] == '=' || env_var[i] == '\0') && (cmd[i] == '='
-			|| cmd[i] == '\0'));
-}
-
-/*
-** env: the environment variable to update
-** cmd: the command to update env with
-** idx: the index of the environment variable to update
-** return: 1 if the update failed, 0 otherwise
-*/
-static int	update_var(char **env, char *cmd, int idx)
-{
-	char	*new_str;
-
-	new_str = ft_strdup(cmd);
-	if (!new_str)
+	data->env = ft_realloc(data->env, sizeof(char *) * i, sizeof(char *) * (i + 2));
+	if (!data->env)
 		return (1);
-	free(env[idx]);
-	env[idx] = new_str;
+	data->env[i++] = ft_strdup(cmd);
+	data->env[i] = NULL;
+	if (!data->env[i - 1])
+		return (1);
 	return (0);
 }
 
-/*
-** env: the environment variable to add
-** cmd: the command to add to env
-** return: 1 if the add failed, 0 otherwise
-*/
-static int	add_var(char ***env, char *cmd)
+int	update_var(t_data *data, char *cmd, char *temp)
 {
+	size_t	old;
 	size_t	i;
-	char	**new_env;
+	size_t	key_len;
 
 	i = 0;
-	while ((*env)[i])
+	key_len = (size_t)(temp - cmd);
+	old = ft_strlen(cmd) + 1;
+	while (data->env[i] && ft_strncmp(data->env[i], cmd, key_len))
 		i++;
-	new_env = malloc(sizeof(char *) * (i + 2));
-	if (!new_env)
+	if (!data->env[i])
 		return (1);
-	i = 0;
-	while ((*env)[i])
-	{
-		new_env[i] = (*env)[i];
-		i++;
-	}
-	new_env[i] = ft_strdup(cmd);
-	if (!new_env[i])
-		return (free(new_env), 1);
-	new_env[i + 1] = NULL;
-	free(*env);
-	*env = new_env;
+	data->env[i] = ft_realloc(data->env[i], ft_strlen(data->env[i]) + 1, old);
+	if (!data->env[i])
+		return (1);
+	ft_strlcpy(data->env[i] + key_len, cmd + key_len, old - key_len);
 	return (0);
 }
 
-/*
-** env: the environment variable to update
-** cmd: the command to update env with
-** return: 1 if the update failed, 0 otherwise
-*/
-int	ft_export(char ***env, char *cmd)
+int     ft_export(t_data *data, char **argv)
 {
-	int	i;
+	size_t	idx;
+	char    *temp;
 
-	if (!cmd || !*cmd)
-		return (0);
-	i = 0;
-	while ((*env)[i])
+	if (!argv[1])
+		return(printf("bip boop, UB incoming..\n"), 67);
+	idx = 1;
+	while (argv[idx])
 	{
-		if (key_matches((*env)[i], cmd))
+		temp = ft_strchr(argv[idx], '=');
+		*temp = '\0';
+		if (!get_any(data->env, argv[idx]))
 		{
-			if (!ft_strchr(cmd, '='))
-				return (0);
-			return (update_var(*env, cmd, i));
+			*temp = '=';
+			if (add_var(data, argv[idx]))
+				return (1);
 		}
-		i++;
+		else
+		{
+			*temp = '=';
+			if (update_var(data, argv[idx], temp))
+				return (1);
+		}
+		idx++;
 	}
-	return (add_var(env, cmd));
+	return (0);
 }
