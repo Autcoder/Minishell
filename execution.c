@@ -36,6 +36,7 @@ void	free_cmds_exec(t_cmd *cmds, size_t count)
 			close(cmds[i].fd_in);
 		if (cmds[i].fd_out != -1)
 			close(cmds[i].fd_out);
+		free(cmds[i].argv);
 		i++;
 	}
 	free(cmds);
@@ -199,7 +200,6 @@ void	child_process(t_data *data, int idx)
 		close(cmd.fd_out);
 	}
 	// 4. Execution
-	printf("Is_built_in: %s\n", data->ex.is_builtin ? "yes" : "no");
 	if (data->ex.is_builtin)
 	{
 		status = run_builtin(data, idx);
@@ -283,5 +283,7 @@ int	execute(t_data *data)
 	}
 	ret = wait_helper(data);
 	setup_signals();
+	free(data->p);
+	data->p = NULL;
 	return (ret);
 }
