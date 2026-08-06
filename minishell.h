@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 08:14:54 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:29:28 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ char				**init_env(void);
 int					internal_export(char *name, t_data *data, char *value);
 char				*levi(t_data *data, char *str);
 t_token				*lexer(char *input);
+char				*mesh_tgthr(char *str, char *tmp, size_t old, size_t new);
 char				*get_any(char *env[], char *path);
 t_token				*get_tokens(char *str);
 char				**parse_env_to_dict(char **environ);

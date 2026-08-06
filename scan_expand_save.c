@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 15:28:12 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 15:59:35 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:28:50 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,6 @@ static char	*expand(char *str, char **key_list, char **env)
 	if (!var)
 		return (NULL);
 	return (var);
-}
-
-static char	*mesh_tgthr(char *str, char *tmp, size_t old, size_t new)
-{
-	char	*ret;
-
-	if (!tmp)
-		return (ft_strnfjoin(str, &str[new], old));
-	ret = malloc((old + ft_strlen(tmp) + ft_strlen(&str[new]) + 1));
-	if (!ret)
-		return (NULL);
-	ft_strlcpy(ret, str, old + 1);
-	ft_strlcat(ret, tmp, old + ft_strlen(tmp) + 1);
-	ft_strlcat(ret, &str[new], old + ft_strlen(tmp) + ft_strlen(&str[new]) + 1);
-	return (ret);
 }
 
 static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
@@ -91,20 +76,10 @@ char	*handle_status_code(char *cur, size_t *i, int status_code)
 	return (ret);
 }
 
-char	*levi(t_data *data, char *str)
+char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 {
-	char	**key_list;
-	char	*cur;
 	char	*next;
-	size_t	i;
 
-	if (!str)
-		return (NULL);
-	key_list = parse_env_to_dict(data->env);
-	cur = ft_strdup(str);
-	if (!key_list || !cur)
-		return (free_ptr_array((void **)key_list), free(cur), NULL);
-	i = 0;
 	while (cur && cur[i])
 	{
 		if (cur[i] == '$')
@@ -127,5 +102,22 @@ char	*levi(t_data *data, char *str)
 		else
 			i++;
 	}
+	return (cur);
+}
+
+char	*levi(t_data *data, char *str)
+{
+	char	**key_list;
+	char	*cur;
+	size_t	i;
+
+	if (!str)
+		return (NULL);
+	key_list = parse_env_to_dict(data->env);
+	cur = ft_strdup(str);
+	if (!key_list || !cur)
+		return (free_ptr_array((void **)key_list), free(cur), NULL);
+	i = 0;
+	cur = levi_while(cur, data, key_list, i);
 	return (free_ptr_array((void **)key_list), cur);
 }
