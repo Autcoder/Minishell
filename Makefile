@@ -1,4 +1,4 @@
-SRC = minishell.c parser.c env_thingie.c scan_expand_save.c scan_expand_utils.c expand_and_quotes.c built_ins.c execution.c \
+SRC = minishell.c parser.c env_thingie.c scan_expand_save.c scan_expand_utils.c expand_and_quotes.c built_ins.c \
 		builtin_center.c execution_utils.c more_utils.c signals.c export.c init.c exit.c freeing.c ft_unset.c \
 		more_exec_utils.c execute.c execute_utils.c build_cmds.c child_process.c
 
