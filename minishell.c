@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/06 08:10:22 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 10:26:41 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,5 @@ int	main(void)
 		reset_loop_data(&data);
 	}
 	free_all_data(&data);
-	return (0);
+	return (data.status_code);
 }
