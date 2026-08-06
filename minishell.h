@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 08:53:57 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 12:55:37 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_EOF
 }					t_token_type;
+
+extern volatile sig_atomic_t	g_sigint;
 
 typedef struct s_token
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:34:29 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 09:57:27 by flenski          ###   ########.fr       */
+/*   Updated: 2026/08/06 13:07:23 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ int	check_readline_signal(void)
 {
 	if (g_sigint)
 	{
-		g_sigint = 0;
 		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_done = 1;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/06 10:26:41 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 13:02:39 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,18 @@ int	main(void)
 	while (42)
 	{
 		data.str = readline("minishell> ");
-		if (!data.str)
+		if (g_sigint)
+		{
+			data.status_code = 130;
+			g_sigint = 0;
+		}
+		else if (!data.str)
 		{
 			ft_putstr_fd("exit\n", 1);
 			break ;
 		}
-		data.status_code = process_input(&data);
+		else
+			data.status_code = process_input(&data);
 		reset_loop_data(&data);
 	}
 	free_all_data(&data);
