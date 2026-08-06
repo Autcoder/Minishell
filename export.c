@@ -62,6 +62,11 @@ int	ft_export(t_data *data, char **argv)
 	while (argv[idx])
 	{
 		temp = ft_strchr(argv[idx], '=');
+		if (!temp)
+		{
+			idx++;
+			continue ;
+		}
 		*temp = '\0';
 		if (!get_any(data->env, argv[idx]))
 		{
