@@ -53,8 +53,8 @@ static int	process_input(t_data *data)
 	data->tokens = get_tokens(data->str);
 	if (!data->tokens)
 		return (reset_loop_data(data), 1);
-	handle_quotes(data->tokens);
 	expand_tokens(data);
+	handle_quotes(data->tokens);
 	data->cmds = build_cmds(data->tokens);
 	if (!data->cmds)
 		return (reset_loop_data(data), 2);

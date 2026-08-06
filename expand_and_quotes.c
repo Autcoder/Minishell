@@ -49,8 +49,7 @@ void	expand_tokens(t_data *data)
 	i = 0;
 	while (data->tokens[i].value)
 	{
-		if (data->tokens[i].type == TOKEN_WORD
-			&& data->tokens[i].value[0] != '\'')
+		if (data->tokens[i].type == TOKEN_WORD)
 		{
 			ret = levi(data, data->tokens[i].value);
 			if (ret)

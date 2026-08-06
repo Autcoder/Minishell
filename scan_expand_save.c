@@ -76,21 +76,23 @@ char	*handle_status_code(char *cur, size_t *i, int status_code)
 	return (ret);
 }
 
+
+
 char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 {
 	char	*next;
+	char	quote;
 
+	quote = 0;
 	while (cur && cur[i])
 	{
-		if (cur[i] == '$')
+		check_quotes(&quote, cur, i);
+		if (cur[i] == '$' && !quote)
 		{
 			if (cur[i + 1] && cur[i + 1] == '?')
-			{
-				next = handle_status_code(cur, &i, data->status_code);
-				if (next != cur)
-					free(cur);
-				cur = next;
-			}
+				cur = apply_function(data, &i, cur, 1);
+			else if (quote)
+				cur = apply_function(data, &i, cur, 2);
 			else
 			{
 				next = levi_helper(cur, &i, key_list, data->env);
