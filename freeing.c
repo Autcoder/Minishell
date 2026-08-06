@@ -6,12 +6,31 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:03:42 by flink             #+#    #+#             */
-/*   Updated: 2026/08/03 09:36:23 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:13:52 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+
+void	free_cmds_exec(t_cmd *cmds, size_t count)
+{
+	size_t	i;
+
+	if (!cmds)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		if (cmds[i].fd_in != -1)
+			close(cmds[i].fd_in);
+		if (cmds[i].fd_out != -1)
+			close(cmds[i].fd_out);
+		free(cmds[i].argv);
+		i++;
+	}
+	free(cmds);
+}
 
 void	free_tokens(t_token *tokens)
 {

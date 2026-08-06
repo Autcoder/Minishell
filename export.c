@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 13:18:16 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 13:23:38 by flenski          ###   ########.fr       */
+/*   Updated: 2026/08/06 08:09:28 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft/libft.h"
+#include "minishell.h"
 
 int	add_var(t_data *data, char *cmd)
 {
@@ -20,7 +20,8 @@ int	add_var(t_data *data, char *cmd)
 	i = 0;
 	while (data->env[i])
 		i++;
-	data->env = ft_realloc(data->env, sizeof(char *) * i, sizeof(char *) * (i + 2));
+	data->env = ft_realloc(data->env, sizeof(char *) * i, sizeof(char *) * (i
+				+ 2));
 	if (!data->env)
 		return (1);
 	data->env[i++] = ft_strdup(cmd);
@@ -50,13 +51,13 @@ int	update_var(t_data *data, char *cmd, char *temp)
 	return (0);
 }
 
-int     ft_export(t_data *data, char **argv)
+int	ft_export(t_data *data, char **argv)
 {
 	size_t	idx;
-	char    *temp;
+	char	*temp;
 
 	if (!argv[1])
-		return(printf("bip boop, UB incoming..\n"), 67);
+		return (printf("bip boop, UB incoming..\n"), 67);
 	idx = 1;
 	while (argv[idx])
 	{

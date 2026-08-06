@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/03 09:24:44 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:14:54 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int					execute(t_data *data);
 t_cmd				*build_cmds(t_token *tokens);
 
 int					check_access(char *cmd);
+int					check_if_word(t_token *tokens, size_t i);
 int					check_unclosed_quotes(char *input);
 /*Close fd's*/
 void				close_fd(int fd0, int fd1, int fd2, int fd3);
@@ -110,6 +111,7 @@ void				expand_tokens(t_data *data);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 void				free_all_data(t_data *data);
 void				free_cmds(t_cmd *cmds);
+void				free_cmds_exec(t_cmd *cmds, size_t count);
 void				free_env(char **env);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
@@ -138,7 +140,8 @@ int					ft_cd(t_data *data, char *cmd);
 int					ft_echo(char **cmd);
 int					ft_env(t_data *data);
 int					ft_exit(t_data *data);
-int					ft_export(t_data *data, char **argv);//TODO Fix, multiple vars + export +=smth
+// TODO Fix, multiple vars + export +=smth
+int					ft_export(t_data *data, char **argv);
 int					ft_unset(t_data *data, char **argv);
 
 #endif

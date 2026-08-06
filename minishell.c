@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/03 09:39:42 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:10:22 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	init_shell(t_data *data)
 	setup_signals();
 	return (0);
 }
-//TODO changed some ret values
+
+// TODO changed some ret values
 static int	process_input(t_data *data)
 {
 	if (check_unclosed_quotes(data->str))

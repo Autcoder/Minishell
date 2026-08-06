@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:33:01 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/30 15:48:58 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:12:40 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ t_token	*get_tokens(char *str)
 	if (!tokens)
 		return (NULL);
 	return (tokens);
-}
-
-void	clean_split(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		free(split[i++]);
-	free(split);
 }
 
 //Checks fd's if they are not -1 and closes them

@@ -6,41 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:23 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/03 10:14:42 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:14:15 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-int	check_if_word(t_token *tokens, size_t i)
-{
-	if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
-	{
-		ft_putstr_fd("syntax error: expected value\n", 2);
-		return (2);
-	}
-	return (0);
-}
-
-void	free_cmds_exec(t_cmd *cmds, size_t count)
-{
-	size_t	i;
-
-	if (!cmds)
-		return ;
-	i = 0;
-	while (i < count)
-	{
-		if (cmds[i].fd_in != -1)
-			close(cmds[i].fd_in);
-		if (cmds[i].fd_out != -1)
-			close(cmds[i].fd_out);
-		free(cmds[i].argv);
-		i++;
-	}
-	free(cmds);
-}
 
 t_cmd	*build_cmds(t_token *tokens)
 {
@@ -155,12 +126,6 @@ char	*find_path(char *to_find, char *path1)
 		free(str);
 	}
 	return ((clean_split(path), free(arg)), NULL);
-}
-
-void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
-{
-	dup2(fd1, fd_2_cpy);
-	close_fd(fd1, fd2, -1, -1);
 }
 
 void	child_process(t_data *data, int idx)
