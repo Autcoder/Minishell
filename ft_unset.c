@@ -6,13 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 08:55:09 by flink             #+#    #+#             */
-/*   Updated: 2026/08/03 10:26:22 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:42:09 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-#include <stddef.h>
 
 /*Actually done by Myron but bro forgor header kek*/
 

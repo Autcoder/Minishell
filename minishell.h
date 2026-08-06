@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 08:29:28 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:53:57 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,27 @@ typedef struct s_data
 	pid_t			*p;
 }					t_data;
 
-/*exec*/
-int					execute(t_data *data);
 t_cmd				*build_cmds(t_token *tokens);
-
+int					builtin_only(t_data *data, int idx);
+void				child_process(t_data *data, int idx);
 int					check_access(char *cmd);
 int					check_if_word(t_token *tokens, size_t i);
 int					check_unclosed_quotes(char *input);
-/*Close fd's*/
 void				close_fd(int fd0, int fd1, int fd2, int fd3);
 void				clean_arr(char **env, size_t i);
 /* Clean partially full arrays */
 void				clean_split(char **split);
 void				clean_up(t_data *data);
+int					command_not_found(t_data *data, int idx);
 size_t				count_and_init_exec(t_cmd *cmds, t_exec *ex);
 size_t				count_cmds(t_token *tokens);
 size_t				count_words(t_token *tokens, size_t start);
+void				dup_and_close(int fd1, int fd_2_cpy, int fd2);
+int					execute(t_data *data);
+int					execute_init(t_data *data, char **path);
 void				expand_tokens(t_data *data);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
+char				*find_path(char *to_find, char *path1);
 void				free_all_data(t_data *data);
 void				free_cmds(t_cmd *cmds);
 void				free_cmds_exec(t_cmd *cmds, size_t count);

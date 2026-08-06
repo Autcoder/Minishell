@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:12:30 by flink             #+#    #+#             */
-/*   Updated: 2026/08/06 08:14:33 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:41:54 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ int	check_if_word(t_token *tokens, size_t i)
 		return (2);
 	}
 	return (0);
+}
+
+void	clean_up(t_data *data)
+{
+	free_cmds(data->cmds);
+	if (data->str)
+		free(data->str);
 }

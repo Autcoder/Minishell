@@ -6,13 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/03 09:18:29 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 08:42:24 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-#include <limits.h>
 
 int	is_numeric(char *str)
 {

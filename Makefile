@@ -1,6 +1,6 @@
 SRC = minishell.c parser.c env_thingie.c scan_expand_save.c scan_expand_utils.c expand_and_quotes.c built_ins.c execution.c \
-		builtin_center.c execution_utils.c more_utils.c signals.c export.c init.c exit.c yet_more_utils.c freeing.c ft_unset.c \
-		more_exec_utils.c
+		builtin_center.c execution_utils.c more_utils.c signals.c export.c init.c exit.c freeing.c ft_unset.c \
+		more_exec_utils.c execute.c execute_utils.c build_cmds.c child_process.c
 
 OBJ_DIR = objs
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
