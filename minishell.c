@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/06 13:02:39 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/06 16:17:46 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static int	process_input(t_data *data)
 	data->tokens = get_tokens(data->str);
 	if (!data->tokens)
 		return (reset_loop_data(data), 1);
-	expand_tokens(data);
 	handle_quotes(data->tokens);
+	expand_tokens(data);
 	data->cmds = build_cmds(data->tokens);
 	if (!data->cmds)
 		return (reset_loop_data(data), 2);
