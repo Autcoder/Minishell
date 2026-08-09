@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 static int	open_infile(t_cmd *cmd, char *file)
@@ -88,6 +89,7 @@ t_cmd	*build_cmds(t_token *tokens, t_data *data)
 	data->cmds = malloc(sizeof(t_cmd) * (n + 1));
 	if (!data->cmds)
 		return (NULL);
+	ft_bzero(data->cmds, sizeof(t_cmd) * (n + 1));
 	while (cmd_i < n)
 	{
 		if (build_one_cmd(data, tokens, &i, cmd_i))
