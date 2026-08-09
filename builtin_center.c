@@ -66,7 +66,7 @@ static void	print_eof_warning(char *eof)
 	ft_putstr_fd("')\n", 2);
 }
 
-static void	child_heredoc(int write_fd, char *eof)
+static void	child_heredoc(int write_fd, char *eof, t_data *data)
 {
 	char	*line;
 
@@ -89,10 +89,11 @@ static void	child_heredoc(int write_fd, char *eof)
 		free(line);
 	}
 	close(write_fd);
+	free_all_data(data);
 	exit(0);
 }
 
-int	here_doc(char *eof)
+int	here_doc(char *eof, t_data *data)
 {
 	int				fd[2];
 	pid_t			pid;
@@ -107,7 +108,7 @@ int	here_doc(char *eof)
 	if (pid == -1)
 		return (close(fd[0]), close(fd[1]), -1);
 	if (!pid)
-		(close(fd[0]), child_heredoc(fd[1], eof));
+		(close(fd[0]), child_heredoc(fd[1], eof, data));
 	close(fd[1]);
 	waitpid(pid, &status, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &orig);

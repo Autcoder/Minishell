@@ -37,6 +37,7 @@ void	free_cmds(t_cmd *cmds)
 static int	init_shell(t_data *data)
 {
 	data->env = init_env();
+	data->cmds = NULL;
 	if (!data->env)
 		return (1);
 	internal_export("PWD=", data, getcwd(NULL, PATH_MAX));
@@ -55,7 +56,7 @@ static int	process_input(t_data *data)
 		return (reset_loop_data(data), 1);
 	expand_tokens(data);
 	handle_quotes(data->tokens);
-	data->cmds = build_cmds(data->tokens);
+	data->cmds = build_cmds(data->tokens, data);
 	if (!data->cmds)
 		return (reset_loop_data(data), 2);
 	data->status_code = execute(data);
@@ -67,7 +68,7 @@ int	main(void)
 {
 	t_data	data;
 
-	ft_bzero(&data, sizeof(data));
+	ft_bzero(&data, sizeof(t_data));
 	if (init_shell(&data))
 		return (1);
 	data.status_code = 0;

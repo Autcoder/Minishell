@@ -1,3 +1,4 @@
+mstest_output_*
 compile_commands.json
 .cache
 tags

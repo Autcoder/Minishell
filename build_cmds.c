@@ -32,7 +32,7 @@ static int	open_outfile(t_cmd *cmd, char *file, int flags)
 	return (0);
 }
 
-static int	handle_redirect(t_cmd *cmd, t_token *tokens, size_t *i)
+static int	handle_redirect(t_cmd *cmd, t_token *tokens, size_t *i, t_data *data)
 {
 	if (check_if_word(tokens, *i) == 2)
 		return (1);
@@ -49,52 +49,51 @@ static int	handle_redirect(t_cmd *cmd, t_token *tokens, size_t *i)
 		(*i)++;
 		if (cmd->fd_in != -1)
 			close(cmd->fd_in);
-		cmd->fd_in = here_doc(tokens[*i].value);
+		cmd->fd_in = here_doc(tokens[*i].value, data);
 		return (cmd->fd_in == -1);
 	}
 	return (0);
 }
 
-static int	build_one_cmd(t_cmd *cmds, t_token *tokens,
+static int	build_one_cmd(t_data *data, t_token *tokens,
 		size_t *i, size_t cmd_i)
 {
 	size_t	j;
 
-	if (init_cmds(cmds, tokens, *i, cmd_i))
+	if (init_cmds(data->cmds, tokens, *i, cmd_i))
 		return (1);
 	j = 0;
 	while (tokens[*i].value && tokens[*i].type != TOKEN_PIPE)
 	{
 		if (tokens[*i].type == TOKEN_WORD)
-			cmds[cmd_i].argv[j++] = tokens[*i].value;
-		else if (handle_redirect(&cmds[cmd_i], tokens, i))
+			data->cmds[cmd_i].argv[j++] = tokens[*i].value;
+		else if (handle_redirect(&data->cmds[cmd_i], tokens, i, data))
 			return (1);
 		(*i)++;
 	}
-	cmds[cmd_i].argv[j] = NULL;
+	data->cmds[cmd_i].argv[j] = NULL;
 	(*i)++;
 	return (0);
 }
 
-t_cmd	*build_cmds(t_token *tokens)
+t_cmd	*build_cmds(t_token *tokens, t_data *data)
 {
 	size_t	i;
 	size_t	cmd_i;
 	size_t	n;
-	t_cmd	*cmds;
 
 	i = 0;
 	cmd_i = 0;
 	n = count_cmds(tokens);
-	cmds = malloc(sizeof(t_cmd) * (n + 1));
-	if (!cmds)
+	data->cmds = malloc(sizeof(t_cmd) * (n + 1));
+	if (!data->cmds)
 		return (NULL);
 	while (cmd_i < n)
 	{
-		if (build_one_cmd(cmds, tokens, &i, cmd_i))
-			return (free_cmds_exec(cmds, cmd_i + 1), NULL);
+		if (build_one_cmd(data, tokens, &i, cmd_i))
+			return (free_cmds_exec(data->cmds, cmd_i + 1), NULL);
 		cmd_i++;
 	}
-	cmds[n].argv = NULL;
-	return (cmds);
+	data->cmds[n].argv = NULL;
+	return (data->cmds);
 }

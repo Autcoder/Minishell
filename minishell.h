@@ -94,7 +94,7 @@ typedef struct s_data
 }					t_data;
 
 void				put_error(char *name, char *string);
-t_cmd				*build_cmds(t_token *tokens);
+t_cmd				*build_cmds(t_token *tokens, t_data *data);
 int					builtin_only(t_data *data, int idx);
 void				child_process(t_data *data, int idx);
 int					check_access(char *cmd);
@@ -122,7 +122,7 @@ void				free_env(char **env);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 void				handle_quotes(t_token *tokens);
-int					here_doc(char *eof);
+int					here_doc(char *eof, t_data *data);
 int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
 						size_t cmd_i);
 char				**init_env(void);
