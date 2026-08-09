@@ -26,10 +26,16 @@ static int	fork_command(t_data *data, int idx)
 
 static void	parent_cleanup(t_data *data, int idx)
 {
-	if (data->cmds[idx].fd_in != -1)
+	if (data->cmds[idx].fd_in > 2)
+	{
 		close(data->cmds[idx].fd_in);
-	if (data->cmds[idx].fd_out != -1)
+		data->cmds[idx].fd_in = -1;
+	}
+	if (data->cmds[idx].fd_out > 2)
+	{
 		close(data->cmds[idx].fd_out);
+		data->cmds[idx].fd_out = -1;
+	}
 	if (data->cmds[idx + 1].argv)
 	{
 		if (data->ex.prev_fd != -1)

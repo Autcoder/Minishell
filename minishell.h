@@ -93,6 +93,7 @@ typedef struct s_data
 	pid_t			*p;
 }					t_data;
 
+void				put_error(char *name, char *string);
 t_cmd				*build_cmds(t_token *tokens);
 int					builtin_only(t_data *data, int idx);
 void				child_process(t_data *data, int idx);
@@ -147,7 +148,7 @@ char				*handle_status_code(char *cur, size_t *i, int status_code);
 int					run_builtin(t_data *data, int idx);
 int					is_builtin(t_cmd cmd);
 int					ft_cwd(void);
-int					ft_cd(t_data *data, char *cmd);
+int					ft_cd(t_data *data, char **cmd);
 int					ft_echo(char **cmd);
 int					ft_env(t_data *data);
 int					ft_exit(t_data *data);

@@ -61,7 +61,7 @@ int	ft_echo(char **cmd)
 
 	i = 1;
 	print_newline = 1;
-	while (cmd[i] && !scan_for_nflag(cmd[i]))
+	while (cmd[i] && cmd[i][0] && !scan_for_nflag(cmd[i]))
 	{
 		print_newline = 0;
 		i++;
@@ -91,23 +91,25 @@ int	ft_cwd(void)
 	return (0);
 }
 
-int	ft_cd(t_data *data, char *cmd)
+int	ft_cd(t_data *data, char **cmd)
 {
 	char	*cwd;
 	char	*home;
 
+	if (cmd[1] && cmd[2])
+		return (put_error("cd", "too many arguments"), 2);
 	cwd = get_any(data->env, "PWD");
 	if (internal_export("OLDPWD=", data, ft_strdup(cwd)))
 		return (1);
-	if (!cmd)
+	if (!cmd[1])
 	{
 		home = get_any(data->env, "HOME");
 		if (!home)
 			return (ft_putstr_fd("bash: cd: HOME not set\n", 2), 1);
 		else
-			cmd = home;
+			cmd[1] = home;
 	}
-	if (chdir(cmd) == -1)
+	if (chdir(cmd[1]) == -1)
 		return (perror("chdir"), 126); //TODO error handling and just cd
 	cwd = getcwd(NULL, PATH_MAX);
 	if (internal_export("PWD=", data, cwd))

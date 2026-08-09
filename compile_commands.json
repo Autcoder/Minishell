@@ -159,27 +159,6 @@
    "-MMD",
    "-MP",
    "-MF",
-   "deps/execution.d",
-   "-c",
-   "execution.c",
-   "-o",
-   "objs/execution.o"
-  ],
-  "file": "execution.c"
- },
- {
-  "directory": "/home/luin/42/CC/Minishell",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Wextra",
-   "-Werror",
-   "-I.",
-   "-I./libft",
-   "-I/opt/homebrew/opt/readline/include",
-   "-MMD",
-   "-MP",
-   "-MF",
    "deps/builtin_center.d",
    "-c",
    "builtin_center.c",
@@ -313,5 +292,194 @@
    "objs/exit.o"
   ],
   "file": "exit.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/freeing.d",
+   "-c",
+   "freeing.c",
+   "-o",
+   "objs/freeing.o"
+  ],
+  "file": "freeing.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/ft_unset.d",
+   "-c",
+   "ft_unset.c",
+   "-o",
+   "objs/ft_unset.o"
+  ],
+  "file": "ft_unset.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/more_exec_utils.d",
+   "-c",
+   "more_exec_utils.c",
+   "-o",
+   "objs/more_exec_utils.o"
+  ],
+  "file": "more_exec_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/execute.d",
+   "-c",
+   "execute.c",
+   "-o",
+   "objs/execute.o"
+  ],
+  "file": "execute.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/execute_utils.d",
+   "-c",
+   "execute_utils.c",
+   "-o",
+   "objs/execute_utils.o"
+  ],
+  "file": "execute_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/build_cmds.d",
+   "-c",
+   "build_cmds.c",
+   "-o",
+   "objs/build_cmds.o"
+  ],
+  "file": "build_cmds.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/child_process.d",
+   "-c",
+   "child_process.c",
+   "-o",
+   "objs/child_process.o"
+  ],
+  "file": "child_process.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/levi_utils.d",
+   "-c",
+   "levi_utils.c",
+   "-o",
+   "objs/levi_utils.o"
+  ],
+  "file": "levi_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/builtins_utils.d",
+   "-c",
+   "builtins_utils.c",
+   "-o",
+   "objs/builtins_utils.o"
+  ],
+  "file": "builtins_utils.c"
  }
 ]

@@ -57,6 +57,19 @@ void	child_process(t_data *data, int idx)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGPIPE, SIG_IGN);
+	if (cmd.fd_in == -2 || cmd.fd_out == -2)
+	{
+		if (data->ex.prev_fd != -1)
+			close(data->ex.prev_fd);
+		if (data->cmds[idx + 1].argv)
+		{
+			close(data->ex.pipe[0]);
+			close(data->ex.pipe[1]);
+
+		}
+		free_all_data(data);
+		exit(1);
+	}
 	setup_pipes(data, idx);
 	setup_redirections(&cmd);
 	if (data->ex.is_builtin)
