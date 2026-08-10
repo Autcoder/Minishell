@@ -36,7 +36,11 @@ char	*apply_function(t_data *data, size_t *i, char *cur, int s)
 
 void	check_quotes(char *quote, char *cur, size_t i)
 {
-	if (cur[i] == '\'' && !(*quote))
+	if (cur[i] == '"' && !(*quote))
+		*quote = -1;
+	else if (cur[i] == '"' && *quote == -1)
+		*quote = 0;
+	else if (cur[i] == '\'' && !(*quote))
 		*quote = cur[i];
 	else if (cur[i] == '\'')
 		*quote = 0;
