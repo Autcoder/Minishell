@@ -29,7 +29,7 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-
+# include <errno.h>
 /*
 TOKEN_WORD,         // cat, ls, -l, filename
 TOKEN_PIPE,         // |
