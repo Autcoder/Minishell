@@ -83,12 +83,14 @@ char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 	char	quote;
 
 	quote = 0;
-	while (cur && cur[i] && check_quotes(&quote, cur, i))
+	while (cur && cur[0] && cur[i] && check_quotes(&quote, cur, i))
 	{
-		if (cur[i] == '$' && !quote)
+		if (cur[i] == '$')
 		{
-			if (cur[i + 1] && cur[i + 1] == '?')
-				cur = apply_function(data, &i, cur, 1);	
+			if (cur[i + 1] && cur[i + 1] == '?' && quote != '\'')
+				cur = apply_function(data, &i, cur, 1);
+			else if (quote == '\'')
+				cur = apply_function(data, &i, cur, 2);
 			else
 			{
 				next = levi_helper(cur, &i, key_list, data->env);
@@ -97,8 +99,6 @@ char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 				cur = next;
 			}
 		}
-		else if (quote)
-			cur = apply_function(data, &i, cur, 2);
 		i++;
 	}
 	return (cur);

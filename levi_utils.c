@@ -38,17 +38,17 @@ int	check_quotes(char *quote, char *cur, size_t i)
 {
 	if (cur[i] == '"' && (*quote) == 0)
 	{
-		*quote = -1;
+		*quote = '"';
 	}
-	else if (*quote == -1 && cur[i] == '"')
+	else if (*quote == '"' && cur[i] == '"')
 	{
 		*quote = 0;
 	}
 	else if (cur[i] == '\'' && (*quote) == 0)
 	{
-		*quote = cur[i];
+		*quote = '\'';
 	}
-	else if (*quote && cur[i] == '\'')
+	else if (*quote == '\'' && cur[i] == '\'')
 	{
 		*quote = 0;
 	}
