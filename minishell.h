@@ -140,7 +140,7 @@ size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_data *data);
 //levi helpers
 char				*apply_function(t_data *data, size_t *i, char *cur, int s);
-void				check_quotes(char *quote, char *cur, size_t i);
+int					check_quotes(char *quote, char *cur, size_t i);
 char				*handle_status_code(char *cur, size_t *i, int status_code);
 
 
