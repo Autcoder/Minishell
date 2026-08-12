@@ -41,6 +41,18 @@ int	check_unclosed_quotes(char *input)
 	return (0);
 }
 
+static void	delete_token(t_token *tokens, int i)
+{
+	free(tokens[i].value);
+	while (tokens[i].value)
+	{
+		tokens[i] = tokens[i + 1];
+		i++;
+	}
+	tokens[i].value = NULL;
+	tokens[i].type = TOKEN_EOF;
+}
+
 void	expand_tokens(t_data *data)
 {
 	int		i;
@@ -57,6 +69,11 @@ void	expand_tokens(t_data *data)
 				free(data->tokens[i].value);
 				data->tokens[i].value = ret;
 			}
+		}
+		if (data->tokens[i].value && data->tokens[i].value[0] == '\0')
+		{
+			delete_token(data->tokens, i);
+			continue ;
 		}
 		i++;
 	}
