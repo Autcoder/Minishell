@@ -44,9 +44,11 @@ static void	exec_external(t_data *data, t_cmd *cmd)
 {
 	signal(SIGPIPE, SIG_DFL);
 	execve(cmd->path, cmd->argv, data->env);
-	perror("execve");
+	put_error(cmd->argv[0], strerror(errno));
 	free_all_data(data);
-	exit(127);
+	if (errno == ENOENT)
+		exit(127);
+	exit(126);
 }
 
 void	child_process(t_data *data, int idx)

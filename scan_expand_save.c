@@ -99,7 +99,8 @@ char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 				cur = next;
 			}
 		}
-		i++;
+		if (cur[i])
+			i++;
 	}
 	return (cur);
 }
