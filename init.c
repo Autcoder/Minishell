@@ -40,8 +40,7 @@ int	internal_export(char *name, t_data *data, char *value)
 	char	*str[3];
 
 	if (!value)
-		return (1); //TODO we should prbl do global clean up
-					//if smth breaks, just exit
+		return (1);
 	str[0] = NULL;
 	str[1] = ft_strjoin(name, value);
 	if (!str[1])

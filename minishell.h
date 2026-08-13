@@ -112,7 +112,7 @@ size_t				count_words(t_token *tokens, size_t start);
 void				dup_and_close(int *fd1, int fd_2_cpy, int fd2);
 int					execute(t_data *data);
 int					execute_init(t_data *data, char **path);
-void				expand_tokens(t_data *data);
+int					expand_tokens(t_data *data);
 t_token				*expand_tokens_parse(t_token *tokens, size_t *cap);
 char				*find_path(char *to_find, char *path1);
 void				free_all_data(t_data *data);
@@ -142,7 +142,6 @@ int					wait_helper(t_data *data);
 char				*apply_function(t_data *data, size_t *i, char *cur, int s);
 int					check_quotes(char *quote, char *cur, size_t i);
 char				*handle_status_code(char *cur, size_t *i, int status_code);
-
 
 /*built ins*/
 int					run_builtin(t_data *data, int idx);

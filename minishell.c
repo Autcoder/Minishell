@@ -54,7 +54,9 @@ static int	process_input(t_data *data)
 	data->tokens = get_tokens(data->str);
 	if (!data->tokens)
 		return (reset_loop_data(data), 1);
-	expand_tokens(data);
+	if (expand_tokens(data))
+		return (reset_loop_data(data),
+			put_error("export error", "var too big"), 1);
 	handle_quotes(data->tokens);
 	data->cmds = build_cmds(data->tokens, data);
 	if (!data->cmds)

@@ -53,7 +53,7 @@ static void	delete_token(t_token *tokens, int i)
 	tokens[i].type = TOKEN_EOF;
 }
 
-void	expand_tokens(t_data *data)
+int	expand_tokens(t_data *data)
 {
 	int		i;
 	char	*ret;
@@ -66,6 +66,8 @@ void	expand_tokens(t_data *data)
 			ret = levi(data, data->tokens[i].value);
 			if (ret)
 			{
+				if (ft_strlen(ret) > 4200)
+					return (free(ret), 1);
 				free(data->tokens[i].value);
 				data->tokens[i].value = ret;
 			}
@@ -77,6 +79,7 @@ void	expand_tokens(t_data *data)
 		}
 		i++;
 	}
+	return (0);
 }
 
 static char	*strip_word_quotes(char *str)

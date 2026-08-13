@@ -110,7 +110,7 @@ int	ft_cd(t_data *data, char **cmd)
 			cmd[1] = home;
 	}
 	if (chdir(cmd[1]) == -1)
-		return (put_error("cd", strerror(errno)), EXIT_FAILURE); //TODO error handling and just cd
+		return (put_error("cd", strerror(errno)), EXIT_FAILURE);
 	cwd = getcwd(NULL, PATH_MAX);
 	if (internal_export("PWD=", data, cwd))
 		return (1);

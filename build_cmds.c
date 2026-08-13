@@ -33,24 +33,24 @@ static int	open_outfile(t_cmd *cmd, char *file, int flags)
 	return (0);
 }
 
-static int	handle_redirect(t_cmd *cmd, t_token *tokens, size_t *i, t_data *data)
+static int	handle_redirect(t_cmd *cmd, t_token *tok, size_t *i, t_data *data)
 {
-	if (check_if_word(tokens, *i) == 2)
+	if (check_if_word(tok, *i) == 2)
 		return (1);
-	if (tokens[*i].type == TOKEN_REDIRECT_IN)
-		return ((*i)++, open_infile(cmd, tokens[*i].value));
-	if (tokens[*i].type == TOKEN_REDIRECT_OUT)
-		return ((*i)++, open_outfile(cmd, tokens[*i].value,
+	if (tok[*i].type == TOKEN_REDIRECT_IN)
+		return ((*i)++, open_infile(cmd, tok[*i].value));
+	if (tok[*i].type == TOKEN_REDIRECT_OUT)
+		return ((*i)++, open_outfile(cmd, tok[*i].value,
 				O_WRONLY | O_CREAT | O_TRUNC));
-	if (tokens[*i].type == TOKEN_APPEND)
-		return ((*i)++, open_outfile(cmd, tokens[*i].value,
+	if (tok[*i].type == TOKEN_APPEND)
+		return ((*i)++, open_outfile(cmd, tok[*i].value,
 				O_WRONLY | O_CREAT | O_APPEND));
-	if (tokens[*i].type == TOKEN_HERE_DOC)
+	if (tok[*i].type == TOKEN_HERE_DOC)
 	{
 		(*i)++;
 		if (cmd->fd_in != -1)
 			close(cmd->fd_in);
-		cmd->fd_in = here_doc(tokens[*i].value, data);
+		cmd->fd_in = here_doc(tok[*i].value, data);
 		return (cmd->fd_in == -1);
 	}
 	return (0);

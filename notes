@@ -126,3 +126,7 @@ exit
 ==42600== 
 ==42600== For lists of detected and suppressed errors, rerun with: -s
 ==42600== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+Fix
+Max char cap for expansion
+Here_doc

@@ -28,14 +28,20 @@ int	builtin_only(t_data *data, int idx)
 {
 	int	ret;
 
-	if (!(idx == 0 && !data->cmds[1].argv
+	ret = 0;
+	if (data->ex.is_builtin == 3
+		|| data->ex.is_builtin == 4 || data->ex.is_builtin == 5)
+	{
+		ret = run_builtin(data, idx);
+		free(data->p);
+		data->p = NULL;
+		setup_signals();
+		return (ret);
+	}
+	else if (!(idx == 0 && !data->cmds[1].argv
 			&& !(data->cmds[idx].fd_out < 0 || data->cmds[idx].fd_in < 0)
 			&& data->ex.is_builtin))
 		return (-1);
-	ret = run_builtin(data, idx);
-	free(data->p);
-	data->p = NULL;
-	setup_signals();
 	return (ret);
 }
 

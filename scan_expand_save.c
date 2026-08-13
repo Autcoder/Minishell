@@ -76,7 +76,6 @@ char	*handle_status_code(char *cur, size_t *i, int status_code)
 	return (ret);
 }
 
-
 char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 {
 	char	*next;
