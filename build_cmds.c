@@ -15,21 +15,21 @@
 
 static int	open_infile(t_cmd *cmd, char *file)
 {
-	if (cmd->fd_in != -1)
+	if (cmd->fd_in > 2)
 		close(cmd->fd_in);
 	cmd->fd_in = open(file, O_RDONLY);
 	if (cmd->fd_in == -1)
-		return (perror(file), cmd->fd_in = -2, 0);
+		return (put_error(file, strerror(errno)), cmd->fd_in = -2, 0);
 	return (0);
 }
 
 static int	open_outfile(t_cmd *cmd, char *file, int flags)
 {
-	if (cmd->fd_out != -1)
+	if (cmd->fd_out > 2)
 		close(cmd->fd_out);
 	cmd->fd_out = open(file, flags, 0644);
 	if (cmd->fd_out == -1)
-		return (perror(file), cmd->fd_out = -2, 0);
+		return (put_error(file, strerror(errno)), cmd->fd_out = -2, 0);
 	return (0);
 }
 

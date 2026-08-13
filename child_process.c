@@ -15,20 +15,20 @@
 static void	setup_pipes(t_data *data, int idx)
 {
 	if (data->ex.prev_fd != -1)
-		dup_and_close(data->ex.prev_fd, STDIN_FILENO, -1);
+		dup_and_close(&data->ex.prev_fd, STDIN_FILENO, -1);
 	if (data->cmds[idx + 1].argv)
 	{
 		close(data->ex.pipe[0]);
-		dup_and_close(data->ex.pipe[1], STDOUT_FILENO, -1);
+		dup_and_close(&data->ex.pipe[1], STDOUT_FILENO, -1);
 	}
 }
 
 static void	setup_redirections(t_cmd *cmd)
 {
 	if (cmd->fd_in != -1)
-		dup_and_close(cmd->fd_in, STDIN_FILENO, -1);
+		dup_and_close(&cmd->fd_in, STDIN_FILENO, -1);
 	if (cmd->fd_out != -1)
-		dup_and_close(cmd->fd_out, STDOUT_FILENO, -1);
+		dup_and_close(&cmd->fd_out, STDOUT_FILENO, -1);
 }
 
 static void	exec_builtin_child(t_data *data, int idx)
@@ -61,19 +61,17 @@ void	child_process(t_data *data, int idx)
 	signal(SIGPIPE, SIG_IGN);
 	if (cmd.fd_in == -2 || cmd.fd_out == -2)
 	{
-		if (data->ex.prev_fd != -1)
+		if (data->ex.prev_fd > 2)
 			close(data->ex.prev_fd);
 		if (data->cmds[idx + 1].argv)
-		{
-			close(data->ex.pipe[0]);
-			close(data->ex.pipe[1]);
-
-		}
+			close_fd(data->ex.pipe[0], data->ex.pipe[1], -1, -1);
 		free_all_data(data);
 		exit(1);
 	}
 	setup_pipes(data, idx);
 	setup_redirections(&cmd);
+	data->cmds[idx].fd_in = cmd.fd_in;
+	data->cmds[idx].fd_out = cmd.fd_out;
 	if (data->ex.is_builtin)
 		exec_builtin_child(data, idx);
 	exec_external(data, &cmd);

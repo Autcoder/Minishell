@@ -56,13 +56,21 @@ t_token	*get_tokens(char *str)
 void	close_fd(int fd0, int fd1, int fd2, int fd3)
 {
 	if (fd0 > 2)
+	{
 		close(fd0);
+	}
 	if (fd1 > 2)
+	{
 		close(fd1);
+	}
 	if (fd2 > 2)
+	{
 		close(fd2);
+	}
 	if (fd3 > 2)
+	{
 		close(fd3);
+	}
 }
 
 // levi helper

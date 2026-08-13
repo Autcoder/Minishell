@@ -23,10 +23,11 @@ void	clean_split(char **split)
 	free(split);
 }
 
-void	dup_and_close(int fd1, int fd_2_cpy, int fd2)
+void	dup_and_close(int *fd1, int fd_2_cpy, int fd2)
 {
-	dup2(fd1, fd_2_cpy);
-	close_fd(fd1, fd2, -1, -1);
+	dup2(*fd1, fd_2_cpy);
+	close_fd(*fd1, fd2, -1, -1);
+	*fd1 = -1;
 }
 
 int	check_if_word(t_token *tokens, size_t i)

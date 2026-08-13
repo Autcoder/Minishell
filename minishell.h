@@ -109,7 +109,7 @@ int					command_not_found(t_data *data, int idx);
 size_t				count_and_init_exec(t_cmd *cmds, t_exec *ex);
 size_t				count_cmds(t_token *tokens);
 size_t				count_words(t_token *tokens, size_t start);
-void				dup_and_close(int fd1, int fd_2_cpy, int fd2);
+void				dup_and_close(int *fd1, int fd_2_cpy, int fd2);
 int					execute(t_data *data);
 int					execute_init(t_data *data, char **path);
 void				expand_tokens(t_data *data);
