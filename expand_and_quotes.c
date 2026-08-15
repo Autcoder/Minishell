@@ -72,12 +72,11 @@ int	expand_tokens(t_data *data)
 				data->tokens[i].value = ret;
 			}
 		}
-		if (data->tokens[i].value && data->tokens[i].value[0] == '\0')
+		if (data->tokens[i++].value && data->tokens[i - 1].value[0] == '\0')
 		{
-			delete_token(data->tokens, i);
+			delete_token(data->tokens, (i - 1));
 			continue ;
 		}
-		i++;
 	}
 	return (0);
 }

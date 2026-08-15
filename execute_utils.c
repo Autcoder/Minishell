@@ -36,8 +36,8 @@ int	builtin_only(t_data *data, int idx)
 		setup_signals();
 		return (1);
 	}
-	if (data->ex.is_builtin == 3
-		|| data->ex.is_builtin == 4 || data->ex.is_builtin == 5)
+	if ((data->ex.is_builtin == 3 || data->ex.is_builtin == 4
+		|| data->ex.is_builtin == 5) && !data->cmds[1].argv)
 	{
 		ret = run_builtin(data, idx);
 		free(data->p);
