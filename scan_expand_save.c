@@ -58,7 +58,7 @@ static char	*levi_helper(char *str, size_t *idx, char **key_list, char **env)
 	while (str[end] && (ft_isalnum(str[end]) || str[end] == '_'))
 		end++;
 	ret = mesh_tgthr(str, expanded, start, end);
-	return (free(expanded), ret);
+	return (yet_another_help(ret, start, expanded, idx), free(expanded), ret);
 }
 
 char	*handle_status_code(char *cur, size_t *i, int status_code)
@@ -98,7 +98,7 @@ char	*levi_while(char *cur, t_data *data, char **key_list, size_t i)
 				cur = next;
 			}
 		}
-		if (cur[i])
+		else
 			i++;
 	}
 	return (cur);

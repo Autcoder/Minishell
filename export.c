@@ -51,16 +51,33 @@ int	update_var(t_data *data, char *cmd, char *temp)
 	return (0);
 }
 
+int	strchr_but_num(char *str)
+{
+	char	*temp;
+
+	temp = ft_strchr(str, '=');
+	*temp = '\0';
+	if (ft_atoi(str) || *(temp - 1) == '0')
+		return (1);
+	else
+		return (*temp = '=', 0);
+}
+
 int	ft_export(t_data *data, char **argv)
 {
 	size_t	idx;
 	char	*temp;
 
 	if (!argv[1])
-		return (printf("bip boop, UB incoming..\n"), 67);
+		return (67);
 	idx = 1;
 	while (argv[idx])
 	{
+		if (ft_strchr(argv[idx], '?') || strchr_but_num(argv[idx]))
+		{
+			put_error(argv[idx++], "not a valid identifier");
+			continue ;
+		}
 		temp = ft_strchr(argv[idx], '=');
 		if (!temp)
 		{

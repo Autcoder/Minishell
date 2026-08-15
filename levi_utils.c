@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/libft.h"
 
 char	*apply_function(t_data *data, size_t *i, char *cur, int s)
 {
@@ -53,4 +54,10 @@ int	check_quotes(char *quote, char *cur, size_t i)
 		*quote = 0;
 	}
 	return (1);
+}
+
+void	yet_another_help(char *ret, size_t s, char *exp, size_t *idx)
+{
+	if (ret)
+		*idx = s + ft_strlen(exp);
 }

@@ -64,6 +64,7 @@ typedef struct s_cmd
 	char			*path;
 	int				fd_in;
 	int				fd_out;
+	int				fd_fail;
 }					t_cmd;
 
 // execution
@@ -154,5 +155,8 @@ int					ft_exit(t_data *data);
 // TODO Fix, multiple vars + export +=smth
 int					ft_export(t_data *data, char **argv);
 int					ft_unset(t_data *data, char **argv);
+//BS
+int					set_status_up(int *ret, int *idx, int switcher);
+void				yet_another_help(char *ret, size_t s, char *exp, size_t *idx);
 
 #endif

@@ -46,3 +46,13 @@ void	clean_up(t_data *data)
 	if (data->str)
 		free(data->str);
 }
+
+int	set_status_up(int *ret, int *idx, int switcher)
+{
+	(*idx)++;
+	if (switcher)
+		*ret = 127;
+	return (1);
+}
+
+

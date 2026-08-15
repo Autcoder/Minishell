@@ -59,7 +59,7 @@ void	child_process(t_data *data, int idx)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGPIPE, SIG_IGN);
-	if (cmd.fd_in == -2 || cmd.fd_out == -2)
+	if (cmd.fd_in == -2 || cmd.fd_out == -2 || cmd.fd_fail)
 	{
 		if (data->ex.prev_fd > 2)
 			close(data->ex.prev_fd);

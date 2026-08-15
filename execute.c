@@ -49,6 +49,12 @@ static void	parent_cleanup(t_data *data, int idx)
 		data->ex.prev_fd = -1;
 }
 
+static int	set_some_stupid_s_to_minus_two_and_incr_idx(t_data *data, int *idx)
+{
+	data->p[(*idx)++] = -2;
+	return (1);
+}
+
 static int	execute_loop(t_data *data, char *path)
 {
 	int	idx;
@@ -67,6 +73,9 @@ static int	execute_loop(t_data *data, char *path)
 			idx++;
 			continue ;
 		}
+		if ((!data->cmds[idx].argv[0] || !data->cmds[idx].argv[0][0])
+				&& set_some_stupid_s_to_minus_two_and_incr_idx(data, &idx))
+			continue ;
 		if (fork_command(data, idx))
 			return (1);
 		parent_cleanup(data, idx++);

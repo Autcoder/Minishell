@@ -49,7 +49,11 @@ size_t	count_cmds(t_token *tokens)
 	while (tokens[i].value)
 	{
 		if (tokens[i].type == TOKEN_PIPE)
+		{
+			if (check_if_word(tokens, i))
+				return (SIZE_MAX);
 			count++;
+		}
 		i++;
 	}
 	return (count);
@@ -81,12 +85,10 @@ int	wait_helper(t_data *data)
 	status_code = 0;
 	while (data->cmds[i].argv)
 	{
-		if (data->p[i] == -1)
-		{
-			i++;
-			status_code = 127;
+		if (data->p[i] == -1 && set_status_up(&status_code, &i, 1))
 			continue ;
-		}
+		else if (data->p[i] == -2 && set_status_up(&status_code, &i, 0))
+			continue ;
 		while (waitpid(data->p[i++], &status, 0) == -1)
 			if (errno != EINTR)
 				break ;

@@ -66,7 +66,7 @@ int	expand_tokens(t_data *data)
 			ret = levi(data, data->tokens[i].value);
 			if (ret)
 			{
-				if (ft_strlen(ret) > 4200)
+				if (ft_strlen(ret) > 42000)
 					return (free(ret), 1);
 				free(data->tokens[i].value);
 				data->tokens[i].value = ret;

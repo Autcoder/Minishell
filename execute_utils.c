@@ -29,6 +29,13 @@ int	builtin_only(t_data *data, int idx)
 	int	ret;
 
 	ret = 0;
+	if (data->cmds[idx].fd_fail)
+	{
+		free(data->p);
+		data->p = NULL;
+		setup_signals();
+		return (1);
+	}
 	if (data->ex.is_builtin == 3
 		|| data->ex.is_builtin == 4 || data->ex.is_builtin == 5)
 	{
@@ -51,12 +58,18 @@ int	command_not_found(t_data *data, int idx)
 		return (0);
 	if (data->cmds[idx].path && data->cmds[idx].argv[0])
 		return (0);
-	ft_putstr_fd(data->cmds[idx].argv[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
-	if (data->cmds[idx].fd_in != -1)
+	if (data->cmds[idx].argv[0])
+		put_error(data->cmds[idx].argv[0], "command not found");
+	if (data->cmds[idx].fd_in > 2)
+	{
 		close(data->cmds[idx].fd_in);
-	if (data->cmds[idx].fd_out != -1)
+		data->cmds[idx].fd_in = -1;
+	}
+	if (data->cmds[idx].fd_out > 2)
+	{
 		close(data->cmds[idx].fd_out);
+		data->cmds[idx].fd_out = -1;
+	}
 	data->p[idx] = -1;
 	return (1);
 }
