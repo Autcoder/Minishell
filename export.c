@@ -56,6 +56,8 @@ int	strchr_but_num(char *str)
 	char	*temp;
 
 	temp = ft_strchr(str, '=');
+	if (!temp)
+		return (2);
 	*temp = '\0';
 	if (ft_atoi(str) || *(temp - 1) == '0')
 		return (1);
@@ -73,7 +75,7 @@ int	ft_export(t_data *data, char **argv)
 	idx = 1;
 	while (argv[idx])
 	{
-		if (ft_strchr(argv[idx], '?') || strchr_but_num(argv[idx]))
+		if (ft_strchr(argv[idx], '?') || strchr_but_num(argv[idx]) == 1)
 		{
 			put_error(argv[idx++], "not a valid identifier");
 			continue ;

@@ -46,6 +46,21 @@ static int	init_shell(t_data *data)
 	return (0);
 }
 
+static int	check_syntax(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i].value)
+	{
+		if (tokens[i].type != TOKEN_WORD)
+			if (check_if_word(tokens, i) == 2)
+				return (2);
+		i++;
+	}
+	return (0);
+}
+
 // TODO changed some ret values
 static int	process_input(t_data *data)
 {
@@ -54,6 +69,8 @@ static int	process_input(t_data *data)
 	data->tokens = get_tokens(data->str);
 	if (!data->tokens)
 		return (reset_loop_data(data), 1);
+	if (check_syntax(data->tokens))
+		return (reset_loop_data(data), 2);
 	if (expand_tokens(data))
 		return (reset_loop_data(data),
 			put_error("export error", "var too big"), 1);
