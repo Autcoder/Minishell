@@ -29,7 +29,9 @@ int	builtin_only(t_data *data, int idx)
 	int	ret;
 
 	ret = 0;
-	if (data->ex.is_builtin && !data->cmds[1].argv)
+	if ((data->ex.is_builtin == 3 || data->ex.is_builtin == 4
+			|| data->ex.is_builtin == 5 || data->ex.is_builtin == 7)
+			&& !data->cmds[1].argv)
 	{
 		ret = run_builtin(data, idx);
 		free(data->p);
