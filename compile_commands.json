@@ -481,5 +481,47 @@
    "objs/builtins_utils.o"
   ],
   "file": "builtins_utils.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/levi_heredoc.d",
+   "-c",
+   "levi_heredoc.c",
+   "-o",
+   "objs/levi_heredoc.o"
+  ],
+  "file": "levi_heredoc.c"
+ },
+ {
+  "directory": "/home/luin/42/CC/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-I.",
+   "-I./libft",
+   "-I/opt/homebrew/opt/readline/include",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "deps/export_helper.d",
+   "-c",
+   "export_helper.c",
+   "-o",
+   "objs/export_helper.o"
+  ],
+  "file": "export_helper.c"
  }
 ]
