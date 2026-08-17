@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/06 16:17:46 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/17 11:52:13 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	init_shell(t_data *data)
 
 static int	check_syntax(t_token *tokens)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (tokens[i].value)
