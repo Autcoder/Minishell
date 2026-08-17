@@ -61,17 +61,14 @@ int	expand_tokens(t_data *data)
 	i = 0;
 	while (data->tokens[i].value)
 	{
-		if (data->tokens[i].type == TOKEN_WORD)
+		if (data->tokens[i].type == TOKEN_HERE_DOC)
 		{
-			ret = levi(data, data->tokens[i].value);
-			if (ret)
-			{
-				if (ft_strlen(ret) > 42000)
-					return (free(ret), 1);
-				free(data->tokens[i].value);
-				data->tokens[i].value = ret;
-			}
+			i += 2;
+			continue ;
 		}
+		if (data->tokens[i].type == TOKEN_WORD)
+			if (expand_levi(data, &ret, i))
+				return (1);
 		if (data->tokens[i++].value && data->tokens[i - 1].value[0] == '\0')
 		{
 			delete_token(data->tokens, (i - 1));

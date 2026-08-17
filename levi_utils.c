@@ -56,8 +56,34 @@ int	check_quotes(char *quote, char *cur, size_t i)
 	return (1);
 }
 
+/*smth for levi*/
 void	yet_another_help(char *ret, size_t s, char *exp, size_t *idx)
 {
 	if (ret)
 		*idx = s + (ft_strlen(exp) - 1);
+}
+
+int	expand_levi(t_data *data, char **ret, int i)
+{
+	*ret = levi(data, data->tokens[i].value);
+	if (*ret)
+	{
+		if (ft_strlen(*ret) > 42000)
+			return (free(*ret), 1);
+		free(data->tokens[i].value);
+		data->tokens[i].value = *ret;
+	}
+	return (0);
+}
+
+void	expand_here_doc(char **line, t_data *data)
+{
+	char	*expand;
+
+	expand = levi_here_doc(data, *line);
+	free(*line);
+	if (expand)
+		*line = expand;
+	else
+		*line = ft_strdup("");
 }

@@ -84,6 +84,7 @@ static void	child_heredoc(int write_fd, char *eof, t_data *data)
 			free(line);
 			break ;
 		}
+		expand_here_doc(&line, data);
 		write(write_fd, line, ft_strlen(line));
 		write(write_fd, "\n", 1);
 		free(line);

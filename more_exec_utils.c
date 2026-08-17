@@ -54,5 +54,3 @@ int	set_status_up(int *ret, int *idx, int switcher)
 		*ret = 127;
 	return (1);
 }
-
-

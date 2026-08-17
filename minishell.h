@@ -157,6 +157,9 @@ int					ft_export(t_data *data, char **argv);
 int					ft_unset(t_data *data, char **argv);
 //BS
 int					set_status_up(int *ret, int *idx, int switcher);
-void				yet_another_help(char *ret, size_t s, char *exp, size_t *idx);
+void				yet_another_help(char *ret, size_t s, char *b, size_t *a);
+int					expand_levi(t_data *data, char **ret, int i);
+char				*levi_here_doc(t_data *data, char *str);
+void				expand_here_doc(char **line, t_data *data);
 
 #endif
