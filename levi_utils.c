@@ -24,6 +24,7 @@ char	*apply_function(t_data *data, size_t *i, char *cur, int s)
 		if (next != cur)
 			free(cur);
 		cur = next;
+		*i -= 1;
 	}
 	else if (s == 2)
 	{

@@ -51,53 +51,20 @@ int	update_var(t_data *data, char *cmd, char *temp)
 	return (0);
 }
 
-int	strchr_but_num(char *str)
-{
-	char	*temp;
-
-	temp = ft_strchr(str, '=');
-	if (!temp)
-		return (2);
-	*temp = '\0';
-	if (ft_atoi(str) || *(temp - 1) == '0')
-		return (1);
-	else
-		return (*temp = '=', 0);
-}
-
-int	export_helper(t_data *data, char *cmd, char *temp)
-{
-	*temp = '\0';
-	if (!get_any(data->env, cmd))
-	{
-		*temp = '=';
-		if (add_var(data, cmd))
-			return (1);
-	}
-	else
-	{
-		*temp = '=';
-		if (update_var(data, cmd, temp))
-			return (1);
-	}
-	return (0);
-}
-
 int	ft_export(t_data *data, char **argv)
 {
 	size_t	idx;
 	char	*temp;
+	int		status;
 
 	if (!argv[1])
 		return (67);
 	idx = 1;
+	status = 0;
 	while (argv[idx])
 	{
-		if (ft_strchr(argv[idx], '?') || strchr_but_num(argv[idx]) == 1)
-		{
-			put_error(argv[idx++], "not a valid identifier");
+		if (check_word(argv[idx], &status, &idx))
 			continue ;
-		}
 		temp = ft_strchr(argv[idx], '=');
 		if (!temp)
 		{
@@ -108,5 +75,5 @@ int	ft_export(t_data *data, char **argv)
 			return (1);
 		idx++;
 	}
-	return (0);
+	return (status);
 }

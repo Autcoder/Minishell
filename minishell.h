@@ -161,5 +161,12 @@ void				yet_another_help(char *ret, size_t s, char *b, size_t *a);
 int					expand_levi(t_data *data, char **ret, int i);
 char				*levi_here_doc(t_data *data, char *str);
 void				expand_here_doc(char **line, t_data *data);
+//export helpers
+int					export_helper(t_data *data, char *cmd, char *temp);
+int					check_word(char *cmd, int *status, size_t *idx);
+int					add_var(t_data *data, char *cmd);
+int					update_var(t_data *data, char *cmd, char *temp);
+int					strchr_but_num(char *str);
+int					check_alpha_num(char *str);
 
 #endif
