@@ -6,12 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:38:05 by flink             #+#    #+#             */
-/*   Updated: 2026/08/06 09:01:28 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/17 13:15:33 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft/libft.h"
+#include "minishell.h"
 
 int	execute_init(t_data *data, char **path)
 {
@@ -29,8 +29,7 @@ int	builtin_only(t_data *data, int idx)
 	int	ret;
 
 	ret = 0;
-	if ((data->ex.is_builtin == 3 || data->ex.is_builtin == 4
-			|| data->ex.is_builtin == 5) && !data->cmds[1].argv)
+	if (data->ex.is_builtin && !data->cmds[1].argv)
 	{
 		ret = run_builtin(data, idx);
 		free(data->p);
@@ -38,9 +37,8 @@ int	builtin_only(t_data *data, int idx)
 		setup_signals();
 		return (ret);
 	}
-	else if (!(idx == 0 && !data->cmds[1].argv
-			&& !(data->cmds[idx].fd_out < 0 || data->cmds[idx].fd_in < 0)
-			&& data->ex.is_builtin))
+	else if (!(idx == 0 && !data->cmds[1].argv && !(data->cmds[idx].fd_out < 0
+				|| data->cmds[idx].fd_in < 0) && data->ex.is_builtin))
 		return (-1);
 	return (ret);
 }
