@@ -65,6 +65,24 @@ int	strchr_but_num(char *str)
 		return (*temp = '=', 0);
 }
 
+int	export_helper(t_data *data, char *cmd, char *temp)
+{
+	*temp = '\0';
+	if (!get_any(data->env, cmd))
+	{
+		*temp = '=';
+		if (add_var(data, cmd))
+			return (1);
+	}
+	else
+	{
+		*temp = '=';
+		if (update_var(data, cmd, temp))
+			return (1);
+	}
+	return (0);
+}
+
 int	ft_export(t_data *data, char **argv)
 {
 	size_t	idx;
@@ -86,19 +104,8 @@ int	ft_export(t_data *data, char **argv)
 			idx++;
 			continue ;
 		}
-		*temp = '\0';
-		if (!get_any(data->env, argv[idx]))
-		{
-			*temp = '=';
-			if (add_var(data, argv[idx]))
-				return (1);
-		}
-		else
-		{
-			*temp = '=';
-			if (update_var(data, argv[idx], temp))
-				return (1);
-		}
+		if (export_helper(data, argv[idx], temp))
+			return (1);
 		idx++;
 	}
 	return (0);
