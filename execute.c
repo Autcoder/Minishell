@@ -38,12 +38,12 @@ static void	parent_cleanup(t_data *data, int idx)
 	}
 	if (data->cmds[idx + 1].argv)
 	{
-		if (data->ex.prev_fd != -1)
+		if (data->ex.prev_fd > 2)
 			close(data->ex.prev_fd);
 		data->ex.prev_fd = data->ex.pipe[0];
 		close(data->ex.pipe[1]);
 	}
-	else if (data->ex.prev_fd != -1)
+	else if (data->ex.prev_fd > 2)
 		close(data->ex.prev_fd);
 	if (!data->cmds[idx + 1].argv)
 		data->ex.prev_fd = -1;

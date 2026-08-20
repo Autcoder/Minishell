@@ -130,3 +130,12 @@ exit
 Fix
 Max char cap for expansion
 Here_doc
+
+Note for self*
+changed this functions fd handling and added -1 after close of fd
+void    free_cmds(t_cmd *cmds)
+setup_pipes
+child_process
+free_cmds_exec
+open_infile
+handle_redirect

@@ -14,20 +14,21 @@
 
 static void	setup_pipes(t_data *data, int idx)
 {
-	if (data->ex.prev_fd != -1)
+	if (data->ex.prev_fd > 2)
 		dup_and_close(&data->ex.prev_fd, STDIN_FILENO, -1);
 	if (data->cmds[idx + 1].argv)
 	{
 		close(data->ex.pipe[0]);
+		data->ex.pipe[0] = -1;
 		dup_and_close(&data->ex.pipe[1], STDOUT_FILENO, -1);
 	}
 }
 
 static void	setup_redirections(t_cmd *cmd)
 {
-	if (cmd->fd_in != -1)
+	if (cmd->fd_in > 2)
 		dup_and_close(&cmd->fd_in, STDIN_FILENO, -1);
-	if (cmd->fd_out != -1)
+	if (cmd->fd_out > 2)
 		dup_and_close(&cmd->fd_out, STDOUT_FILENO, -1);
 }
 
@@ -62,7 +63,10 @@ void	child_process(t_data *data, int idx)
 	if (cmd.fd_in == -2 || cmd.fd_out == -2 || cmd.fd_fail)
 	{
 		if (data->ex.prev_fd > 2)
+		{
 			close(data->ex.prev_fd);
+			data->ex.prev_fd = -1;
+		}
 		if (data->cmds[idx + 1].argv)
 			close_fd(data->ex.pipe[0], data->ex.pipe[1], -1, -1);
 		free_all_data(data);

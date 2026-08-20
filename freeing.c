@@ -22,9 +22,15 @@ void	free_cmds_exec(t_cmd *cmds, size_t count)
 	while (i < count)
 	{
 		if (cmds[i].fd_in > 2)
+		{
 			close(cmds[i].fd_in);
+			cmds[i].fd_in = -1;
+		}
 		if (cmds[i].fd_out > 2)
+		{
 			close(cmds[i].fd_out);
+			cmds[i].fd_out = -1;
+		}
 		free(cmds[i].argv);
 		i++;
 	}

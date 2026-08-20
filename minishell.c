@@ -26,9 +26,15 @@ void	free_cmds(t_cmd *cmds)
 		if (cmds[i].path)
 			free(cmds[i].path);
 		if (cmds[i].fd_in > 2)
+		{
 			close(cmds[i].fd_in);
+			cmds[i].fd_in = -1;
+		}
 		if (cmds[i].fd_out > 2)
+		{
 			close(cmds[i].fd_out);
+			cmds[i].fd_out = -1;
+		}
 		i++;
 	}
 	free(cmds);
