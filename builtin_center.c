@@ -70,7 +70,7 @@ static void	child_heredoc(int write_fd, char *eof, t_data *data)
 {
 	char	*line;
 
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, handle_sigint);
 	while (42)
 	{
 		line = readline("> ");
@@ -79,6 +79,8 @@ static void	child_heredoc(int write_fd, char *eof, t_data *data)
 			print_eof_warning(eof);
 			break ;
 		}
+		if (g_sigint)
+			exit((free(line), close(write_fd), free_all_data(data), 130));
 		if (!ft_strncmp(line, eof, ft_strlen(eof) + 1))
 		{
 			free(line);
@@ -89,9 +91,7 @@ static void	child_heredoc(int write_fd, char *eof, t_data *data)
 		write(write_fd, "\n", 1);
 		free(line);
 	}
-	close(write_fd);
-	free_all_data(data);
-	exit(0);
+	exit((close(write_fd), free_all_data(data), 0));
 }
 
 int	here_doc(char *eof, t_data *data)

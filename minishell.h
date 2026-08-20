@@ -168,5 +168,7 @@ int					add_var(t_data *data, char *cmd);
 int					update_var(t_data *data, char *cmd, char *temp);
 int					strchr_but_num(char *str);
 int					check_alpha_num(char *str);
+//SIGHANDLE
+void				handle_sigint(int sig);
 
 #endif
