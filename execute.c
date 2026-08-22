@@ -15,7 +15,8 @@
 static int	fork_command(t_data *data, int idx)
 {
 	if (data->cmds[idx + 1].argv)
-		pipe(data->ex.pipe);
+		if (pipe(data->ex.pipe) == -1)
+			return (put_error("pipe", strerror(errno)), 1);
 	data->p[idx] = fork();
 	if (data->p[idx] < 0)
 		return (perror("fork"), 1);
@@ -55,6 +56,15 @@ static int	set_some_stupid_s_to_minus_two_and_incr_idx(t_data *data, int *idx)
 	return (1);
 }
 
+void	pipe_fail_clean(t_data *data)
+{
+	if (data->ex.prev_fd != -1)
+	{
+		close(data->ex.prev_fd);
+		data->ex.prev_fd = -1;
+	}
+}
+
 static int	execute_loop(t_data *data, char *path)
 {
 	int	idx;
@@ -77,7 +87,7 @@ static int	execute_loop(t_data *data, char *path)
 				&& set_some_stupid_s_to_minus_two_and_incr_idx(data, &idx))
 			continue ;
 		if (fork_command(data, idx))
-			return (1);
+			return (pipe_fail_clean(data), 1);
 		parent_cleanup(data, idx++);
 	}
 	return (wait_helper(data));
