@@ -56,15 +56,6 @@ static int	set_some_stupid_s_to_minus_two_and_incr_idx(t_data *data, int *idx)
 	return (1);
 }
 
-void	pipe_fail_clean(t_data *data)
-{
-	if (data->ex.prev_fd != -1)
-	{
-		close(data->ex.prev_fd);
-		data->ex.prev_fd = -1;
-	}
-}
-
 static int	execute_loop(t_data *data, char *path)
 {
 	int	idx;

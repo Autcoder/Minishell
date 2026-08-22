@@ -93,7 +93,8 @@ typedef struct s_data
 	int				status_code;
 	pid_t			*p;
 }					t_data;
-
+//Execute helper
+void				pipe_fail_clean(t_data *data);
 void				put_error(char *name, char *string);
 t_cmd				*build_cmds(t_token *tokens, t_data *data);
 int					builtin_only(t_data *data, int idx);
