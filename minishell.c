@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/23 19:28:01 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 19:46:03 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ int	main(void)
 			data.status_code = process_input(&data);
 		reset_loop_data(&data);
 	}
-	free_all_data(&data);
-	return (data.status_code);
+	return (free_all_data(&data), data.status_code);
 }
