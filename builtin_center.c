@@ -114,10 +114,8 @@ int	here_doc(char *eof, t_data *data)
 	waitpid(pid, &status, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &orig);
 	setup_signals();
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		return (close(fd[0]), -1);
-	}
+	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		|| (WIFEXITED(status) && WEXITSTATUS(status) == 130))
+		return (write(1, "\n", 1), close(fd[0]), data->status_code = 130, -1);
 	return (fd[0]);
 }
