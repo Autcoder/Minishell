@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:38:05 by flink             #+#    #+#             */
-/*   Updated: 2026/08/23 12:09:00 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 14:18:39 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*find_path(char *to_find, char *path1)
 
 	if (!to_find || !*to_find)
 		return (NULL);
-	if (!path1 || !*path1|| ft_strchr(to_find, '/'))
+	if (!path1 || !*path1 || ft_strchr(to_find, '/'))
 	{
 		if (!check_access(to_find))
 			return (ft_strdup(to_find));
