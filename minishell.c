@@ -6,11 +6,14 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/17 11:52:13 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 19:24:53 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+#include <readline/readline.h>
+#include <time.h>
+#include <unistd.h>
 #include "minishell.h"
 
 void	free_cmds(t_cmd *cmds)
@@ -99,6 +102,7 @@ int	main(void)
 	data.status_code = 0;
 	while (42)
 	{
+		rl_outstream = stderr;
 		data.str = readline("minishell> ");
 		if (g_sigint)
 		{
