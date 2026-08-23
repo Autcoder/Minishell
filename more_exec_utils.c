@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "libft/libft.h"
+#include <errno.h>
 
 void	clean_split(char **split)
 {
@@ -61,6 +62,11 @@ int	set_status_up(int *ret, int *idx, int switcher)
 {
 	(*idx)++;
 	if (switcher)
-		*ret = 127;
+	{
+		if (errno == ENOENT)
+			*ret = 127;
+		else
+			*ret = 126;
+	}
 	return (1);
 }
