@@ -105,7 +105,7 @@ t_token	*lexer(char *input)
 		return (NULL);
 	while (input[i])
 	{
-		if (input[i] == ' ' && ++i)
+		if ((input[i] == ' ' || input[i] == '\t') && ++i)
 			continue ;
 		if (t_idx >= cap - 1)
 			tokens = expand_tokens_parse(tokens, &cap);
