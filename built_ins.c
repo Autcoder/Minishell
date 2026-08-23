@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flenski <flenski@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:14:18 by flenski           #+#    #+#             */
-/*   Updated: 2026/07/21 13:18:32 by flenski          ###   ########.fr       */
+/*   Updated: 2026/08/23 14:21:11 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+# include <errno.h>
 
 int	ft_env(t_data *data)
 {

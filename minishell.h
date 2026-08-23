@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 12:55:37 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 14:20:40 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-# include <errno.h>
+
 /*
 TOKEN_WORD,         // cat, ls, -l, filename
 TOKEN_PIPE,         // |

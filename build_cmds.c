@@ -6,12 +6,13 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:46:16 by flink             #+#    #+#             */
-/*   Updated: 2026/08/06 08:46:28 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 14:20:53 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+# include <errno.h>
 
 static int	open_infile(t_cmd *cmd, char *file)
 {

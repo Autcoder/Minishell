@@ -6,11 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:32:52 by flink             #+#    #+#             */
-/*   Updated: 2026/08/06 08:41:10 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 14:20:58 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+# include <errno.h>
 
 static int	fork_command(t_data *data, int idx)
 {

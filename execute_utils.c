@@ -6,12 +6,13 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:38:05 by flink             #+#    #+#             */
-/*   Updated: 2026/08/23 14:18:39 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 14:20:45 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+# include <errno.h>
 
 int	execute_init(t_data *data, char **path)
 {

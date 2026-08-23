@@ -6,11 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:51:35 by flink             #+#    #+#             */
-/*   Updated: 2026/08/06 08:55:16 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 14:20:49 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+# include <errno.h>
 
 static void	setup_pipes(t_data *data, int idx)
 {
