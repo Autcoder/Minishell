@@ -100,7 +100,7 @@ char	*find_path(char *to_find, char *path1)
 
 	if (!to_find || !*to_find)
 		return (NULL);
-	if (!path1 || ft_strchr(to_find, '/'))
+	if (!path1 || !*path1|| ft_strchr(to_find, '/'))
 	{
 		if (!check_access(to_find))
 			return (ft_strdup(to_find));
