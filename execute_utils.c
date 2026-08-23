@@ -52,7 +52,7 @@ int	command_not_found(t_data *data, int idx)
 	if (data->cmds[idx].path && data->cmds[idx].argv[0])
 		return (0);
 	if (data->cmds[idx].argv[0])
-		put_error(data->cmds[idx].argv[0], "command not found");
+		put_error(data->cmds[idx].argv[0], strerror(errno));
 	if (data->cmds[idx].fd_in > 2)
 	{
 		close(data->cmds[idx].fd_in);
