@@ -33,8 +33,7 @@ int	export_helper(t_data *data, char *cmd, char *temp)
 
 int	check_word(char *cmd, int *status, size_t *idx)
 {
-	if (ft_strchr(cmd, '?') || strchr_but_num(cmd) == 1
-		|| !ft_strchr(cmd, '='))
+	if (ft_strchr(cmd, '?') || strchr_but_num(cmd) == 1)
 	{
 		put_error(cmd, "not a valid identifier");
 		*status = 1;
