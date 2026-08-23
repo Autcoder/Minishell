@@ -72,7 +72,7 @@ static int	execute_loop(t_data *data, char *path)
 		data->cmds[idx].path = find_path(data->cmds[idx].argv[0], path);
 		if (command_not_found(data, idx))
 		{
-			idx++;
+			fake_fork(data, &idx);
 			continue ;
 		}
 		if ((!data->cmds[idx].argv[0] || !data->cmds[idx].argv[0][0])
