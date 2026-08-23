@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/23 19:46:03 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 19:55:55 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	free_cmds(t_cmd *cmds)
 
 static int	init_shell(t_data *data)
 {
+	setup_signals();
 	data->env = init_env();
 	data->cmds = NULL;
 	if (!data->env)
 		return (1);
 	internal_export("PWD=", data, getcwd(NULL, PATH_MAX));
 	internal_export("SHLVL=", data, shel_lvl(data->env));
-	setup_signals();
 	return (0);
 }
 
@@ -100,7 +100,10 @@ int	main(void)
 	while (42)
 	{
 		rl_outstream = stderr;
-		data.str = readline("minishell> ");
+		if (isatty(STDIN_FILENO))
+			data.str = readline("minishell> ");
+		else
+		 	data.str = readline(NULL);
 		if (g_sigint)
 		{
 			data.status_code = 130;
