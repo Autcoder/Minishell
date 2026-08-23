@@ -45,6 +45,8 @@ static void	exec_external(t_data *data, t_cmd *cmd)
 {
 	signal(SIGPIPE, SIG_DFL);
 	execve(cmd->path, cmd->argv, data->env);
+	if (errno == EACCES)
+		put_error(cmd->argv[0], strerror(errno));
 	free_all_data(data);
 	if (errno == ENOENT)
 		exit(127);
