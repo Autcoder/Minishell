@@ -104,7 +104,7 @@ char	*find_path(char *to_find, char *path1)
 	{
 		if (!check_access(to_find))
 			return (ft_strdup(to_find));
-		else if (check_access(to_find) == 1)
+		else if (check_access(to_find))
 			return (NULL);
 	}
 	else
