@@ -44,7 +44,6 @@ static void	exec_builtin_child(t_data *data, int idx)
 
 static void	exec_external(t_data *data, t_cmd *cmd)
 {
-	signal(SIGPIPE, SIG_DFL);
 	execve(cmd->path, cmd->argv, data->env);
 	if (errno == EACCES)
 		put_error(cmd->argv[0], strerror(errno));
@@ -61,7 +60,6 @@ void	child_process(t_data *data, int idx)
 	cmd = data->cmds[idx];
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	signal(SIGPIPE, SIG_IGN);
 	if (cmd.fd_in == -2 || cmd.fd_out == -2 || cmd.fd_fail)
 	{
 		if (data->ex.prev_fd > 2)

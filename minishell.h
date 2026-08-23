@@ -94,6 +94,7 @@ typedef struct s_data
 	pid_t			*p;
 }					t_data;
 //Execute helper
+void				fake_fork(t_data *data, int *idx);
 void				pipe_fail_clean(t_data *data);
 void				put_error(char *name, char *string);
 t_cmd				*build_cmds(t_token *tokens, t_data *data);
