@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-# include <errno.h>
+#include <errno.h>
 
 static int	fork_command(t_data *data, int idx)
 {

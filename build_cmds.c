@@ -12,7 +12,7 @@
 
 #include "libft/libft.h"
 #include "minishell.h"
-# include <errno.h>
+#include <errno.h>
 
 static int	open_infile(t_cmd *cmd, char *file)
 {

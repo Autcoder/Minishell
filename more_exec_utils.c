@@ -34,10 +34,14 @@ int	check_if_word(t_token *tokens, size_t i)
 {
 	if (!tokens[i + 1].value || tokens[i + 1].type != TOKEN_WORD)
 	{
-		if (!((tokens[i].type == TOKEN_HERE_DOC
+		if (
+			!((tokens[i].type == TOKEN_HERE_DOC
 					&& tokens[i + 1].type == TOKEN_PIPE)
 				|| (tokens[i].type == TOKEN_PIPE
-					&& tokens[i + 1].type == TOKEN_HERE_DOC)))
+					&& tokens[i + 1].type == TOKEN_HERE_DOC))
+			&& !(tokens[i].type == TOKEN_PIPE
+				&& tokens[i + 1].type == TOKEN_REDIRECT_IN)
+		)
 		{
 			ft_putstr_fd("syntax error: expected value\n", 2);
 			return (2);

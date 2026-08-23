@@ -12,7 +12,7 @@
 
 #include "libft/libft.h"
 #include "minishell.h"
-# include <errno.h>
+#include <errno.h>
 
 int	execute_init(t_data *data, char **path)
 {

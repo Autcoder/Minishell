@@ -12,7 +12,7 @@
 
 #include "libft/libft.h"
 #include "minishell.h"
-# include <errno.h>
+#include <errno.h>
 
 int	ft_env(t_data *data)
 {

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-# include <errno.h>
+#include <errno.h>
 
 static void	setup_pipes(t_data *data, int idx)
 {
