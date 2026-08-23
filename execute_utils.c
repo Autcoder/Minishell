@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:38:05 by flink             #+#    #+#             */
-/*   Updated: 2026/08/23 12:06:06 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/23 12:09:00 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,10 @@ static char	*find_path_while(char **path, char *arg)
 	while (path[i])
 	{
 		if (path[i][0] == '\0')
-		{
 			str = ft_strjoin(".", arg);
-			i++;
-		}
 		else
-			str = ft_strjoin(path[i++], arg);
+			str = ft_strjoin(path[i], arg);
+		i++;
 		if (!str)
 			return (clean_split(path), free(arg), NULL);
 		if (!check_access(str))
