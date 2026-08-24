@@ -59,6 +59,5 @@ minishell> minishell> ls
 
 Currently failing testcases:
 - yes | yes | yes -> ctrl+c -> go up in history: ">" dissapears
-- cat | cat | ls -> unsure
 - echo $"home" -> outputs "$home" instead of "home"
-- 
+- export B='ls -' -> $B'a' -> should execute "ls -a"

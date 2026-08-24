@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:32:52 by flink             #+#    #+#             */
-/*   Updated: 2026/08/24 08:58:05 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 09:48:48 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	execute_loop(t_data *data, char *path)
 			continue ;
 		}
 		if ((!data->cmds[idx].argv[0] || !data->cmds[idx].argv[0][0])
-				&& set_some_stupid_s_to_minus_two_and_incr_idx(data, &idx))
+			&& set_some_stupid_s_to_minus_two_and_incr_idx(data, &idx))
 			continue ;
 		if (fork_command(data, idx))
 			return (pipe_fail_clean(data), 1);
@@ -90,8 +90,8 @@ int	execute(t_data *data)
 	char	*path;
 	int		ret;
 
-	if (!data->cmds->argv || data->cmds->argv[0][0] == '\0')
-		return 127;
+	if (!data->cmds->argv && data->cmds->argv[0][0] == '\0')
+		return (127);
 	if (execute_init(data, &path))
 		return (1);
 	ret = execute_loop(data, path);
