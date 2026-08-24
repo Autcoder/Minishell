@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/23 14:20:40 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 10:55:02 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,12 @@ t_token				*lexer(char *input);
 char				*mesh_tgthr(char *str, char *tmp, size_t old, size_t new);
 char				*get_any(char *env[], char *path);
 t_token				*get_tokens(char *str);
+/*main helpers*/
+char				*get_next_line(int fd);
+int					process_input(t_data *data);
+void				rwgnl(t_data *data);
+void				rwreadline(t_data *data);
+
 char				**parse_env_to_dict(char **environ);
 void				reset_loop_data(t_data *data);
 void				setup_signals(void);

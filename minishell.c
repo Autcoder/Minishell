@@ -6,12 +6,13 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/24 09:37:35 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 10:53:38 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+#include <stdio.h>
 
 void	free_cmds(t_cmd *cmds)
 {
@@ -44,7 +45,6 @@ static int	init_shell(t_data *data)
 {
 	char	*strupid;
 
-	setup_signals();
 	data->env = init_env();
 	data->cmds = NULL;
 	if (!data->env)
@@ -72,7 +72,7 @@ static int	check_syntax(t_token *tokens)
 }
 
 // TODO changed some ret values
-static int	process_input(t_data *data)
+int	process_input(t_data *data)
 {
 	if (check_unclosed_quotes(data->str))
 		return (reset_loop_data(data), 2);
@@ -82,8 +82,8 @@ static int	process_input(t_data *data)
 	if (check_syntax(data->tokens))
 		return (reset_loop_data(data), 2);
 	if (expand_tokens(data))
-		return (reset_loop_data(data),
-			put_error("export error", "var too big"), 1);
+		return (reset_loop_data(data), put_error("export error", "var too big"),
+			1);
 	handle_quotes(data->tokens);
 	data->cmds = build_cmds(data->tokens, data);
 	if (!data->cmds)
@@ -102,25 +102,9 @@ int	main(void)
 	rl_outstream = stderr;
 	if (init_shell(&data))
 		return (1);
-	while (42)
-	{
-		if (isatty(STDIN_FILENO))
-			data.str = readline("minishell> ");
-		else
-		 	data.str = readline(NULL);
-		if (g_sigint)
-		{
-			data.status_code = 130;
-			g_sigint = 0;
-		}
-		else if (!data.str)
-		{
-			ft_putstr_fd("exit\n", 1);
-			break ;
-		}
-		else
-			data.status_code = process_input(&data);
-		reset_loop_data(&data);
-	}
+	if (isatty(STDIN_FILENO))
+		rwreadline(&data);
+	else
+		rwgnl(&data);
 	return (free_all_data(&data), data.status_code);
 }
