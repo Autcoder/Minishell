@@ -45,12 +45,14 @@ static void	exec_builtin_child(t_data *data, int idx)
 	exit(status);
 }
 
-static void	exec_external(t_data *data, t_cmd *cmd)
+static void	exec_external(t_data *data, t_cmd *cmd, int idx)
 {
 	execve(cmd->path, cmd->argv, data->env);
 	if (errno == EACCES)
 		put_error(cmd->argv[0], strerror(errno));
 	free_all_data(data);
+	if (!data->cmds[idx + 1].argv)
+		close(data->cmds->fd_out);
 	if (errno == ENOENT)
 		exit(127);
 	exit(126);
@@ -81,5 +83,5 @@ void	child_process(t_data *data, int idx)
 	data->cmds[idx].fd_out = cmd.fd_out;
 	if (data->ex.is_builtin)
 		exec_builtin_child(data, idx);
-	exec_external(data, &cmd);
+	exec_external(data, &cmd, idx);
 }
