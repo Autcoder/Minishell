@@ -42,13 +42,17 @@ void	free_cmds(t_cmd *cmds)
 
 static int	init_shell(t_data *data)
 {
+	char	*strupid;
+
 	setup_signals();
 	data->env = init_env();
 	data->cmds = NULL;
 	if (!data->env)
 		return (1);
-	internal_export("PWD=", data, getcwd(NULL, PATH_MAX));
-	internal_export("SHLVL=", data, shel_lvl(data->env));
+	strupid = getcwd(NULL, PATH_MAX);
+	internal_export("PWD=", data, &strupid);
+	strupid = shel_lvl(data->env);
+	internal_export("SHLVL=", data, &strupid);
 	return (0);
 }
 

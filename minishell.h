@@ -129,7 +129,7 @@ int					here_doc(char *eof, t_data *data);
 int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
 						size_t cmd_i);
 char				**init_env(void);
-int					internal_export(char *name, t_data *data, char *value);
+int					internal_export(char *name, t_data *data, char **value);
 char				*levi(t_data *data, char *str);
 t_token				*lexer(char *input);
 char				*mesh_tgthr(char *str, char *tmp, size_t old, size_t new);
@@ -146,6 +146,7 @@ char				*apply_function(t_data *data, size_t *i, char *cur, int s);
 int					check_quotes(char *quote, char *cur, size_t i);
 char				*handle_status_code(char *cur, size_t *i, int status_code);
 //Builtins helper
+void				check_if_empty(char **cwd);
 void				cd_helper(char **cwd, t_data *data);
 /*built ins*/
 int					run_builtin(t_data *data, int idx);

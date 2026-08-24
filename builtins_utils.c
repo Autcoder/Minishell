@@ -30,3 +30,9 @@ void	cd_helper(char **cwd, t_data *data)
 	else
 		*cwd = ft_strdup(*cwd);
 }
+
+void	check_if_empty(char **cwd)
+{
+	if (*cwd)
+		free(*cwd);
+}

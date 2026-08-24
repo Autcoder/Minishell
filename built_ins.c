@@ -109,11 +109,11 @@ int	ft_cd(t_data *data, char **cmd)
 			cmd[1] = home;
 	}
 	if (chdir(cmd[1]) == -1)
-		return (put_error("cd", strerror(errno)), EXIT_FAILURE);
-	if (internal_export("OLDPWD=", data, cwd))
-		return (1);
+		return (put_error("cd", strerror(errno)), check_if_empty(&cwd), 1);
+	if (internal_export("OLDPWD=", data, &cwd))
+		return (check_if_empty(&cwd), 1);
 	cwd = getcwd(NULL, PATH_MAX);
-	if (internal_export("PWD=", data, cwd))
-		return (1);
+	if (internal_export("PWD=", data, &cwd))
+		return (check_if_empty(&cwd), 1);
 	return (0);
 }

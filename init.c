@@ -35,19 +35,20 @@ char	*shel_lvl(char **env)
  * value should always be mallocated, it will be freed internaly
  * in case of error function will return 1
  * */
-int	internal_export(char *name, t_data *data, char *value)
+int	internal_export(char *name, t_data *data, char **value)
 {
 	char	*str[3];
 
-	if (!value)
+	if (!(*value))
 		return (1);
 	str[0] = NULL;
-	str[1] = ft_strjoin(name, value);
+	str[1] = ft_strjoin(name, (*value));
 	if (!str[1])
-		return (free(value), 1);
+		return (free((*value)), 1);
 	str[2] = NULL;
 	ft_export(data, str);
 	free(str[1]);
-	free(value);
+	free((*value));
+	*value = NULL;
 	return (0);
 }
