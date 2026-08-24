@@ -99,7 +99,7 @@ int	ft_cd(t_data *data, char **cmd)
 
 	if (cmd[1] && cmd[2])
 		return (put_error("cd", "too many arguments"), 2);
-	cwd = get_any(data->env, "PWD");
+	cd_helper(&cwd, data);
 	if (!cmd[1])
 	{
 		home = get_any(data->env, "HOME");
@@ -110,7 +110,7 @@ int	ft_cd(t_data *data, char **cmd)
 	}
 	if (chdir(cmd[1]) == -1)
 		return (put_error("cd", strerror(errno)), EXIT_FAILURE);
-	if (internal_export("OLDPWD=", data, ft_strdup(cwd)))
+	if (internal_export("OLDPWD=", data, cwd))
 		return (1);
 	cwd = getcwd(NULL, PATH_MAX);
 	if (internal_export("PWD=", data, cwd))

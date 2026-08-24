@@ -21,3 +21,12 @@ void	put_error(char *name, char *string)
 	ft_putstr_fd(string, 2);
 	write(2, "\n", 1);
 }
+
+void	cd_helper(char **cwd, t_data *data)
+{
+	*cwd = get_any(data->env, "PWD");
+	if (!*cwd)
+		*cwd = getcwd(NULL, PATH_MAX);
+	else
+		*cwd = ft_strdup(*cwd);
+}

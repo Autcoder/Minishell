@@ -145,7 +145,8 @@ int					wait_helper(t_data *data);
 char				*apply_function(t_data *data, size_t *i, char *cur, int s);
 int					check_quotes(char *quote, char *cur, size_t i);
 char				*handle_status_code(char *cur, size_t *i, int status_code);
-
+//Builtins helper
+void				cd_helper(char **cwd, t_data *data);
 /*built ins*/
 int					run_builtin(t_data *data, int idx);
 int					is_builtin(t_cmd cmd);
