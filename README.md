@@ -70,6 +70,7 @@ We don't perform split on Enviremental variables
 We don't do cd -
 Variables longer then 42000 characters are considerd ilegal
 ANSI-C Quoting is out of the scope
+Export printing env variables is UB according to posix manual
 
 ### Additional
 Readline suppresion file for Valgrind
