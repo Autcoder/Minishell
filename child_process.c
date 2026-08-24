@@ -37,7 +37,10 @@ static void	exec_builtin_child(t_data *data, int idx)
 {
 	int	status;
 
-	status = run_builtin(data, idx);
+	if (!(data->ex.is_builtin == 7))
+		status = run_builtin(data, idx);
+	else
+		status = 0;
 	free_all_data(data);
 	exit(status);
 }
