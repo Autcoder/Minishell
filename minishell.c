@@ -6,13 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/24 10:53:38 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 12:51:05 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-#include <stdio.h>
 
 void	free_cmds(t_cmd *cmds)
 {
