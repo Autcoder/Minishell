@@ -6,12 +6,12 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:01:16 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/24 15:01:52 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 17:03:51 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft/libft.h"
+#include "minishell.h"
 
 void	put_error(char *name, char *string)
 {
@@ -42,7 +42,7 @@ void	rwreadline(t_data *data)
 	setup_signals();
 	while (42)
 	{
-		data->str = readline("minishell> ");
+		data->str = readline("\nminishell> ");
 		if (g_sigint)
 		{
 			data->status_code = 130;

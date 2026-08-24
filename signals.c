@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:34:29 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 13:07:23 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 17:02:35 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_readline_signal(void)
 {
 	if (g_sigint)
 	{
-		write(STDOUT_FILENO, "^C\n", 3);
+		write(STDOUT_FILENO, "^C\n", 4);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_done = 1;
