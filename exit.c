@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:05:44 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 08:42:24 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 14:53:05 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ long long	ft_atoll_exit(char *str, long long *status)
 // NOTE: casting to unsigned char, because then reading only 8-bit values
 void	exit_clean(long long exit_code, t_data *data)
 {
+	ft_putstr_fd("exit\n", 2);
 	free_all_data(data);
 	exit((unsigned char)exit_code);
 }
@@ -73,8 +74,7 @@ int	ft_exit(t_data *data)
 {
 	long long	status;
 
-	ft_putstr_fd("exit\n", 2);
-	if (!data->cmds->argv[1])
+	if (!data->cmds->argv || !data->cmds->argv[1])
 		exit_clean(data->status_code, data);
 	if (!is_numeric(data->cmds->argv[1]) || ft_atoll_exit(data->cmds->argv[1],
 			&status) == -1)
@@ -83,7 +83,7 @@ int	ft_exit(t_data *data)
 		ft_putstr_fd(data->cmds->argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		data->status_code = 2;
-		return (2);
+		exit_clean(data->status_code, data);
 	}
 	if (data->cmds->argv[2])
 	{
