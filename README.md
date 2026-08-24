@@ -4,8 +4,6 @@ _This project has been created as part of the 42 curriculum by flink, mprokope._
 
 A lightweight, custom UNIX command interpreter written in C that mimics core behaviors of Bash.
 
----
-
 ## Description
 
 The goal of this project is to create a functional shell from scratch, gaining a deep understanding of processes, system calls, file descriptors, and command parsing in C.
@@ -32,8 +30,6 @@ The goal of this project is to create a functional shell from scratch, gaining a
   - `$VAR` environment variable expansion and `$?` exit status expansion
 - **Signal Handling:** Bash-like handling of `Ctrl-C` (new prompt), `Ctrl-D` (exit), and `Ctrl-\` (ignored) in interactive mode.
 
----
-
 ## Instructions
 
 ### Prerequisites
@@ -48,18 +44,58 @@ To build the mandatory version of the shell, run:
 
 ```bash
 make
+```
 
 To clean object files or perform a full recompile:
+```
 make clean   # Remove object files
 make fclean  # Remove object files and the executable
 make re      # Rebuild the project from scratch
-
-Execution
+```
+They all can be combined with this options:
+```bash
+DEBUG=1 # Adds -g
+DEBUG=2 # Adds -g + -fsanitize=address \
+-Wconversion -Wsign-conversion \
+-fsanitize=undefined -Warray-bounds \
+-Wnull-dereference
+```
+### Execution
 Run the executable directly from the terminal:
+```
 ./minishell
+```
+### Usage
+We don't perform split on Enviremental variables
+We don't do cd -
+Variables longer then 42000 characters are considerd ilegal
+ANSI-C Quoting is out of the scope
 
-Resources
-References & Documentation
+### Additional
+Readline suppresion file for Valgrind
+```
+{
+   readline_leaks
+   Memcheck:Leak
+   ...
+   fun:readline
+}
+{
+   readline_leaks2
+   Memcheck:Leak
+   ...
+   fun:add_history
+}
+{
+   rl_clear_history
+   Memcheck:Leak
+   ...
+   fun:rl_clear_history
+}
+```
+
+### Resources
+#### References & Documentation
 • GNU Bash Reference Manual
 • GNU Readline Library Documentation
 • Advanced Programming in the UNIX Environment by W. Richard Stevens
@@ -68,4 +104,3 @@ AI Usage
 • Planning & Architecture: Used to brainstorm and visualize process flows (AST/token parsing trees and pipe file descriptor routing).
 • Testing & Edge Cases: Generated test matrices for edge cases (unclosed quotes, consecutive pipes, variable expansion edge cases).
 • Debugging Guidance: Assisted in explaining system call error codes and signal handling constraints.
-```
