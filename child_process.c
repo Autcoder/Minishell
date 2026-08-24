@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:51:35 by flink             #+#    #+#             */
-/*   Updated: 2026/08/24 17:59:11 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 18:05:12 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,6 @@ static void	exec_external(t_data *data, t_cmd *cmd, int idx)
 	if (errno == ENOENT)
 		exit(127);
 	exit(126);
-}
-
-static void close_other_cmds_fds(t_data *data, int current_idx)
-{
-	int i;
-
-	i = 0;
-	while (data->cmds[i].argv)
-	{
-		if (i != current_idx)
-		{
-			if (data->cmds[i].fd_in > 2)
-				close(data->cmds[i].fd_in);
-			if (data->cmds[i].fd_out > 2)
-				close(data->cmds[i].fd_out);
-		}
-		i++;
-	}
 }
 
 void	child_process(t_data *data, int idx)

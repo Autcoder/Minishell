@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 10:58:24 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/24 15:13:33 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 18:05:48 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int					check_if_word(t_token *tokens, size_t i);
 int					check_unclosed_quotes(char *input);
 void				close_fd(int fd0, int fd1, int fd2, int fd3);
 void				clean_arr(char **env, size_t i);
+void				close_other_cmds_fds(t_data *data, int current_idx);
 /* Clean partially full arrays */
 void				clean_split(char **split);
 void				clean_up(t_data *data);

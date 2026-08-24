@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/23 00:59:53 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/24 17:42:35 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 18:05:52 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,22 @@ void	fake_fork(t_data *data, int *idx)
 		close(data->ex.prev_fd);
 	data->ex.prev_fd = -1;
 	(*idx)++;
+}
+
+void	close_other_cmds_fds(t_data *data, int current_idx)
+{
+	int	i;
+
+	i = 0;
+	while (data->cmds[i].argv)
+	{
+		if (i != current_idx)
+		{
+			if (data->cmds[i].fd_in > 2)
+				close(data->cmds[i].fd_in);
+			if (data->cmds[i].fd_out > 2)
+				close(data->cmds[i].fd_out);
+		}
+		i++;
+	}
 }
