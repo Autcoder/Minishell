@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/21 09:33:01 by flenski           #+#    #+#             */
-/*   Updated: 2026/08/06 08:29:06 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 15:13:30 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,17 @@ void	close_fd(int fd0, int fd1, int fd2, int fd3)
 }
 
 // levi helper
-char	*mesh_tgthr(char *str, char *tmp, size_t old, size_t new)
+char	*mesh_tgthr(char *str, char *tmp, size_t old, size_t len)
 {
 	char	*ret;
 
 	if (!tmp)
-		return (ft_strnfjoin(str, &str[new], old));
-	ret = malloc((old + ft_strlen(tmp) + ft_strlen(&str[new]) + 1));
+		return (ft_strnfjoin(str, &str[len], old));
+	ret = malloc((old + ft_strlen(tmp) + ft_strlen(&str[len]) + 1));
 	if (!ret)
 		return (NULL);
 	ft_strlcpy(ret, str, old + 1);
 	ft_strlcat(ret, tmp, old + ft_strlen(tmp) + 1);
-	ft_strlcat(ret, &str[new], old + ft_strlen(tmp) + ft_strlen(&str[new]) + 1);
+	ft_strlcat(ret, &str[len], old + ft_strlen(tmp) + ft_strlen(&str[len]) + 1);
 	return (ret);
 }
