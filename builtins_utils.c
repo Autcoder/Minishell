@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:01:16 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/24 10:54:32 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 15:01:52 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void	rwreadline(t_data *data)
 			g_sigint = 0;
 		}
 		else if (!data->str)
-		{
-			ft_putstr_fd("exit\n", 1);
 			break ;
-		}
 		else
 			data->status_code = process_input(data);
 		reset_loop_data(data);
@@ -70,10 +67,7 @@ void	rwgnl(t_data *data)
 			g_sigint = 0;
 		}
 		else if (!data->str || !data->str[0])
-		{
-			ft_putstr_fd("exit\n", 1);
 			break ;
-		}
 		else
 			data->status_code = process_input(data);
 		reset_loop_data(data);

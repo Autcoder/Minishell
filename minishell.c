@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/24 12:51:05 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 15:01:45 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ int	main(void)
 		rwreadline(&data);
 	else
 		rwgnl(&data);
-	return (free_all_data(&data), data.status_code);
+	return (ft_putstr_fd("exit\n", 1), free_all_data(&data), data.status_code);
 }
