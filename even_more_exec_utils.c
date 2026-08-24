@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   even_more_exec_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprokope <mprokope@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/23 00:59:53 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/23 00:59:57 by mprokope         ###   ########.fr       */
+/*   Updated: 2026/08/24 17:42:35 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	pipe_fail_clean(t_data *data)
 {
-	if (data->ex.prev_fd != -1)
+	if (data->ex.prev_fd > 2)
 	{
 		close(data->ex.prev_fd);
 		data->ex.prev_fd = -1;

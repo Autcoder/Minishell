@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:51:35 by flink             #+#    #+#             */
-/*   Updated: 2026/08/23 14:20:49 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 17:59:11 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,33 @@ static void	exec_builtin_child(t_data *data, int idx)
 
 static void	exec_external(t_data *data, t_cmd *cmd, int idx)
 {
+	if (!data->cmds[idx + 1].argv)
+		close(data->cmds->fd_out);
 	execve(cmd->path, cmd->argv, data->env);
 	if (errno == EACCES)
 		put_error(cmd->argv[0], strerror(errno));
 	free_all_data(data);
-	if (!data->cmds[idx + 1].argv)
-		close(data->cmds->fd_out);
 	if (errno == ENOENT)
 		exit(127);
 	exit(126);
+}
+
+static void close_other_cmds_fds(t_data *data, int current_idx)
+{
+	int i;
+
+	i = 0;
+	while (data->cmds[i].argv)
+	{
+		if (i != current_idx)
+		{
+			if (data->cmds[i].fd_in > 2)
+				close(data->cmds[i].fd_in);
+			if (data->cmds[i].fd_out > 2)
+				close(data->cmds[i].fd_out);
+		}
+		i++;
+	}
 }
 
 void	child_process(t_data *data, int idx)
@@ -65,6 +83,7 @@ void	child_process(t_data *data, int idx)
 	cmd = data->cmds[idx];
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	close_other_cmds_fds(data, idx);
 	if (cmd.fd_in == -2 || cmd.fd_out == -2 || cmd.fd_fail)
 	{
 		if (data->ex.prev_fd > 2)
