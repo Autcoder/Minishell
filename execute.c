@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 08:32:52 by flink             #+#    #+#             */
-/*   Updated: 2026/08/23 14:20:58 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 08:58:05 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	execute(t_data *data)
 	char	*path;
 	int		ret;
 
+	if (!data->cmds->argv || data->cmds->argv[0][0] == '\0')
+		return 127;
 	if (execute_init(data, &path))
 		return (1);
 	ret = execute_loop(data, path);

@@ -6,7 +6,7 @@
 /*   By: flink <flink@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 22:57:31 by mprokope          #+#    #+#             */
-/*   Updated: 2026/08/23 19:55:55 by flink            ###   ########.fr       */
+/*   Updated: 2026/08/24 09:37:35 by flink            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	process_input(t_data *data)
 	handle_quotes(data->tokens);
 	data->cmds = build_cmds(data->tokens, data);
 	if (!data->cmds)
-		return (reset_loop_data(data), 2);
+		return (reset_loop_data(data), data->status_code);
 	data->status_code = execute(data);
 	reset_loop_data(data);
 	return (data->status_code);
@@ -94,12 +94,12 @@ int	main(void)
 	t_data	data;
 
 	ft_bzero(&data, sizeof(t_data));
+	data.status_code = 0;
+	rl_outstream = stderr;
 	if (init_shell(&data))
 		return (1);
-	data.status_code = 0;
 	while (42)
 	{
-		rl_outstream = stderr;
 		if (isatty(STDIN_FILENO))
 			data.str = readline("minishell> ");
 		else
