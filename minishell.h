@@ -56,6 +56,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	int				no_expand;
 }					t_token;
 
 typedef struct s_cmd
@@ -126,7 +127,7 @@ void				free_env(char **env);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t size);
 char				*ft_strnfjoin(char const *s1, char const *s2, size_t size);
 void				handle_quotes(t_token *tokens);
-int					here_doc(char *eof, t_data *data);
+int					here_doc(char *eof, t_data *data, int no_expand);
 int					init_cmds(t_cmd *cmds, t_token *tokens, size_t i,
 						size_t cmd_i);
 char				**init_env(void);
@@ -149,6 +150,7 @@ char				*shel_lvl(char **env);
 size_t				scan_dollar(char *str, char **key_list);
 int					wait_helper(t_data *data);
 //levi helpers
+void				handle_heredoc_quotes(t_token *tokens, size_t i);
 char				*apply_function(t_data *data, size_t *i, char *cur, int s);
 int					check_quotes(char *quote, char *cur, size_t i);
 char				*handle_status_code(char *cur, size_t *i, int status_code);

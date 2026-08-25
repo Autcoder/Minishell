@@ -115,6 +115,8 @@ void	handle_quotes(t_token *tokens)
 	{
 		if (tokens[i].type == TOKEN_WORD)
 		{
+			if (i && tokens[i - 1].type == TOKEN_HERE_DOC)
+				handle_heredoc_quotes(tokens, i);
 			clean_value = strip_word_quotes(tokens[i].value);
 			free(tokens[i].value);
 			tokens[i].value = clean_value;

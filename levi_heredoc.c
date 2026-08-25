@@ -100,3 +100,19 @@ char	*levi_here_doc(t_data *data, char *str)
 	cur = levi_while_here_doc(cur, data, key_list, i);
 	return (free_ptr_array((void **)key_list), cur);
 }
+
+void	handle_heredoc_quotes(t_token *tokens, size_t i)
+{
+	int	j;
+
+	j = 0;
+	while (tokens[i].value[j])
+	{
+		if (tokens[i].value[j] == '\'' || tokens[i].value[j] == '"')
+		{
+			tokens[i].no_expand = 1;
+			return ;
+		}
+		j++;
+	}
+}

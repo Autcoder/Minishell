@@ -66,7 +66,7 @@ static int	handle_redirect(t_cmd *cmd, t_token *tok, size_t *i, t_data *data)
 			close(cmd->fd_in);
 			cmd->fd_in = -1;
 		}
-		cmd->fd_in = here_doc(tok[*i].value, data);
+		cmd->fd_in = here_doc(tok[*i].value, data, tok[*i].no_expand);
 		return (cmd->fd_in == -1);
 	}
 	return (0);
