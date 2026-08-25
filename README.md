@@ -47,12 +47,15 @@ make
 ```
 
 To clean object files or perform a full recompile:
-```
+
+```bash
 make clean   # Remove object files
 make fclean  # Remove object files and the executable
 make re      # Rebuild the project from scratch
 ```
+
 They all can be combined with this options:
+
 ```bash
 DEBUG=1 # Adds -g
 DEBUG=2 # Adds -g + -fsanitize=address \
@@ -60,12 +63,17 @@ DEBUG=2 # Adds -g + -fsanitize=address \
 -fsanitize=undefined -Warray-bounds \
 -Wnull-dereference
 ```
+
 ### Execution
+
 Run the executable directly from the terminal:
-```
+
+```bash
 ./minishell
 ```
+
 ### Usage
+
 We don't perform split on Enviremental variables
 We don't do cd -
 Variables longer then 42000 characters are considerd ilegal
@@ -73,8 +81,10 @@ ANSI-C Quoting is out of the scope
 Export printing env variables is UB according to posix manual
 
 ### Additional
+
 Readline suppresion file for Valgrind
-```
+
+```supp
 {
    readline_leaks
    Memcheck:Leak
@@ -96,7 +106,9 @@ Readline suppresion file for Valgrind
 ```
 
 ### Resources
+
 #### References & Documentation
+
 • GNU Bash Reference Manual
 • GNU Readline Library Documentation
 • Advanced Programming in the UNIX Environment by W. Richard Stevens
